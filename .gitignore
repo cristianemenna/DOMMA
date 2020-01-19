@@ -1,5 +1,6 @@
 
 ###> symfony/framework-bundle ###
+/.phpcomplete_extended/
 /.idea
 /.env.local
 /.env.local.php
