@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/users")
@@ -19,10 +20,11 @@ class UsersController extends AbstractController
     /**
      * @Route("/", name="users_index", methods={"GET"})
      */
-    public function index(UsersRepository $usersRepository): Response
+    public function index(UsersRepository $usersRepository, Security $security): Response
     {
         return $this->render('users/index.html.twig', [
             'users' => $usersRepository->findAll(),
+            'user' => $security->getUser()
         ]);
     }
 
