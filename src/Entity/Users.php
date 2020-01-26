@@ -49,7 +49,7 @@ class Users implements UserInterface
     private $last_name;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $attempts;
 
@@ -166,7 +166,7 @@ class Users implements UserInterface
     {
         return $this->attempts;
     }
-    
+
     public function setAttempts(int $attempts): self
     {
         $this->attempts = $attempts;
