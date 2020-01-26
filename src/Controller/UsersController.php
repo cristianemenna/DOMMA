@@ -9,6 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/users")
@@ -18,17 +20,18 @@ class UsersController extends AbstractController
     /**
      * @Route("/", name="users_index", methods={"GET"})
      */
-    public function index(UsersRepository $usersRepository): Response
+    public function index(UsersRepository $usersRepository, Security $security): Response
     {
         return $this->render('users/index.html.twig', [
             'users' => $usersRepository->findAll(),
+            'user' => $security->getUser()
         ]);
     }
 
     /**
      * @Route("/new", name="users_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, UserPasswordEncoderInterface $encoder): Response
     {
         $user = new Users();
         $form = $this->createForm(UsersType::class, $user);
@@ -36,6 +39,12 @@ class UsersController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $user->setPassword(
+                $encoder->encodePassword(
+                    $user,
+                    $user->getPassword()
+                )
+            );
             $entityManager->persist($user);
             $entityManager->flush();
 
