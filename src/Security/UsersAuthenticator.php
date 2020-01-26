@@ -78,7 +78,7 @@ class UsersAuthenticator extends AbstractFormLoginAuthenticator implements Passw
     public function checkCredentials($credentials, UserInterface $user)
     {
         if (!$this->passwordEncoder->isPasswordValid($user, $credentials['password'])) {
-            $user->setAttempts();
+            $user->incrementAttempts();
             $this->entityManager->persist($user);
             $this->entityManager->flush($user);
         }
