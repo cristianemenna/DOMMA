@@ -77,6 +77,16 @@ class UsersAuthenticator extends AbstractFormLoginAuthenticator implements Passw
 
     public function checkCredentials($credentials, UserInterface $user)
     {
+        if (!$this->passwordEncoder->isPasswordValid($user, $credentials['password'])) {
+            $user->setAttempts();
+            $this->entityManager->persist($user);
+            $this->entityManager->flush($user);
+        }
+        if ($user->getAttempts() >= 3) {
+            throw new CustomUserMessageAuthenticationException('Vous avez essayé de vous connecter avec un mot'
+                .' de passe incorrect de trop nombreuses fois. Veuillez contacter l\' admin pour débloquer votre compte.');
+        }
+
         return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
     }
 

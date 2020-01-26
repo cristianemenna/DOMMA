@@ -167,9 +167,9 @@ class Users implements UserInterface
         return $this->attempts;
     }
 
-    public function setAttempts(int $attempts): self
+    public function setAttempts(): self
     {
-        $this->attempts = $attempts;
+        $this->attempts += 1;
 
         return $this;
     }
