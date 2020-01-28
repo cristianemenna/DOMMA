@@ -31,7 +31,7 @@ img{
     top: 50%;
 }
 
-h5 {
+h1 {
     margin-left: 80px;
     font-weight: normal;
 
@@ -46,8 +46,7 @@ label, input {
 
 form {
 
-    background-color: rgb(240, 238, 238);
-
+    background-color: #F7F6F6;
     margin-top: 85px;
 
 }
