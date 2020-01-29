@@ -22,6 +22,8 @@ class UsersController extends AbstractController
      */
     public function index(UsersRepository $usersRepository, Security $security): Response
     {
+        $user = $security->getUser();
+        $user->resetAttempts();
         return $this->render('users/index.html.twig', [
             'users' => $usersRepository->findAll(),
             'user' => $security->getUser()
