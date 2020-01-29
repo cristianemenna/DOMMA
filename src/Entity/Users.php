@@ -180,4 +180,11 @@ class Users implements UserInterface
 
         return $this;
     }
+
+    public function resetAttempts(): self
+    {
+        $this->attempts = 0;
+
+        return $this;
+    }
 }
