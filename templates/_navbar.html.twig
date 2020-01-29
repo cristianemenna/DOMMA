@@ -7,8 +7,8 @@
                 <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-content">
-                <a href="#">Gestion de compte</a>
-                <a href="#">Déconnexion</a>
+                <a href="{{ path('users_edit', {'id': user.id}) }}">Gestion de compte</a>
+                <a href="{{ path('app_logout') }}">Déconnexion</a>
             </div>
         </div>
         <li><a href="{{ path('users_index') }}"><img src="{{ asset('img/user.jpg') }}" alt="avatar" id="nav-avatar" /></a></li>
