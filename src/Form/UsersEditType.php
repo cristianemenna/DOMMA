@@ -16,7 +16,6 @@ class UsersEditType extends AbstractType
             ->add('first_name')
             ->add('email')
             ->add('username')
-            ->add('password')
         ;
     }
 
