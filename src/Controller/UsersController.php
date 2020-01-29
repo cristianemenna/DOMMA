@@ -24,6 +24,10 @@ class UsersController extends AbstractController
     {
         $user = $security->getUser();
         $user->resetAttempts();
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+
         return $this->render('users/index.html.twig', [
             'users' => $usersRepository->findAll(),
             'user' => $security->getUser()
