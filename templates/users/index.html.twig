@@ -3,6 +3,9 @@
 {% block title %}Users index{% endblock %}
 
 {% block body %}
+
+    {{ include('_navbar.html.twig') }}
+
     {{ user.firstName }}
     {% block header %}
 
