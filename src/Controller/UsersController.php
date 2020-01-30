@@ -23,12 +23,6 @@ class UsersController extends AbstractController
      */
     public function index(UsersRepository $usersRepository, Security $security): Response
     {
-        $user = $security->getUser();
-        $user->resetAttempts();
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($user);
-        $entityManager->flush();
-
         return $this->render('users/index.html.twig', [
             'users' => $usersRepository->findAll(),
             'user' => $user
