@@ -1,27 +1,25 @@
-body{
+body {
     background-color: #EAEAEA;
     font-family: Verdana, Geneva, sans-serif;
     color: #646464;
 }
 
-img{
+img {
     display: block;
     width:auto;
     height:60px;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 150px;
     position: relative;
-    top: 170px;
 }
 
 h1 {
     margin-left: 10px;
-    margin-top: 200px;
     font-weight: normal;
     text-align: center;
     font-size: 1.1em;
     position: relative;
-    top: -20px;
 }
 
 form {
@@ -29,6 +27,7 @@ form {
     height: 400px;
     background-color: #F7F6F6;
     margin: 0 auto;
+    box-shadow: 0 14px 18px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .login-button {
@@ -65,10 +64,13 @@ div {
 input {
     height: 40px;
     width: 250px;
+    outline: none;
+    border: none;
+    padding-left: 10px;
 }
 
 input:focus {
-    border: 1px solid #EAEAEA;
+    border: 1px solid #d9d9d9;
 }
 
 .label-form {
