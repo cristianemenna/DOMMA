@@ -1,8 +1,14 @@
 {% extends 'base.html.twig' %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="/css/login.css">
 
-{% block title %}Log in!{% endblock %}
+    {% endblock %}
 
 {% block body %}
+    
+<img src="{{ asset('/image/Domma_-_Logo.png') }}" alt="Domma_-_Logo.png">
+<h1>Traitement de données de masse</h1>
+
 <form method="post">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -13,30 +19,23 @@
             You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
     {% endif %}
-
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputUsername">Username</label>
-    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" required>
-
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
-
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
+    <div class="form-fields">
+        <div class="field">
+            <label class="label-form" for="inputUsername">Identifiant</label>
+            <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" required autofocus>
         </div>
-    #}
+        <div class="field">
+            <label class="label-form" for="inputPassword">Mot de passe</label>
+            <input type="password" name="password" id="inputPassword" class="form-control" required>
+        </div>
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
+        <input type="hidden" name="_csrf_token"
+               value="{{ csrf_token('authenticate') }}">
+
+        <input type="submit" class="login-button" value="Se connecter">
+
+
+
+
 </form>
 {% endblock %}
