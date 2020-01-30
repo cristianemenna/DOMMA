@@ -1,11 +1,13 @@
 {% extends 'base.html.twig' %}
     {% block stylesheets %}
         <link rel="stylesheet" href="/css/login.css">
+
     {% endblock %}
 
 {% block body %}
-
-<h1>traitement de données de masse</h1>
+    
+<img src="{{ asset('/image/Domma_-_Logo.png') }}" alt="Domma_-_Logo.png">
+<h1>Traitement de données de masse</h1>
 
 <form method="post">
     {% if error %}
@@ -30,10 +32,9 @@
         <input type="hidden" name="_csrf_token"
                value="{{ csrf_token('authenticate') }}">
 
-        <input type="submit" class="type submit" value="Se connecter">
+        <input type="submit" class="login-button" value="Se connecter">
 
 
-    </div>
 
 
 </form>
