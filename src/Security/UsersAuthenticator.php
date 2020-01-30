@@ -100,6 +100,12 @@ class UsersAuthenticator extends AbstractFormLoginAuthenticator implements Passw
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
+        $userName = $request->request->get('username');
+        $user = $this->entityManager->getRepository(Users::class)->findOneBy(['username' => $userName]);
+        $user->resetAttempts();
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
