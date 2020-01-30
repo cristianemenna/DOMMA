@@ -1,6 +1,7 @@
 body {
-    background-color: #F7F6F6;
-    font-family: 'Source Sans Pro', sans-serif;
+    margin: 0;
+    padding: 0;
+    font-family: Verdana, Geneva, sans-serif;
 }
 
 label {
