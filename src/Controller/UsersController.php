@@ -27,7 +27,7 @@ class UsersController extends AbstractController
         $gravatar = new Gravatar();
         $user = $security->getUser();
         $userMail = $user->getEmail();
-        $avatar = $gravatar->avatar($userMail, [], false);
+        $avatar = $gravatar->avatar($userMail, ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true);
 
         return $this->render('users/index.html.twig', [
             'users' => $usersRepository->findAll(),
@@ -81,7 +81,7 @@ class UsersController extends AbstractController
     public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder): Response
     {
         $gravatar = new Gravatar();
-        $avatar = $gravatar->avatar($user->getEmail(), [], false);
+        $avatar = $gravatar->avatar($user->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true);
 
         $form = $this->createForm(UsersEditType::class, $user);
         $form->handleRequest($request);
