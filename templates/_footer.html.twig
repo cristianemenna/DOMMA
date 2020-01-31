@@ -1,0 +1,11 @@
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/footer.css') }}">{% endblock %}
+<footer>
+    <p><span>DOMMA</span> - Traitement de données de masse</p>
+    <ul>
+        <li><a href="#">Contextes de travail</a></li>
+        <li class="footer-bolder">|</li>
+        <li><a href="{{ path('users_edit', {'id': app.user.id}) }}">Gestion de compte</a></li>
+        <li class="footer-bolder">|</li>
+        <a><a href="{{ path('app_logout') }}">Déconnexion</a></li>
+    </ul>
+</footer>
