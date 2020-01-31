@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f0aa134c748f7bb4398f0b93f0f19bb9",
+    "content-hash": "e08c4a06c049b2d99470c0ac888d7c03",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1204,6 +1204,57 @@
                 "validator"
             ],
             "time": "2020-01-05T14:11:20+00:00"
+        },
+        {
+            "name": "gravatarphp/gravatar",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gravatarphp/gravatar.git",
+                "reference": "54a5d48b4564ec9f1db8a498ad23d500ab83c063"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gravatarphp/gravatar/zipball/54a5d48b4564ec9f1db8a498ad23d500ab83c063",
+                "reference": "54a5d48b4564ec9f1db8a498ad23d500ab83c063",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "phpspec/phpspec": "^5.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Gravatar\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Márk Sági-Kazár",
+                    "email": "mark.sagikazar@gmail.com"
+                }
+            ],
+            "description": "Gravatar URL builder which is most commonly called as a Gravatar library",
+            "homepage": "http://gravatarphp.com",
+            "keywords": [
+                "avatar",
+                "gravatar",
+                "image",
+                "profile"
+            ],
+            "time": "2019-01-08T21:43:01+00:00"
         },
         {
             "name": "jdorn/sql-formatter",

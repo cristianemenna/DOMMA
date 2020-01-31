@@ -6,12 +6,11 @@ body {
 
 img {
     display: block;
-    width:auto;
-    height:60px;
+    width: auto;
+    height: 60px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 150px;
-    position: relative;
+    margin-top: 130px;
 }
 
 h1 {
@@ -19,7 +18,7 @@ h1 {
     font-weight: normal;
     text-align: center;
     font-size: 1.1em;
-    position: relative;
+    margin-bottom: 50px;
 }
 
 form {
@@ -31,6 +30,7 @@ form {
 }
 
 .login-button {
+    color: #646464;
     background-color: #BFBFBF;
     width: 250px;
     height: 45px;

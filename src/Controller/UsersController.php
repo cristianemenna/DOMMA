@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
+use Gravatar\Gravatar;
 
 /**
  * @Route("/users")
@@ -23,9 +24,15 @@ class UsersController extends AbstractController
      */
     public function index(UsersRepository $usersRepository, Security $security): Response
     {
+        $gravatar = new Gravatar();
+        $user = $security->getUser();
+        $userMail = $user->getEmail();
+        $avatar = $gravatar->avatar($userMail, ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true);
+
         return $this->render('users/index.html.twig', [
             'users' => $usersRepository->findAll(),
-            'user' => $security->getUser()
+            'user' => $user,
+            'avatar' => $avatar
         ]);
     }
 
@@ -73,6 +80,9 @@ class UsersController extends AbstractController
      */
     public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder): Response
     {
+        $gravatar = new Gravatar();
+        $avatar = $gravatar->avatar($user->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true);
+
         $form = $this->createForm(UsersEditType::class, $user);
         $form->handleRequest($request);
 
@@ -93,6 +103,7 @@ class UsersController extends AbstractController
         return $this->render('users/edit.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
+            'avatar' => $avatar
         ]);
     }
 
