@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\Security;
 use Gravatar\Gravatar;
 
 /**
- * @Route("/users")
+ * @Route("/profil")
  */
 class UsersController extends AbstractController
 {
@@ -33,35 +33,6 @@ class UsersController extends AbstractController
             'users' => $usersRepository->findAll(),
             'user' => $user,
             'avatar' => $avatar
-        ]);
-    }
-
-    /**
-     * @Route("/new", name="users_new", methods={"GET","POST"})
-     */
-    public function new(Request $request, UserPasswordEncoderInterface $encoder): Response
-    {
-        $user = new Users();
-        $form = $this->createForm(UsersType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $user->setPassword(
-                $encoder->encodePassword(
-                    $user,
-                    $user->getPassword()
-                )
-            );
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('users_index');
-        }
-
-        return $this->render('users/new.html.twig', [
-            'user' => $user,
-            'form' => $form->createView(),
         ]);
     }
 
