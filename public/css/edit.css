@@ -2,8 +2,20 @@ body {
     margin: 0;
     padding: 0;
     font-family: Verdana, Geneva, sans-serif;
+
+}
+
+form{
+    text-align: center
+;
+}
+body h1{
+    color: #7D7D7D;
+    text-align: center
+
+
 }
 
 label {
-
+    background-color: ;
 }

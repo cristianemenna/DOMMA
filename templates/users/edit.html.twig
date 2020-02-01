@@ -9,11 +9,18 @@
 {% block body %}
     
     {{ include('_navbar.html.twig') }}
-    <h1>Edit Users</h1>
+    <div>
+        <div>
+            <h1>Gestion de compte</h1>
 
-    {{ include('users/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+            {{ include('users/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+        </div>
 
-    <a href="{{ path('users_index') }}">Annuler</a>
+        <div>
+            <a href="{{ path('users_index') }}">Annuler</a>
 
-    {{ include('users/_delete_form.html.twig') }}
+            {{ include('users/_delete_form.html.twig') }}</div>
+
+    </div>
+
 {% endblock %}
