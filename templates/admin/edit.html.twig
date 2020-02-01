@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Users{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/edit.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    {{ include('_navbar.html.twig') }}
+    <h1>Edit Users</h1>
+
+    {{ include('users/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    <a href="{{ path('users_index') }}">Annuler</a>
+
+    {{ include('users/_delete_form.html.twig') }}
+{% endblock %}
