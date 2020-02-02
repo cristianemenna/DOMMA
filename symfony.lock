@@ -90,6 +90,9 @@
     "egulias/email-validator": {
         "version": "2.1.14"
     },
+    "gravatarphp/gravatar": {
+        "version": "v2.0.0"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
