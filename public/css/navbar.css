@@ -77,3 +77,8 @@ li {
 #nav-avatar {
     border-radius: 50%;
 }
+
+#nav-set {
+    height: 10px;
+    padding-bottom: 2px;
+}
