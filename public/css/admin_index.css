@@ -83,7 +83,7 @@ tr {
 }
 
 .user-delete {
-    background-color: #999999;
+    background-color: #BABABA;
     color: #2A2A2A;
     text-decoration: none;
     border: none;
@@ -92,6 +92,6 @@ tr {
 }
 
 .user-delete:hover {
-    background-color: #B2B2B2;
+    background-color: #D7D7D7;
     cursor: pointer;
 }
