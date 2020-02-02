@@ -2,25 +2,30 @@ body {
     margin: 0;
     padding: 0;
     font-family: Verdana, Geneva, sans-serif;
-
 }
+
+main {
+    height: 100vh;
+}
+
 .container{
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-
-
 }
+
 .logo-edit{
     display:flex;
     justify-content:flex-end ;
     width:500px;
-
 }
+
 .form-edit{
     width :1100px;
     flex-direction: column;
-    height: 100px;}
+    height: 100px;
+}
+
 input {
     margin-top : 30px;
 }
@@ -28,6 +33,7 @@ input {
 id{
     background-color: #916319;
 }
+
 label{
     display: none;
 }

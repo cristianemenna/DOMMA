@@ -8,13 +8,11 @@
 
 {% block body %}
 
-    {{ include('_navbar.html.twig') }}
     <h1>Edit Users</h1>
 
     {{ include('users/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
     <a href="{{ path('users_index') }}">Annuler</a>
 
-    {{ include('users/_delete_form.html.twig') }}
     {{ include('users/_delete_form.html.twig') }}
     <a href="{{ path('users_delete', {'id': user.id}) }} "onsubmit="return confirm('Êtes vous sûr de vouloir supprimer l\'utilisateur ?');"/>
 
