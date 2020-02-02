@@ -30,7 +30,6 @@ class UsersController extends AbstractController
         $avatar = $gravatar->avatar($userMail, ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true);
 
         return $this->render('users/index.html.twig', [
-            'users' => $usersRepository->findAll(),
             'user' => $user,
             'avatar' => $avatar
         ]);

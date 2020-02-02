@@ -10,7 +10,7 @@ img {
     height: 60px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 130px;
+    margin-top: 90px;
 }
 
 h1 {
@@ -80,4 +80,58 @@ input:focus {
 .field {
     display: flex;
     flex-direction: column;
+}
+
+.alert-container {
+    margin-top: 80px;
+}
+
+.login-error {
+    position: absolute;
+    right: 350px;
+    top: 30px;
+    font-weight: bolder;
+    color: EF5012;
+    display: flex;
+}
+
+#alert-icon {
+    margin: 0;
+    padding-right: 15px;
+    height: 40px;
+}
+
+.login-notice {
+    width: 300px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.login-notice > a {
+    text-decoration: none;
+    box-shadow: 3px 5px 5px 0 rgba(0, 0, 0, 0.2), 0 3px 20px 0 rgba(0, 0, 0, 0.15);
+    margin: 15px 0 0 70px;
+    padding: 15px 25px 15px 25px;
+    background-color: #8c8c8c;
+    color: #e6e6e6;
+    font-weight: bolder;
+    cursor: pointer;
+    border-radius: 10px;
+    width: 100px;
+}
+
+.login-notice > a:hover {
+    background-color: #a6a6a6;
+}
+
+#login-username {
+    font-weight: bolder;
+    font-size: 20px;
+    margin: 0;
+}
+
+.form-fields-with-user {
+    padding-top: 20px;
 }

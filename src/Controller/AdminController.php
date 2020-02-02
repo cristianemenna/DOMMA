@@ -27,7 +27,7 @@ class AdminController extends AbstractController
         $avatar = $gravatar->avatar($userMail, ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true);
 
         return $this->render('admin/index.html.twig', [
-            'users' => $usersRepository->findAll(),
+            'users' => null,
             'user' => $user,
             'avatar' => $avatar
         ]);
