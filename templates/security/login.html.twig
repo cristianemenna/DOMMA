@@ -4,20 +4,33 @@
     {% endblock %}
 
 {% block body %}
-    
+
+    {% if error %}
+        <div class="login-error">
+            <img src="{{ asset('img/alert-icon.png') }}" alt="Alert" id="alert-icon" />
+            <p>{{ error.messageKey|trans(error.messageData, 'security') }}</div></p>
+    {% endif %}
+
+    {% if app.user %}
+        <img src="{{ asset('/img/logo.png') }}" alt="Logo">
+        <h1>Traitement de données de masse</h1>
+
+        <form method="post">
+            <div class="form-fields-with-user">
+                <div class="alert-container">
+                    <div class="login-notice">
+                        <p>Vous êtes déjà connecté en tant que <p id="login-username">{{ app.user.username }}</p></p>
+                        <a href="{{ path('app_logout') }}">Déconnexion</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    {% else %}
+
     <img src="{{ asset('/img/logo.png') }}" alt="Logo">
     <h1>Traitement de données de masse</h1>
 
     <form method="post">
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
-
-        {% if app.user %}
-            <div class="mb-3">
-                Vous êtes déjà connecté en tant que {{ app.user.username }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
-            </div>
-        {% endif %}
         <div class="form-fields">
             <div class="field">
                 <label class="label-form" for="inputUsername">Identifiant</label>
@@ -34,4 +47,5 @@
             <input type="submit" class="login-button" value="Se connecter">
         </div>
     </form>
+    {% endif %}
 {% endblock %}
