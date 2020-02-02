@@ -1,23 +1,19 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/user_index.css') }}">{% endblock %}
 
 {% block title %}Users index{% endblock %}
 
 {% block body %}
-
-    {{ user.firstName }}
-    {% block header %}
-
-        {#  le header sera composé du logo Domma du nom de l'user et de la nav barre #}
-
-        {#logo#}
+    <main>
+        {{ user.firstName }}
 
 
-    {% endblock %}
+        {# le body sera composé des contextes de travail #}
 
-    {# le body sera composé des contextes de travail #}
+        {#contexte 0
+        contexte 1#}
 
-    {#contexte 1
-    contexte 2#}
+        <a href="{{ path('admin_new') }}">Create new</a>
 
-    <a href="{{ path('admin_new') }}">Create new</a>
+    </main>
 {% endblock %}

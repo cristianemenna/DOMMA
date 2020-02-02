@@ -4,6 +4,10 @@ body {
     font-family: Verdana, Geneva, sans-serif;
 }
 
+main {
+    height: 100vh;
+}
+
 h1 {
     font-weight: normal;
     font-size: 25px;
@@ -24,7 +28,7 @@ td > a, #button-new-user {
 }
 
 table {
-    margin: 600px auto;
+    margin: 50px auto;
     color: #4d4d4d;
     text-align: center;
 }
