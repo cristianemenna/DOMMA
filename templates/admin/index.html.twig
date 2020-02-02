@@ -27,7 +27,7 @@
                     <td>{{ user.lastName }}</td>
                     <td>{{ user.username }}</td>
                     <td>{{ user.email }}</td>
-                    {% if user.roles ? user.roles|json_encode : '' == ['ROLE_ADMIN'] %}
+                    {% if user.roles == ['ROLE_ADMIN'] %}
                         <td>Admin</td>
                     {% else %}
                         <td>Utilisateur</td>
