@@ -21,22 +21,28 @@
                 <th>État</th>
                 <th></th>
             </tr>
-            {% for user in users %}
-                <tr>
-                    <td>{{ user.firstName }}</td>
-                    <td>{{ user.lastName }}</td>
-                    <td>{{ user.username }}</td>
-                    <td>{{ user.email }}</td>
-                    {% if user.roles == ['ROLE_ADMIN'] %}
-                        <td>Admin</td>
-                    {% else %}
-                        <td>Utilisateur</td>
-                    {% endif %}
-                        <td>Actif</td>
-                    <td><a href="{{ path('admin_edit', {'id': user.id}) }}">Modifier</a></td>
-                </tr>
-            {% endfor %}
+    {% if users %}
+       {% for user in users %}
+             <tr>
+                <td>{{ user.firstName }}</td>
+                <td>{{ user.lastName }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                {% if user.roles == ['ROLE_ADMIN'] %}
+                    <td>Admin</td>
+                {% else %}
+                    <td>Utilisateur</td>
+                {% endif %}
+                    <td>Actif</td>
+                <td><a href="{{ path('admin_edit', {'id': user.id}) }}">Modifier</a></td>
+             </tr>
+       {% endfor %}
             </tbody>
         </table>
+    {% else %}
+            </tbody>
+        </table>
+            <p id="empty-users">Vous n'avez pas encore créé d'utilisateur.</p>
+    {% endif %}
     </main>
 {% endblock %}
