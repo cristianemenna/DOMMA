@@ -6,6 +6,7 @@ nav {
 
 nav ul {
     margin: 0;
+    padding-top: 5px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -69,10 +70,15 @@ li {
 }
 
 #nav-avatar {
-    height: 70px;
+    height: 60px;
     padding-top: 5px;
 }
 
 #nav-avatar {
     border-radius: 50%;
+}
+
+#nav-set {
+    height: 10px;
+    padding-bottom: 2px;
 }

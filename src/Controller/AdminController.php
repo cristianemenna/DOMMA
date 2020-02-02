@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Users;
 use App\Form\UsersEditType;
 use App\Form\UsersType;
+use App\Repository\UsersRepository;
 use Gravatar\Gravatar;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,10 +19,17 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin", name="admin")
      */
-    public function index()
+    public function index(UsersRepository $usersRepository, Security $security)
     {
+        $gravatar = new Gravatar();
+        $user = $security->getUser();
+        $userMail = $user->getEmail();
+        $avatar = $gravatar->avatar($userMail, ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true);
+
         return $this->render('admin/index.html.twig', [
-            'controller_name' => 'AdminController',
+            'users' => $usersRepository->findAll(),
+            'user' => $user,
+            'avatar' => $avatar
         ]);
     }
 

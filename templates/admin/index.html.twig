@@ -1,20 +1,42 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Hello AdminController!{% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/admin_index.css') }}">{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <main>
+        <div class="admin-container">
+            <div class="separator">
+                <h1>Informations des utilisateurs</h1>
+            </div>
+            <a href="{{ path('admin_new') }}" id="button-new-user">Créer un compte</a>
+        </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/superadmin/Bureau/DOMMA/src/Controller/AdminController.php'|file_link(0) }}">src/Controller/AdminController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/superadmin/Bureau/DOMMA/templates/admin/index.html.twig'|file_link(0) }}">templates/admin/index.html.twig</a></code></li>
-    </ul>
-</div>
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Identifiant</th>
+                <th>Email</th>
+                <th>Rôle</th>
+                <th>État</th>
+                <th></th>
+            </tr>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.firstName }}</td>
+                    <td>{{ user.lastName }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    {% if user.roles == ['ROLE_ADMIN'] %}
+                        <td>Admin</td>
+                    {% else %}
+                        <td>Utilisateur</td>
+                    {% endif %}
+                        <td>Actif</td>
+                    <td><a href="{{ path('admin_edit', {'id': user.id}) }}">Modifier</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </main>
 {% endblock %}
