@@ -124,7 +124,7 @@ input:focus {
     color: #e6e6e6;
     font-weight: bolder;
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 5px;
     width: 100px;
 }
 
