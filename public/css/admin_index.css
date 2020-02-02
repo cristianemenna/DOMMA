@@ -42,11 +42,16 @@ th {
 }
 
 td {
-    height: 30px;
+    height: 40px;
 }
 
 tr {
     background-color: #fcfafa;
+}
+
+#change-user-status {
+    height: 22px;
+    margin-left: 10px;
 }
 
 .admin-container {
@@ -77,3 +82,16 @@ tr {
     text-align: center;
 }
 
+.user-delete {
+    background-color: #999999;
+    color: #2A2A2A;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+}
+
+.user-delete:hover {
+    background-color: #B2B2B2;
+    cursor: pointer;
+}
