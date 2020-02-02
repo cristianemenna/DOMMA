@@ -88,11 +88,17 @@ input:focus {
 
 .login-error {
     position: absolute;
-    right: 350px;
-    top: 30px;
+    width: 600px;
+    right: 100px;
+    top: 20px;
     font-weight: bolder;
     color: EF5012;
     display: flex;
+    align-items: center;
+}
+
+.login-error > p {
+    margin: 0;
 }
 
 #alert-icon {
