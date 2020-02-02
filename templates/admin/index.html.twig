@@ -2,7 +2,6 @@
 {% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/admin_index.css') }}">{% endblock %}
 
 {% block body %}
-    {{ include('_navbar.html.twig') }}
     <div class="admin-container">
         <div class="separator">
             <h1>Informations des utilisateurs</h1>
@@ -38,5 +37,4 @@
         {% endfor %}
         </tbody>
     </table>
-    {{ include('_footer.html.twig') }}
 {% endblock %}

@@ -6,7 +6,9 @@
         {% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/base.css') }}">{% endblock %}
     </head>
     <body>
+        {{ include('_navbar.html.twig') }}
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
+        {{ include('_footer.html.twig') }}
     </body>
 </html>
