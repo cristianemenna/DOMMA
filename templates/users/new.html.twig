@@ -19,10 +19,12 @@
                 <div class="select-style">
                     {{ form_widget(form.roles) }}
                 </div>
-                <button class="create-user">{{ button_label|default('Créer utilisateur') }}</button>
+                <div class="form-buttons">
+                    <button class="create-user">{{ button_label|default('Créer utilisateur') }}</button>
+                    <a href="{{ path('admin') }}" id="form-cancel">Annuler</a>
+                </div>
             {{ form_end(form) }}
         </div>
-        <a href="{{ path('admin') }}">Annuler</a>
-
+        <div class="separator-bottom"></div>
     </main>
 {% endblock %}
