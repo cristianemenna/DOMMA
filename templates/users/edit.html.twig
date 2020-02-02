@@ -7,34 +7,24 @@
 {% endblock %}
 
 {% block body %}
-    
-    {{ include('_navbar.html.twig') }}
-    <div class="container">
-        <div class="logo-edit">
-            <li><a href="{{ path('users_index') }}"><img src="{{ avatar }}" alt="avatar" id="nav-avatar" /></a></li>
-        </div>
+    <main>
+        <div class="container">
+            <div class="logo-edit">
+                <li><a href="{{ path('users_index') }}"><img src="{{ avatar }}" alt="avatar" id="nav-avatar" /></a></li>
+            </div>
 
-        <div class="form-edit">
-            <h1>Gestion de compte</h1>
-            {{ form_start(form) }}
+            <div class="form-edit">
+                <h1>Gestion de compte</h1>
+                {{ form_start(form) }}
                 {{ form_widget(form) }}
                 <input type="submit" value="Modifier le mot de passe">
 
-            <div class="form-action">
-                <button class="btn">{{ button_label|default('Mettre à jour') }}</button>
-                {{ form_end(form) }}
-                <a href="{{ path('users_index') }}">Annuler</a>
+                <div class="form-action">
+                    <button class="btn">{{ button_label|default('Mettre à jour') }}</button>
+                    {{ form_end(form) }}
+                    <a href="{{ path('users_index') }}">Annuler</a>
+                </div>
             </div>
-
-
-
-
-
-
-            </div>
-
-    </div>
-
-
-    {{ include('_footer.html.twig') }}
+        </div>
+    </main>
 {% endblock %}
