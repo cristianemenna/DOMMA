@@ -1,10 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Users{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/user_new.css') }}">
+{% endblock %}
 
 {% block body %}
-    <h1>Create new Users</h1>
+    <main>
+        <div class="separator">
+            <h1>Création d'utilisateur</h1>
+        </div>
 
-    {{ include('users/_form.html.twig') }}
-    <a href="{{ path('users_index') }}">back to list</a>
+        <div class="form">
+            {{ form_start(form) }}
+                {{ form_widget(form.first_name,  {'attr': {'class': 'form-input', 'placeholder': 'Prénom'}} ) }}
+                {{ form_widget(form.last_name,  {'attr': {'class': 'form-input', 'placeholder': 'Nom'}} ) }}
+                {{ form_widget(form.email,  {'attr': {'class': 'form-input', 'placeholder': 'Email'}} ) }}
+                {{ form_widget(form.username,  {'attr': {'class': 'form-input', 'placeholder': 'Identifiant'}} ) }}
+                <div class="select-style">
+                    {{ form_widget(form.roles) }}
+                </div>
+                <button class="create-user">{{ button_label|default('Créer utilisateur') }}</button>
+            {{ form_end(form) }}
+        </div>
+        <a href="{{ path('admin') }}">Annuler</a>
+
+    </main>
 {% endblock %}
