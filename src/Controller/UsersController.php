@@ -46,7 +46,7 @@ class UsersController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="users_edit", methods={"GET","POST"})
+     * @Route("/{id}/gestion-de-compte", name="users_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder): Response
     {
@@ -58,12 +58,6 @@ class UsersController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $user->setPassword(
-                $encoder->encodePassword(
-                    $user,
-                    $user->getPassword()
-                )
-            );
             $entityManager->persist($user);
             $entityManager->flush();
 
