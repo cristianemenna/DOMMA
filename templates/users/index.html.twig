@@ -1,19 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/user_index.css') }}">{% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/index.css') }}">{% endblock %}
 {% block title %}DOMMA - Mon profil{% endblock %}
 
 {% block body %}
     <main>
-        {{ user.firstName }}
-
-
-        {# le body sera composé des contextes de travail #}
-
-        {#contexte 0
-        contexte 1#}
-
-        <a href="{{ path('admin_new') }}">Create new</a>
-
+        <div class="separator">
+            <h1>Mes contextes de travail</h1>
+        </div>
+        <div class="contexts-container">
+           <div class="context-space">
+               <a href="#" class="contexts-link">
+                   <p class="context-title">Contexte 1</p>
+                   <p class="context-description">Un example de description du premier contexte de travail.</p>
+               </a>
+               <p class="context-days">Jours restants :</p>
+               <a href="#"><img src="{{ asset('img/edit-icon-contexts.png') }}" alt="Icon" id="icon-context" /></a>
+           </div>
+        </div>
+        <div class="separator-bottom"></div>
     </main>
 {% endblock %}
