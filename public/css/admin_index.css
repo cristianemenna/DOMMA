@@ -49,7 +49,7 @@ tr {
     background-color: #fcfafa;
 }
 
-#change-user-status {
+.change-user-status {
     height: 22px;
     margin-left: 10px;
 }
@@ -71,7 +71,7 @@ tr {
     color: #e6e6e6;
     font-weight: bolder;
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 20px;
 }
 
 #button-new-user:hover {
@@ -94,4 +94,8 @@ tr {
 .user-delete:hover {
     background-color: #D7D7D7;
     cursor: pointer;
+}
+
+#user-blocked {
+    font-weight: bolder;
 }

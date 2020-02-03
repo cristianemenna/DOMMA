@@ -84,7 +84,7 @@ h1 {
 
 .form-buttons {
     width: 600px;
-    margin: 80px 0 0 300px;
+    margin: 80px 0 0 400px;
 }
 
 #edit-avatar {
@@ -93,4 +93,20 @@ h1 {
     top: 230px;
     height: 130px;
     border-radius: 50%;
+}
+
+#edit-change-password {
+    padding: 10px 15px;
+    color: #646464;
+    font-size: 15px;
+    background-color: #EBEBEB;
+    box-shadow: 3px 5px 5px 0 rgba(0, 0, 0, 0.2), 0 3px 20px 0 rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    width: 160px;
+    margin: 13px;
+}
+
+#edit-change-password:hover {
+    background-color: #F8F8F8;
+    cursor: pointer;
 }

@@ -35,7 +35,12 @@
                 {% else %}
                     <td>Utilisateur</td>
                 {% endif %}
-                    <td id="user-status">Actif <a href="#"><img src="{{ asset('img/edit-icon.png') }}" id="change-user-status" alt="Edition" /></a></td>
+
+                {% if user.attempts >= 3 %}
+                    <td id="user-blocked">Bloqué<a href="#"><img src="{{ asset('img/edit-icon.png') }}" class="change-user-status" alt="Edition" /></a></td>
+                {% else %}
+                    <td>Actif<a href="#"><img src="{{ asset('img/edit-icon.png') }}" class="change-user-status" alt="Edition" /></a></td>
+                {% endif %}
                  <td>{{ include('users/_delete_form.html.twig') }}</td>
              </tr>
        {% endfor %}
