@@ -58,7 +58,7 @@ class AdminController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('users_index');
+            return $this->redirectToRoute('admin');
         }
 
         return $this->render('users/new.html.twig', [

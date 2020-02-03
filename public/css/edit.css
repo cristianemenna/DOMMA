@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: Verdana, Geneva, sans-serif;
+    font-family: verdana, geneva, sans-serif;
 }
 
 main {
@@ -43,7 +43,7 @@ h1 {
 }
 
 .edit-user {
-    color: #EBEBEB;
+    color: #ebebeb;
     background-color: #7f7f7f;
     width: 200px;
     height: 45px;
