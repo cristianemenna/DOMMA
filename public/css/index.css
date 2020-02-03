@@ -34,11 +34,14 @@ h1 {
     margin: 0 auto;
     padding: 50px;
     color: #676767;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .context-space {
     height: 180px;
-    width: 250px;
+    width: 15%;
+    margin: 20px 40px;
     padding: 30px;
     border: 3px solid #ebebeb;
 }
@@ -55,13 +58,22 @@ h1 {
 }
 
 #icon-context {
-    height: 30px;
+    height: 25px;
     position: relative;
     right: -220px;
     bottom: 38px;
 }
 
-.contexts-link {
+.contexts-link, #link-create {
     text-decoration: none;
     color: #676767;
 }
+
+.context-plus {
+    font-size: 200px;
+    font-weight: lighter;
+    position: relative;
+    left: 60px;
+    bottom: 30px;
+}
+
