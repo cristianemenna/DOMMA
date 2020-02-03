@@ -1,24 +1,31 @@
 {% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/navbar.css') }}">{% endblock %}
 <nav>
     <ul>
-        <li><a href="{{ path('users_index') }}"><img src="{{ asset('img/logo.png') }}" alt="logo" id="nav-logo" /></a></li>
-        <div class="dropdown">
-            <button class="dropbtn">{{ app.user.firstName }}
-                <img src="{{ asset('img/fleche_menu.png') }}" alt="Menu" id="nav-set" />
-            </button>
-            {% if is_granted('ROLE_USER') %}
+        {% if is_granted('ROLE_USER') %}
+            <li><a href="{{ path('users_index') }}"><img src="{{ asset('img/logo.png') }}" alt="logo" id="nav-logo" /></a></li>
+            <div class="dropdown">
+                <button class="dropbtn">{{ app.user.firstName }}
+                    <img src="{{ asset('img/fleche_menu.png') }}" alt="Menu" id="nav-set" />
+                </button>
                 <div class="dropdown-content">
                     <a href="{{ path('users_edit', {'id': app.user.id}) }}">Gestion de compte</a>
                     <a href="{{ path('app_logout') }}">Déconnexion</a>
                 </div>
-            {% else %}
+            </div>
+            <li><a href="{{ path('users_index') }}"><img src="{{ avatar }}" alt="avatar" id="nav-avatar" /></a></li>
+        {% else %}
+            <li><a href="{{ path('admin') }}"><img src="{{ asset('img/logo.png') }}" alt="logo" id="nav-logo" /></a></li>
+            <div class="dropdown">
+                <button class="dropbtn">{{ app.user.firstName }}
+                    <img src="{{ asset('img/fleche_menu.png') }}" alt="Menu" id="nav-set" />
+                </button>
                 <div class="dropdown-content">
                     <a href="{{ path('admin_new') }}">Créer utilisateur</a>
                     <a href="{{ path('admin') }}">Administration</a>
                     <a href="{{ path('app_logout') }}">Déconnexion</a>
                 </div>
-            {% endif %}
-        </div>
-        <li><a href="{{ path('users_index') }}"><img src="{{ avatar }}" alt="avatar" id="nav-avatar" /></a></li>
+            </div>
+            <li><a href="{{ path('admin') }}"><img src="{{ avatar }}" alt="avatar" id="nav-avatar" /></a></li>
+        {% endif %}
     </ul>
 </nav>
