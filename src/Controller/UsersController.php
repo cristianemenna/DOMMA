@@ -48,8 +48,13 @@ class UsersController extends AbstractController
     /**
      * @Route("/{id}/gestion-de-compte", name="users_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder): Response
+    public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Security $security): Response
     {
+        if ($user != $security->getUser())
+        {
+            throw $this->createNotFoundException();
+        }
+
         $gravatar = new Gravatar();
         $avatar = $gravatar->avatar($user->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true);
 
