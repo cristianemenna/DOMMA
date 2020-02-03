@@ -83,7 +83,7 @@ input:focus {
 }
 
 .alert-container {
-    margin-top: 80px;
+    margin-top: 60px;
 }
 
 .login-error {
@@ -115,10 +115,10 @@ input:focus {
     text-align: center;
 }
 
-.login-notice > a {
+.login-notice > #login-deconnexion {
     text-decoration: none;
     box-shadow: 3px 5px 5px 0 rgba(0, 0, 0, 0.2), 0 3px 20px 0 rgba(0, 0, 0, 0.15);
-    margin: 15px 0 0 70px;
+    margin: 50px 0 0 70px;
     padding: 15px 25px 15px 25px;
     background-color: #8c8c8c;
     color: #e6e6e6;
@@ -128,7 +128,7 @@ input:focus {
     width: 100px;
 }
 
-.login-notice > a:hover {
+.login-notice > #login-deconnexion:hover {
     background-color: #a6a6a6;
 }
 
@@ -140,4 +140,11 @@ input:focus {
 
 .form-fields-with-user {
     padding-top: 20px;
+}
+
+.back-to-index {
+    text-decoration: none;
+    color: #000000;
+    font-style: italic;
+    padding-top: 30px;
 }

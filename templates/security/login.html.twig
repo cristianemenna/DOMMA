@@ -17,8 +17,13 @@
             <div class="form-fields-with-user">
                 <div class="alert-container">
                     <div class="login-notice">
-                        <p>Vous êtes déjà connecté en tant que <p id="login-username">{{ app.user.username }}</p></p>
-                        <a href="{{ path('app_logout') }}">Déconnexion</a>
+                        <p>Vous êtes déjà connecté en tant que <p id="login-username">{{ app.user.username }}</p>
+                        <a href="{{ path('app_logout') }}" id="login-deconnexion">Déconnexion</a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('admin') }}" class="back-to-index">Revenir à l'accueil</a>
+                        {% else %}
+                            <a href="{{ path('users_index') }}" class="back-to-index">Revenir à l'accueil</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
