@@ -93,4 +93,18 @@ class AdminController extends AbstractController
             'avatar' => $avatar
         ]);
     }
+
+    /**
+     * @Route("/{id}", name="admin_users_delete", methods={"DELETE"})
+     */
+    public function delete(Request $request, Users $user): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($user);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('admin');
+    }
 }
