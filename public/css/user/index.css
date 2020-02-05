@@ -57,7 +57,7 @@ h1 {
     margin-top: 80px;
 }
 
-#icon-context {
+.icon-context {
     height: 25px;
     position: relative;
     right: -220px;

@@ -82,20 +82,26 @@ tr {
     text-align: center;
 }
 
-.user-delete {
+.user-delete, .user-lock {
     background-color: #BABABA;
     color: #2A2A2A;
     text-decoration: none;
     border: none;
     border-radius: 5px;
-    padding: 8px 15px;
+    padding: 8px 10px;
+    margin-left: 10px;
 }
 
-.user-delete:hover {
+.user-delete:hover, .user-lock:hover {
     background-color: #D7D7D7;
     cursor: pointer;
 }
 
 #user-blocked {
     font-weight: bolder;
+}
+
+.admin-actions {
+    display: flex;
+    justify-content: center;
 }

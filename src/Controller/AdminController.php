@@ -34,7 +34,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/creation-de-utilisateur", name="admin_new", methods={"GET","POST"})
+     * @Route("/admin/new", name="admin_new", methods={"GET","POST"})
      */
     public function new(Request $request, UserPasswordEncoderInterface $encoder, Security $security): Response
     {
@@ -61,7 +61,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('admin');
         }
 
-        return $this->render('users/new.html.twig', [
+        return $this->render('admin/new.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
             'avatar' => $avatar
@@ -104,6 +104,28 @@ class AdminController extends AbstractController
             $entityManager->remove($user);
             $entityManager->flush();
         }
+
+        return $this->redirectToRoute('admin');
+    }
+
+    /**
+     * @Route("/admin/locked/{id}", name="admin_locked", methods={"GET","POST"})
+     * Fonction qui prend en paramètre l'ID de l'utilisateur et vérifie s'il est bloqué (attempts >= 3) ou pas.
+     * S'il est bloqué, après cet action ses attempts reviennent à 0 et le compte est débloqué.
+     * S'il est actif, les attempts deviennent 3 et le compte sera bloqué.
+     */
+
+    public function locked(Request $request, Users $user): Response
+    {
+        if ($user->getAttempts() >= 3){
+            $user->resetAttempts();
+        } else {
+            $user->setAttempts(3);
+        }
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
 
         return $this->redirectToRoute('admin');
     }
