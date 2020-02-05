@@ -96,9 +96,7 @@ input:focus {
 
 
 #alert-icon {
-    margin: 0;
     padding-right: 15px;
-    height: 40px;
 }
 
 .login-notice {
