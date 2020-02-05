@@ -83,33 +83,26 @@ input:focus {
 }
 
 .alert-container {
-    margin-top: 60px;
+    margin: 0;
 }
 
 .login-error {
-    position: absolute;
-    width: 600px;
-    right: 100px;
-    top: 20px;
-    font-weight: bolder;
     color: EF5012;
+    font-size: 15px;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
-.login-error > p {
-    margin: 0;
-}
 
 #alert-icon {
-    margin: 0;
     padding-right: 15px;
-    height: 40px;
 }
 
 .login-notice {
     width: 300px;
     margin: 0 auto;
+    padding-top: 50px;
     display: flex;
     flex-direction: column;
     text-align: center;
