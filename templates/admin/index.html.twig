@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/admin_index.css') }}">{% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/admin/index.css') }}">{% endblock %}
 {% block title %}DOMMA - Administration{% endblock %}
 
 {% block body %}
@@ -37,11 +37,11 @@
                 {% endif %}
 
                 {% if user.attempts >= 3 %}
-                    <td id="user-blocked">Bloqué<a href="#"><img src="{{ asset('img/edit-icon.png') }}" class="change-user-status" alt="Edition" /></a></td>
+                    <td id="user-blocked">Bloqué</td>
                 {% else %}
-                    <td>Actif<a href="#"><img src="{{ asset('img/edit-icon.png') }}" class="change-user-status" alt="Edition" /></a></td>
+                    <td>Actif</td>
                 {% endif %}
-                 <td>{{ include('users/_delete_form.html.twig') }}</td>
+                 <td class="admin-actions">{{ include('users/_delete_form.html.twig') }} {{ include('users/_delete_form.html.twig') }}</td>
              </tr>
        {% endfor %}
             </tbody>
