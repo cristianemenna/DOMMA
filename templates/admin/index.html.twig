@@ -41,7 +41,7 @@
                 {% else %}
                     <td>Actif</td>
                 {% endif %}
-                 <td class="admin-actions">{{ include('users/_delete_form.html.twig') }} {{ include('users/_delete_form.html.twig') }}</td>
+                 <td class="admin-actions">{{ include('users/_delete_form.html.twig') }} {{ include('admin/_locked.html.twig') }}</td>
              </tr>
        {% endfor %}
             </tbody>

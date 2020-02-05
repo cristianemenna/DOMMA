@@ -1,0 +1,9 @@
+{% if user.attempts >= 3 %}
+    <form method="post" action="{{ path('admin_locked', {'id': user.id}) }}" onsubmit="return confirm('Êtes vous sûr de vouloir débloquer le compte ?');">
+        <button class="user-delete">Débloquer</button>
+    </form>
+{% else %}
+    <form method="post" action="{{ path('admin_locked', {'id': user.id}) }}" onsubmit="return confirm('Êtes vous sûr de vouloir bloquer le compte ?');">
+        <button class="user-lock">Bloquer</button>
+    </form>
+{% endif %}
