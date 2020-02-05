@@ -3,11 +3,6 @@
 
 {% block body %}
 
-    {% if error %}
-        <div class="login-error">
-            <img src="{{ asset('img/alert-icon.png') }}" alt="Alert" id="alert-icon" />
-            <p>{{ error.messageKey|trans(error.messageData, 'security') }}</div></p>
-    {% endif %}
 
     {% if app.user %}
         <img src="{{ asset('/img/logo.png') }}" alt="Logo">
@@ -32,6 +27,12 @@
 
     <img src="{{ asset('/img/logo.png') }}" alt="Logo">
     <h1>Traitement de données de masse</h1>
+
+        {% if error %}
+            <div class="login-error">
+                <img src="{{ asset('img/alert-icon.png') }}" alt="Alert" id="alert-icon" />
+                <p>{{ error.messageKey|trans(error.messageData, 'security') }}</div></p>
+        {% endif %}
 
     <form method="post">
         <div class="form-fields">
