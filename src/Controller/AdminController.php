@@ -6,6 +6,7 @@ use App\Entity\Users;
 use App\Form\UsersEditType;
 use App\Form\UsersType;
 use App\Repository\UsersRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Gravatar\Gravatar;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +28,7 @@ class AdminController extends AbstractController
         $avatar = $gravatar->avatar($userMail, ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true);
 
         return $this->render('admin/index.html.twig', [
-            'users' => $usersRepository->findAll(),
+            'users' => $usersRepository->orderByLastName(),
             'user' => $user,
             'avatar' => $avatar
         ]);
