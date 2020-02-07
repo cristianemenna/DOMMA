@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Users;
 use App\Form\UsersEditType;
+use App\Form\UsersPasswordType;
 use App\Form\UsersType;
 use App\Repository\UsersRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -88,5 +89,32 @@ class UsersController extends AbstractController
         }
 
         return $this->redirectToRoute('admin');
+    }
+
+    /**
+     * @Route("/{id}/changement-mot-de-passe", name="users_password", methods={"GET","POST"})
+     * Permet le changement de mot de passe par un utilisateur
+     */
+    public function changePassword(Request $request, Users $user, UserPasswordEncoderInterface $encoder)
+    {
+        $gravatar = new Gravatar();
+        $avatar = $gravatar->avatar($user->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true);
+
+        $form = $this->createForm(UsersPasswordType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('users_edit');
+        }
+
+        return $this->render('users/change_password.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+            'avatar' => $avatar
+        ]);
     }
 }
