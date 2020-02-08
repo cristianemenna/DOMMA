@@ -39,10 +39,10 @@ class UsersRepository extends ServiceEntityRepository implements PasswordUpgrade
     /**
      * Permet d'ordonner tous les utilisateur selon l'ordre alphabétique de nom.
      */
-    public function orderByLastName()
+    public function orderByUsername()
     {
         return $this->createQueryBuilder('u')
-            ->orderBy('u.last_name', 'ASC')
+            ->orderBy('u.username', 'ASC')
             ->getQuery()
             ->getResult()
             ;
