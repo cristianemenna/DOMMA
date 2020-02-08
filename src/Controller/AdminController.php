@@ -7,6 +7,7 @@ use App\Form\UsersEditType;
 use App\Form\UsersPasswordType;
 use App\Form\UsersType;
 use App\Repository\UsersRepository;
+use App\Service\PasswordHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Gravatar\Gravatar;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -154,19 +155,25 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/locked/{id}", name="admin_locked", methods={"GET","POST"})
      * Fonction qui prend en paramètre l'ID de l'utilisateur et vérifie s'il est bloqué (attempts >= 3) ou pas.
-     * S'il est bloqué, après cet action ses attempts reviennent à 0 et le compte est débloqué.
+     * S'il est bloqué, après cet action ses attempts reviennent à 0, un nouveau mot de passe aleatoire est généré et le compte est débloqué.
      * S'il est actif, les attempts deviennent 3 et le compte sera bloqué.
      */
 
-    public function locked(Request $request, Users $user): Response
+    public function locked(Request $request, Users $user, PasswordHelper $passwordHelper, UserPasswordEncoderInterface $encoder, EntityManagerInterface $entityManager): Response
     {
         if ($user->getAttempts() >= 3){
             $user->resetAttempts();
+
+            $user->setPassword(
+                $encoder->encodePassword(
+                    $user,
+                    $passwordHelper->randomPassword()
+                )
+            );
         } else {
             $user->setAttempts(3);
         }
 
-        $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($user);
         $entityManager->flush();
 
