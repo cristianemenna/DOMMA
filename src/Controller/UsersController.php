@@ -95,13 +95,13 @@ class UsersController extends AbstractController
      * @Route("/{id}/changement-mot-de-passe", name="users_password", methods={"GET","POST"})
      * Permet le changement de mot de passe par un utilisateur
      */
-    public function changePassword(Request $request, Users $user, UserPasswordEncoderInterface $encoder)
+    public function changePassword(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Security $security)
     {
         if ($user != $security->getUser())
         {
             throw $this->createNotFoundException();
         }
-        
+
         $gravatar = new Gravatar();
         $avatar = $gravatar->avatar($user->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true);
 
