@@ -3,10 +3,10 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}DOMMA - Traitement de données de masse{% endblock %}</title>
-        {% block stylesheets %}
+        {% block stylesheets %}{% endblock %}
             <link rel="stylesheet" href="{{ asset('css/base.css') }}">
-            <link rel="stylesheet" href="/css/css/all.css">
-        {% endblock %}
+            <link rel="stylesheet" href="{{ asset('css/css/all.css') }}">
+            <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}" />
     </head>
     <body>
         {{ include('_navbar.html.twig') }}

@@ -83,8 +83,7 @@ class UsersAuthenticator extends AbstractFormLoginAuthenticator implements Passw
             $this->entityManager->flush($user);
         }
         if ($user->getAttempts() >= 3) {
-            throw new CustomUserMessageAuthenticationException('Vous avez essayé de vous connecter avec un mot'
-                .' de passe incorrect de trop nombreuses fois. Veuillez contacter l\' admin pour débloquer votre compte.');
+            throw new CustomUserMessageAuthenticationException('Votre compte est bloqué. Veuillez contacter l\'administrateur du site.');
         }
 
         return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
