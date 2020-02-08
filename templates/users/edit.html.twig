@@ -13,10 +13,7 @@
             <img src="{{ avatar }}" alt="avatar" id="edit-avatar" />
             <div class="form">
                 {{ form_start(form) }}
-                    {{ form_widget(form.first_name) }}
-                    {{ form_widget(form.last_name) }}
-                    {{ form_widget(form.email) }}
-                    {{ form_widget(form.username) }}
+                    {{ form_widget(form) }}
                 {% if is_granted('ROLE_USER') %}
                     <p id="edit-change-password"><a href="{{ path('users_password', {'id': user.id})  }}">Changer mot de passe</a></p>
                     <div class="form-buttons">

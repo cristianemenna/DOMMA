@@ -37,7 +37,7 @@ h1 {
 #users_edit_first_name, #users_edit_last_name, #users_edit_username, #users_edit_email, #users_password_password, #password-confirmation {
     height: 30px;
     width: 330px;
-    margin: 13px;
+    margin: 13px 13px 25px 13px;
     padding-left: 15px;
     outline: none;
 }
