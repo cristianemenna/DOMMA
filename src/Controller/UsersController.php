@@ -97,6 +97,11 @@ class UsersController extends AbstractController
      */
     public function changePassword(Request $request, Users $user, UserPasswordEncoderInterface $encoder)
     {
+        if ($user != $security->getUser())
+        {
+            throw $this->createNotFoundException();
+        }
+        
         $gravatar = new Gravatar();
         $avatar = $gravatar->avatar($user->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true);
 
@@ -105,10 +110,16 @@ class UsersController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $user->setPassword(
+                $encoder->encodePassword(
+                    $user,
+                    $user->getPassword()
+                )
+            );
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('users_edit');
+            return $this->redirectToRoute('users_edit', ['id' => $user->getId()]);
         }
 
         return $this->render('users/change_password.html.twig', [
