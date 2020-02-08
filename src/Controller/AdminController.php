@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Users;
 use App\Form\UsersEditType;
+use App\Form\UsersPasswordType;
 use App\Form\UsersType;
 use App\Repository\UsersRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,10 +16,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
 
+/**
+ * @Route("/admin")
+ */
 class AdminController extends AbstractController
 {
     /**
-     * @Route("/admin", name="admin")
+     * @Route("/", name="admin")
      */
     public function index(UsersRepository $usersRepository, Security $security)
     {
@@ -35,7 +39,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/new", name="admin_new", methods={"GET","POST"})
+     * @Route("/new", name="admin_new", methods={"GET","POST"})
      */
     public function new(Request $request, UserPasswordEncoderInterface $encoder, Security $security): Response
     {
@@ -70,14 +74,14 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("admin/{id}/edit", name="admin_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="admin_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder): Response
     {
         $gravatar = new Gravatar();
         $avatar = $gravatar->avatar($user->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true);
 
-        $form = $this->createForm(UsersType::class, $user);
+        $form = $this->createForm(UsersEditType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -85,10 +89,10 @@ class AdminController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('users_index');
+            return $this->redirectToRoute('admin');
         }
 
-        return $this->render('admin/edit.html.twig', [
+        return $this->render('users/edit.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
             'avatar' => $avatar
@@ -107,6 +111,44 @@ class AdminController extends AbstractController
         }
 
         return $this->redirectToRoute('admin');
+    }
+
+    /**
+     * @Route("/{id}/changement-mot-de-passe", name="admin_password", methods={"GET","POST"})
+     * Permet le changement de mot de passe par un administrateur
+     */
+    public function changePassword(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Security $security)
+    {
+        if ($user != $security->getUser())
+        {
+            throw $this->createNotFoundException();
+        }
+
+        $gravatar = new Gravatar();
+        $avatar = $gravatar->avatar($user->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true);
+
+        $form = $this->createForm(UsersPasswordType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $user->setPassword(
+                $encoder->encodePassword(
+                    $user,
+                    $user->getPassword()
+                )
+            );
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('admin_edit', ['id' => $user->getId()]);
+        }
+
+        return $this->render('users/change_password.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+            'avatar' => $avatar
+        ]);
     }
 
     /**

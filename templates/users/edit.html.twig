@@ -17,11 +17,19 @@
                     {{ form_widget(form.last_name) }}
                     {{ form_widget(form.email) }}
                     {{ form_widget(form.username) }}
-                <p id="edit-change-password"><a href="{{ path('users_password', {'id': user.id})  }}">Changer mot de passe</a></p>
+                {% if is_granted('ROLE_USER') %}
+                    <p id="edit-change-password"><a href="{{ path('users_password', {'id': user.id})  }}">Changer mot de passe</a></p>
                     <div class="form-buttons">
                         <button class="edit-user">{{ button_label|default('Mettre à jour') }}</button>
                         <a href="{{ path('users_index') }}" id="form-cancel">Annuler</a>
                     </div>
+                {% else %}
+                    <p id="edit-change-password"><a href="{{ path('admin_password', {'id': user.id})  }}">Changer mot de passe</a></p>
+                    <div class="form-buttons">
+                        <button class="edit-user">{{ button_label|default('Mettre à jour') }}</button>
+                        <a href="{{ path('admin') }}" id="form-cancel">Annuler</a>
+                    </div>
+                {% endif %}
                 {{ form_end(form) }}
             </div>
         </div>
