@@ -11,24 +11,22 @@
 
         <div class="edit-container">
             <img src="{{ avatar }}" alt="avatar" id="edit-avatar" />
-            <div class="form">
                 {{ form_start(form) }}
                     {{ form_widget(form) }}
                 {% if is_granted('ROLE_USER') %}
-                    <p id="edit-change-password"><a href="{{ path('users_password', {'id': user.id})  }}">Changer mot de passe</a></p>
+                    <a id="edit-change-password" href="{{ path('users_password', {'id': user.id})  }}">Changer mot de passe</a>
                     <div class="form-buttons">
                         <button class="edit-user">{{ button_label|default('Mettre à jour') }}</button>
                         <a href="{{ path('users_index') }}" id="form-cancel">Annuler</a>
                     </div>
                 {% else %}
-                    <p id="edit-change-password"><a href="{{ path('admin_password', {'id': user.id})  }}">Changer mot de passe</a></p>
+                    <a id="edit-change-password" href="{{ path('admin_password', {'id': user.id})  }}">Changer mot de passe</a>
                     <div class="form-buttons">
                         <button class="edit-user">{{ button_label|default('Mettre à jour') }}</button>
                         <a href="{{ path('admin') }}" id="form-cancel">Annuler</a>
                     </div>
                 {% endif %}
                 {{ form_end(form) }}
-            </div>
         </div>
         <div class="separator-bottom"></div>
     </main>

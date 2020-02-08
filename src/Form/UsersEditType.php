@@ -15,13 +15,29 @@ class UsersEditType extends AbstractType
     {
         $builder
             ->add('last_name', TextType::class, [
-                'label' => 'Nom',])
+                'label' => 'Nom',
+                'row_attr' => [
+                    'class' => 'field'
+                ],
+                ])
             ->add('first_name', TextType::class, [
-                'label' => 'Prénom',])
+                'label' => 'Prénom',
+                'row_attr' => [
+                    'class' => 'field'
+                ],
+                ])
             ->add('email', TextType::class, [
-                'label' => 'Email',])
+                'label' => 'Email',
+                'row_attr' => [
+                    'class' => 'field'
+                ],
+                ])
             ->add('username', TextType::class, [
-                'label' => 'Identifiant',])
+                'label' => 'Identifiant',
+                'row_attr' => [
+                    'class' => 'field'
+                ],
+                ])
         ;
     }
 

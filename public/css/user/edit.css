@@ -29,15 +29,22 @@ h1 {
     border-bottom: 2px solid #e6e6e6;
 }
 
-.form {
-    padding-top: 80px;
+form {
+    width: 500px;
+    padding-top: 50px;
     margin-left: 320px;
+}
+
+.field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 35px 0;
 }
 
 #users_edit_first_name, #users_edit_last_name, #users_edit_username, #users_edit_email, #users_password_password, #password-confirmation {
     height: 30px;
     width: 330px;
-    margin: 13px 13px 25px 13px;
     padding-left: 15px;
     outline: none;
 }
@@ -84,7 +91,8 @@ h1 {
 
 .form-buttons {
     width: 600px;
-    margin: 80px 0 0 400px;
+    margin-left: 400px;
+    padding-top: 80px;
 }
 
 #edit-avatar {
@@ -96,25 +104,20 @@ h1 {
 }
 
 #edit-change-password {
-    padding: 10px 15px;
+    padding: 10px 30px;
     color: #646464;
     font-size: 15px;
     background-color: #EBEBEB;
     box-shadow: 3px 5px 5px 0 rgba(0, 0, 0, 0.2), 0 3px 20px 0 rgba(0, 0, 0, 0.15);
     border-radius: 10px;
-    width: 160px;
-    margin: 13px;
+    margin-left: 155px;
     text-align: center;
+    text-decoration: none;
 }
 
 #edit-change-password:hover {
     background-color: #F8F8F8;
     cursor: pointer;
-}
-
-#edit-change-password > a {
-    text-decoration: none;
-    color: #646464;
 }
 
 .form-buttons-password {
