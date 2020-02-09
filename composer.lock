@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e08c4a06c049b2d99470c0ac888d7c03",
+    "content-hash": "8ad211151f9be83b0bdd106119899613",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -3539,16 +3539,16 @@
         },
         {
             "name": "symfony/mailer",
-            "version": "v5.0.2",
+            "version": "v5.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/mailer.git",
-                "reference": "82644dc053ccf80e2d67fd79976a2c0d08bb53c2"
+                "reference": "9410890bfe9b8700312b4e04ac38819b66e3b907"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mailer/zipball/82644dc053ccf80e2d67fd79976a2c0d08bb53c2",
-                "reference": "82644dc053ccf80e2d67fd79976a2c0d08bb53c2",
+                "url": "https://api.github.com/repos/symfony/mailer/zipball/9410890bfe9b8700312b4e04ac38819b66e3b907",
+                "reference": "9410890bfe9b8700312b4e04ac38819b66e3b907",
                 "shasum": ""
             },
             "require": {
@@ -3602,7 +3602,7 @@
             ],
             "description": "Symfony Mailer Component",
             "homepage": "https://symfony.com",
-            "time": "2019-12-07T16:40:37+00:00"
+            "time": "2020-01-04T14:08:26+00:00"
         },
         {
             "name": "symfony/mime",
@@ -4895,6 +4895,59 @@
             "description": "Symfony Security Component - HTTP Integration",
             "homepage": "https://symfony.com",
             "time": "2019-12-16T10:47:49+00:00"
+        },
+        {
+            "name": "symfony/sendgrid-mailer",
+            "version": "v5.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/sendgrid-mailer.git",
+                "reference": "e175a0f7590bea2c55491af8be6031f54e2eaee2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/sendgrid-mailer/zipball/e175a0f7590bea2c55491af8be6031f54e2eaee2",
+                "reference": "e175a0f7590bea2c55491af8be6031f54e2eaee2",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2.5",
+                "symfony/mailer": "^4.4|^5.0"
+            },
+            "require-dev": {
+                "symfony/http-client": "^4.4|^5.0"
+            },
+            "type": "symfony-bridge",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Mailer\\Bridge\\Sendgrid\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Sendgrid Mailer Bridge",
+            "homepage": "https://symfony.com",
+            "time": "2020-01-04T14:08:26+00:00"
         },
         {
             "name": "symfony/serializer",

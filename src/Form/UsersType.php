@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Users;
+use App\Service\PasswordHelper;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -14,11 +15,13 @@ class UsersType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $password = new PasswordHelper();
+
         $builder
             ->add('username')
             ->add('password', HiddenType::class, [
                 'required' => false,
-                'empty_data' => 'test',])
+                'empty_data' => $password->randomPassword(),])
             ->add('email')
             ->add('first_name')
             ->add('last_name')

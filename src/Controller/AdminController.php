@@ -7,11 +7,14 @@ use App\Form\UsersEditType;
 use App\Form\UsersPasswordType;
 use App\Form\UsersType;
 use App\Repository\UsersRepository;
+use App\Service\PasswordHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Gravatar\Gravatar;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
@@ -54,6 +57,13 @@ class AdminController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $this->forward('App\Controller\MailerController::newUser', [
+                'userEmail' => $user->getEmail(),
+                'userPassword' => $user->getPassword(),
+                'userName' => $user->getFirstName(),
+                'userUserName' => $user->getUsername(),
+                ]);
+
             $user->setPassword(
                 $encoder->encodePassword(
                     $user,
@@ -154,19 +164,36 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/locked/{id}", name="admin_locked", methods={"GET","POST"})
      * Fonction qui prend en paramètre l'ID de l'utilisateur et vérifie s'il est bloqué (attempts >= 3) ou pas.
-     * S'il est bloqué, après cet action ses attempts reviennent à 0 et le compte est débloqué.
+     *
+     * S'il est bloqué, après cet action ses attempts reviennent à 0, un nouveau mot de passe aleatoire est généré
+     * et envoyé à l'utilisateur par mail, et le compte est débloqué.
+     *
      * S'il est actif, les attempts deviennent 3 et le compte sera bloqué.
      */
 
-    public function locked(Request $request, Users $user): Response
+    public function locked(Request $request, Users $user, PasswordHelper $passwordHelper, UserPasswordEncoderInterface $encoder, EntityManagerInterface $entityManager): Response
     {
         if ($user->getAttempts() >= 3){
             $user->resetAttempts();
+
+            $newPassword = $passwordHelper->randomPassword();
+            $this->forward('App\Controller\MailerController::unblockedUser', [
+                'userEmail' => $user->getEmail(),
+                'userPassword' => $newPassword,
+                'userName' => $user->getFirstName(),
+                'userUserName' => $user->getUsername(),
+            ]);
+
+            $user->setPassword(
+                $encoder->encodePassword(
+                    $user,
+                    $newPassword
+                )
+            );
         } else {
             $user->setAttempts(3);
         }
 
-        $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($user);
         $entityManager->flush();
 
