@@ -7,6 +7,7 @@ use App\Form\UsersEditType;
 use App\Form\UsersPasswordType;
 use App\Form\UsersType;
 use App\Repository\UsersRepository;
+use App\Service\GravatarHelper;
 use App\Service\PasswordHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Gravatar\Gravatar;
@@ -27,17 +28,11 @@ class AdminController extends AbstractController
     /**
      * @Route("/", name="admin")
      */
-    public function index(UsersRepository $usersRepository, Security $security)
+    public function index(UsersRepository $usersRepository, Security $security, GravatarHelper $gravatar)
     {
-        $gravatar = new Gravatar();
-        $user = $security->getUser();
-        $userMail = $user->getEmail();
-        $avatar = $gravatar->avatar($userMail, ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true);
-
         return $this->render('admin/index.html.twig', [
             'users' => $usersRepository->orderByUsername(),
-            'user' => $user,
-            'avatar' => $avatar
+            'avatar' => $gravatar->getAvatar($security),
         ]);
     }
 

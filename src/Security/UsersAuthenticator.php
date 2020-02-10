@@ -69,7 +69,7 @@ class UsersAuthenticator extends AbstractFormLoginAuthenticator implements Passw
 
         if (!$user) {
             // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('El nom d\'utilisateur n\'existe pas.');
+            throw new CustomUserMessageAuthenticationException('Le nom d\'utilisateur n\'existe pas.');
         }
 
         return $user;
