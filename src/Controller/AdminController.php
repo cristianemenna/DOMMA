@@ -7,6 +7,7 @@ use App\Form\UsersEditType;
 use App\Form\UsersPasswordType;
 use App\Form\UsersType;
 use App\Repository\UsersRepository;
+use App\Service\GravatarHelper;
 use App\Service\PasswordHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Gravatar\Gravatar;
@@ -27,30 +28,19 @@ class AdminController extends AbstractController
     /**
      * @Route("/", name="admin")
      */
-    public function index(UsersRepository $usersRepository, Security $security)
+    public function index(UsersRepository $usersRepository, Security $security, GravatarHelper $gravatar)
     {
-        $gravatar = new Gravatar();
-        $user = $security->getUser();
-        $userMail = $user->getEmail();
-        $avatar = $gravatar->avatar($userMail, ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true);
-
         return $this->render('admin/index.html.twig', [
             'users' => $usersRepository->orderByUsername(),
-            'user' => $user,
-            'avatar' => $avatar
+            'avatar' => $gravatar->getAvatar($security),
         ]);
     }
 
     /**
      * @Route("/new", name="admin_new", methods={"GET","POST"})
      */
-    public function new(Request $request, UserPasswordEncoderInterface $encoder, Security $security): Response
+    public function new(Request $request, UserPasswordEncoderInterface $encoder, Security $security, GravatarHelper $gravatar): Response
     {
-        $gravatar = new Gravatar();
-        $user = $security->getUser();
-        $userMail = $user->getEmail();
-        $avatar = $gravatar->avatar($userMail, ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true);
-
         $user = new Users();
         $form = $this->createForm(UsersType::class, $user);
         $form->handleRequest($request);
@@ -79,18 +69,15 @@ class AdminController extends AbstractController
         return $this->render('admin/new.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
-            'avatar' => $avatar
+            'avatar' => $gravatar->getAvatar($security),
         ]);
     }
 
     /**
      * @Route("/{id}/edit", name="admin_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder): Response
+    public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Security $security, GravatarHelper $gravatar): Response
     {
-        $gravatar = new Gravatar();
-        $avatar = $gravatar->avatar($user->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true);
-
         $form = $this->createForm(UsersEditType::class, $user);
         $form->handleRequest($request);
 
@@ -105,7 +92,7 @@ class AdminController extends AbstractController
         return $this->render('users/edit.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
-            'avatar' => $avatar
+            'avatar' => $gravatar->getAvatar($security),
         ]);
     }
 
@@ -127,16 +114,12 @@ class AdminController extends AbstractController
      * @Route("/{id}/changement-mot-de-passe", name="admin_password", methods={"GET","POST"})
      * Permet le changement de mot de passe par un administrateur
      */
-    public function changePassword(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Security $security)
+    public function changePassword(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Security $security, GravatarHelper $gravatar)
     {
         if ($user != $security->getUser())
         {
             throw $this->createNotFoundException();
         }
-
-        $gravatar = new Gravatar();
-        $avatar = $gravatar->avatar($user->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true);
-
         $form = $this->createForm(UsersPasswordType::class, $user);
         $form->handleRequest($request);
 
@@ -157,7 +140,7 @@ class AdminController extends AbstractController
         return $this->render('users/change_password.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
-            'avatar' => $avatar
+            'avatar' => $gravatar->getAvatar($security),
         ]);
     }
 
