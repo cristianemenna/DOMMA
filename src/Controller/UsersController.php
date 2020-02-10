@@ -7,6 +7,7 @@ use App\Form\UsersEditType;
 use App\Form\UsersPasswordType;
 use App\Form\UsersType;
 use App\Repository\UsersRepository;
+use App\Service\GravatarHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,16 +24,11 @@ class UsersController extends AbstractController
     /**
      * @Route("/", name="users_index", methods={"GET"})
      */
-    public function index(UsersRepository $usersRepository, Security $security): Response
+    public function index(UsersRepository $usersRepository, Security $security, GravatarHelper $gravatar): Response
     {
-        $gravatar = new Gravatar();
-        $user = $security->getUser();
-        $userMail = $user->getEmail();
-        $avatar = $gravatar->avatar($userMail, ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true);
-
         return $this->render('users/index.html.twig', [
-            'user' => $user,
-            'avatar' => $avatar
+            'user' => $security->getUser(),
+            'avatar' => $gravatar->getAvatar($security),
         ]);
     }
 
@@ -49,15 +45,12 @@ class UsersController extends AbstractController
     /**
      * @Route("/{id}/gestion-de-compte", name="users_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Security $security): Response
+    public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Security $security, GravatarHelper $gravatar): Response
     {
         if ($user != $security->getUser())
         {
             throw $this->createNotFoundException();
         }
-
-        $gravatar = new Gravatar();
-        $avatar = $gravatar->avatar($user->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true);
 
         $form = $this->createForm(UsersEditType::class, $user);
         $form->handleRequest($request);
@@ -73,7 +66,7 @@ class UsersController extends AbstractController
         return $this->render('users/edit.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
-            'avatar' => $avatar
+            'avatar' => $gravatar->getAvatar($security),
         ]);
     }
 
@@ -95,15 +88,12 @@ class UsersController extends AbstractController
      * @Route("/{id}/changement-mot-de-passe", name="users_password", methods={"GET","POST"})
      * Permet le changement de mot de passe par un utilisateur
      */
-    public function changePassword(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Security $security)
+    public function changePassword(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Security $security, GravatarHelper $gravatar)
     {
         if ($user != $security->getUser())
         {
             throw $this->createNotFoundException();
         }
-
-        $gravatar = new Gravatar();
-        $avatar = $gravatar->avatar($user->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true);
 
         $form = $this->createForm(UsersPasswordType::class, $user);
         $form->handleRequest($request);
@@ -125,7 +115,7 @@ class UsersController extends AbstractController
         return $this->render('users/change_password.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
-            'avatar' => $avatar
+            'avatar' => $gravatar->getAvatar($security),
         ]);
     }
 }
