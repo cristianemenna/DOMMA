@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -52,6 +54,16 @@ class Users implements UserInterface
      * @ORM\Column(type="integer", nullable=true)
      */
     private $attempts;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Context", mappedBy="users")
+     */
+    private $contexts;
+
+    public function __construct()
+    {
+        $this->contexts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -184,6 +196,34 @@ class Users implements UserInterface
     public function resetAttempts(): self
     {
         $this->attempts = 0;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Context[]
+     */
+    public function getContexts(): Collection
+    {
+        return $this->contexts;
+    }
+
+    public function addContext(Context $context): self
+    {
+        if (!$this->contexts->contains($context)) {
+            $this->contexts[] = $context;
+            $context->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContext(Context $context): self
+    {
+        if ($this->contexts->contains($context)) {
+            $this->contexts->removeElement($context);
+            $context->removeUser($this);
+        }
 
         return $this;
     }
