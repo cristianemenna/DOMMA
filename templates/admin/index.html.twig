@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/admin/index.css') }}">{% endblock %}
+{% block javascripts %}<script src="{{ asset('javascript/admin_index.js') }}"></script>{% endblock %}
+
+{% block title %}DOMMA - Administration{% endblock %}
+
+{% block body %}
+    <main>
+        <div class="admin-container">
+            <div class="separator">
+                <h1>Informations des utilisateurs</h1>
+            </div>
+            <a href="{{ path('admin_new') }}" id="button-new-user"><i class="fa fa-user-plus icon-new-user"></i>Créer un compte</a>
+        </div>
+
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Identifiant</th>
+                <th>Email</th>
+                <th>Rôle</th>
+                <th>Actif / Bloqué </th>
+                <th></th>
+            </tr>
+    {% if users %}
+       {% for user in users %}
+             <tr>
+                <td>{{ user.lastName }}</td>
+                <td>{{ user.firstName }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                {% if user.roles == ['ROLE_ADMIN'] %}
+                    <td>Admin</td>
+                {% else %}
+                    <td>Utilisateur</td>
+                {% endif %}
+
+                {% if user.attempts >= 3 %}
+                    <td>
+                        <div class="block-user-switch">
+                            <form id="form-{{ user.id }}" method="post" action="{{ path('admin_locked', {'id': user.id}) }}" onsubmit="return confirm('Êtes vous sûr de vouloir débloquer le compte ?');">
+                                <input type="submit" name="block-user-switch" class="block-user-switch-checkbox" id="utilisateur-bloque-{{ user.id }}">
+                                <label class="block-user-switch-label" for="utilisateur-bloque-{{ user.id }}"></label>
+                            </form>
+                        </div>
+                    </td>
+                {% else %}
+                    <td>
+                        <div class="block-user-switch">
+                            <form id="form-{{ user.id }}" method="post" action="{{ path('admin_locked', {'id': user.id}) }}" onsubmit="return confirm('Êtes vous sûr de vouloir bloquer le compte ?');">
+                                <input type="submit" name="block-user-switch" class="block-user-switch-checkbox active" id="utilisateur-actif-{{ user.id }}">
+                                <label class="block-user-switch-label" for="utilisateur-actif-{{ user.id }}"></label>
+                            </form>
+                        </div>
+                    </td>
+                {% endif %}
+                 <td class="admin-actions">{{ include('users/_delete_form.html.twig') }}</td>
+             </tr>
+       {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+            </tbody>
+        </table>
+            <p id="empty-users">Vous n'avez pas encore créé d'utilisateur.</p>
+    {% endif %}
+    </main>
+{% endblock %}

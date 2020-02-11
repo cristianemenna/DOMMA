@@ -1,0 +1,143 @@
+body {
+    background-color: #EAEAEA;
+    font-family: Verdana, Geneva, sans-serif;
+    color: #646464;
+}
+
+img {
+    display: block;
+    width: auto;
+    height: 60px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 90px;
+}
+
+h1 {
+    margin-left: 10px;
+    font-weight: normal;
+    text-align: center;
+    font-size: 1.1em;
+    margin-bottom: 50px;
+}
+
+form {
+    width: 400px;
+    height: 400px;
+    background-color: #F7F6F6;
+    margin: 0 auto;
+    box-shadow: 0 14px 18px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.login-button {
+    color: #646464;
+    background-color: #BFBFBF;
+    width: 250px;
+    height: 45px;
+    margin-left: 50px;
+    margin-top: 30px;
+    font-size: 1em;
+    border: none;
+    outline: none;
+}
+
+.login-button:hover {
+    background-color: #d9d9d9;
+    cursor: pointer;
+}
+
+.field {
+    width: 50%;
+    padding-left: 50px;
+}
+
+.form-fields {
+    padding-top: 30px;
+    padding-left: 20px;
+}
+
+div {
+    margin-top: 30px;
+    border-radius: 10px;
+}
+
+input {
+    height: 40px;
+    width: 250px;
+    outline: none;
+    border: none;
+    padding-left: 10px;
+}
+
+input:focus {
+    border: 1px solid #d9d9d9;
+}
+
+.label-form {
+    margin-bottom: 5px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+}
+
+.alert-container {
+    margin: 0;
+}
+
+.login-error {
+    color: EF5012;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+#alert-icon {
+    padding-right: 15px;
+}
+
+.login-notice {
+    width: 300px;
+    margin: 0 auto;
+    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.login-notice > #login-deconnexion {
+    text-decoration: none;
+    box-shadow: 3px 5px 5px 0 rgba(0, 0, 0, 0.2), 0 3px 20px 0 rgba(0, 0, 0, 0.15);
+    margin: 50px 0 0 70px;
+    padding: 15px 25px 15px 25px;
+    background-color: #8c8c8c;
+    color: #e6e6e6;
+    font-weight: bolder;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100px;
+}
+
+.login-notice > #login-deconnexion:hover {
+    background-color: #a6a6a6;
+}
+
+#login-username {
+    font-weight: bolder;
+    font-size: 20px;
+    margin: 0;
+}
+
+.form-fields-with-user {
+    padding-top: 20px;
+}
+
+.back-to-index {
+    text-decoration: none;
+    color: #000000;
+    font-style: italic;
+    padding-top: 30px;
+}
