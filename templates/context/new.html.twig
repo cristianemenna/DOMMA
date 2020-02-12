@@ -1,11 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Context{% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/context/edit.css') }}">{% endblock %}
+
+{% block title %}DOMMA - Création de contexte de travail{% endblock %}
 
 {% block body %}
-    <h1>Create new Context</h1>
+    <main>
+        <div class="separator">
+            <h1>Création de contexte de travail</h1>
+        </div>
 
-    {{ include('context/_form.html.twig') }}
+        <div class="edit-container">
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+            <div class="form-buttons">
+                <button class="edit-context">{{ button_label|default('Créer le contexte') }}</button>
+                <a href="{{ path('users_index') }}" id="form-cancel">Annuler</a>
+            </div>
+            {{ form_end(form) }}
+        </div>
 
-    <a href="{{ path('context_index') }}">back to list</a>
+    </main>
 {% endblock %}
