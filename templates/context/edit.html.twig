@@ -1,13 +1,21 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/context/edit.css') }}">
+{% endblock %}
 
-{% block title %}Edit Context{% endblock %}
+
+{% block title %}DOMMA - Edition de contexte{% endblock %}
 
 {% block body %}
-    <h1>Edit Context</h1>
+    <main>
+        <div class="separator">
+            <h1>Mes contextes de travail</h1>
+        </div>
 
     {{ include('context/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('context_index') }}">back to list</a>
 
     {{ include('context/_delete_form.html.twig') }}
+    </main>
 {% endblock %}

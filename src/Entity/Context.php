@@ -46,6 +46,7 @@ class Context
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->duration = 30;
     }
 
     public function getId(): ?int

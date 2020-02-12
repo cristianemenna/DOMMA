@@ -20,7 +20,7 @@
                    <p class="context-description">{{ context.description }}</p>
                </a>
                <p class="context-days">Jours restants :</p>
-               <i class="fas fa-cog fa-2x icon-context"></i>
+               <a href="{{ path('context_edit', {'id': context.id }) }}"><i class="fas fa-cog fa-2x icon-context"></i></a>
            </div>
 
             {% endfor %}

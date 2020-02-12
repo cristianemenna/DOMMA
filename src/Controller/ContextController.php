@@ -39,7 +39,6 @@ class ContextController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $context->setCreatedAt(new \DateTime());
-            $context->setDuration(30);
             $connectedUser = $security->getUser();
             $context->addUser($connectedUser);
             $entityManager = $this->getDoctrine()->getManager();
