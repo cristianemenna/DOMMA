@@ -9,7 +9,7 @@
 {% block body %}
     <main>
         <div class="separator">
-            <h1>Mes contextes de travail</h1>
+            <h1>{{ context.title }}</h1>
         </div>
 
     {{ include('context/_form.html.twig', {'button_label': 'Update'}) }}

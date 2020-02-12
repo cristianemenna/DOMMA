@@ -28,3 +28,9 @@ h1 {
     width: 1700px;
     border-bottom: 2px solid #e6e6e6;
 }
+
+.icon-pen {
+    padding-left: 15px;
+    font-size: 22px;
+    color: #676767;
+}
