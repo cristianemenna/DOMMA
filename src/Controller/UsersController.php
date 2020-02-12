@@ -26,9 +26,11 @@ class UsersController extends AbstractController
      */
     public function index(UsersRepository $usersRepository, Security $security, GravatarHelper $gravatar): Response
     {
+        $user = $security->getUser();
         return $this->render('users/index.html.twig', [
-            'user' => $security->getUser(),
+            'user' => $user,
             'avatar' => $gravatar->getAvatar($security),
+            'contextes'=>$user->getContexts(),
         ]);
     }
 

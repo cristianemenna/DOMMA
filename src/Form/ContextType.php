@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Context;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,8 +15,7 @@ class ContextType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            ->add('created_at')
-            ->add('users')
+            ->add('duration')
         ;
     }
 
