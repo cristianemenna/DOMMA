@@ -38,6 +38,11 @@ class Context
      */
     private $created_at;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $duration;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -106,6 +111,18 @@ class Context
     public function setCreatedAt(\DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getDuration(): ?int
+    {
+        return $this->duration;
+    }
+
+    public function setDuration(int $duration): self
+    {
+        $this->duration = $duration;
 
         return $this;
     }
