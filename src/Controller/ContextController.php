@@ -60,6 +60,12 @@ class ContextController extends AbstractController
      */
     public function show(Context $context, Security $security, GravatarHelper $gravatar): Response
     {
+        $user = $security->getUser();
+        if (!$context->getUsers()->contains($user))
+        {
+            throw $this->createNotFoundException();
+        }
+
         return $this->render('context/show.html.twig', [
             'context' => $context,
             'avatar' => $gravatar->getAvatar($security),
@@ -71,6 +77,12 @@ class ContextController extends AbstractController
      */
     public function edit(Request $request, Context $context, Security $security, GravatarHelper $gravatar): Response
     {
+        $user = $security->getUser();
+        if (!$context->getUsers()->contains($user))
+        {
+            throw $this->createNotFoundException();
+        }
+        
         $form = $this->createForm(ContextType::class, $context);
         $form->handleRequest($request);
 
