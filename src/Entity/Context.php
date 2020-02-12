@@ -127,4 +127,15 @@ class Context
 
         return $this;
     }
+
+    public function daysLeft(): int
+    {
+        $creationDate = $this->created_at;
+        $duration = $this->duration;
+        $finalDate = $creationDate->modify('+' . $duration . ' days');
+        $currentDate = new \DateTime();
+        $difference = $currentDate->diff($finalDate);
+
+        return $difference->days;
+    }
 }

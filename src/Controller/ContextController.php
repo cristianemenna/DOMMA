@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Context;
 use App\Form\ContextType;
 use App\Repository\ContextRepository;
+use App\Service\ContexteHelper;
 use App\Service\GravatarHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -65,7 +66,6 @@ class ContextController extends AbstractController
         {
             throw $this->createNotFoundException();
         }
-
         return $this->render('context/show.html.twig', [
             'context' => $context,
             'avatar' => $gravatar->getAvatar($security),
@@ -82,7 +82,7 @@ class ContextController extends AbstractController
         {
             throw $this->createNotFoundException();
         }
-        
+
         $form = $this->createForm(ContextType::class, $context);
         $form->handleRequest($request);
 

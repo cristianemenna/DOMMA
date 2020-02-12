@@ -19,9 +19,15 @@
                    <p class="context-title">{{ context.title }}</p>
                    <p class="context-description">{{ context.description }}</p>
                </a>
-               <p class="context-days">Jours restants : {{ context.daysLeft }}</p>
-               <a href="{{ path('context_edit', {'id': context.id }) }}"><i class="fas fa-cog icon-context"></i></a>
+               {% if context.daysLeft > 5 %}
+                   <p class="context-days">Jours restants : {{ context.daysLeft }}</p>
+                   <a href="{{ path('context_edit', {'id': context.id }) }}"><i class="fas fa-cog icon-context"></i></a>
            </div>
+               {% else %}
+                   <p class="context-days">Jours restants : <span id="days-end">{{ context.daysLeft }}</span></p>
+                   <a href="{{ path('context_edit', {'id': context.id }) }}"><i class="fas fa-cog icon-context"></i></a>
+           </div>
+        {% endif %}
 
             {% endfor %}
 

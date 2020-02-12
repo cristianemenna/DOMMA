@@ -78,3 +78,6 @@ h1 {
     bottom: 30px;
 }
 
+#days-end {
+    font-weight: bolder;
+}
