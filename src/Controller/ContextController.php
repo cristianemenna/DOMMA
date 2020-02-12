@@ -5,10 +5,12 @@ namespace App\Controller;
 use App\Entity\Context;
 use App\Form\ContextType;
 use App\Repository\ContextRepository;
+use App\Service\GravatarHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/context")
@@ -18,23 +20,28 @@ class ContextController extends AbstractController
     /**
      * @Route("/", name="context_index", methods={"GET"})
      */
-    public function index(ContextRepository $contextRepository): Response
+    public function index(ContextRepository $contextRepository, Security $security, GravatarHelper $gravatar): Response
     {
         return $this->render('context/index.html.twig', [
             'contexts' => $contextRepository->findAll(),
+            'avatar' => $gravatar->getAvatar($security),
         ]);
     }
 
     /**
      * @Route("/new", name="context_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, Security $security, GravatarHelper $gravatar): Response
     {
         $context = new Context();
         $form = $this->createForm(ContextType::class, $context);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $context->setCreatedAt(new \DateTime());
+            $context->setDuration(30);
+            $connectedUser = $security->getUser();
+            $context->addUser($connectedUser);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($context);
             $entityManager->flush();
@@ -45,23 +52,25 @@ class ContextController extends AbstractController
         return $this->render('context/new.html.twig', [
             'context' => $context,
             'form' => $form->createView(),
+            'avatar' => $gravatar->getAvatar($security),
         ]);
     }
 
     /**
      * @Route("/{id}", name="context_show", methods={"GET"})
      */
-    public function show(Context $context): Response
+    public function show(Context $context, Security $security, GravatarHelper $gravatar): Response
     {
         return $this->render('context/show.html.twig', [
             'context' => $context,
+            'avatar' => $gravatar->getAvatar($security),
         ]);
     }
 
     /**
      * @Route("/{id}/edit", name="context_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Context $context): Response
+    public function edit(Request $request, Context $context, Security $security, GravatarHelper $gravatar): Response
     {
         $form = $this->createForm(ContextType::class, $context);
         $form->handleRequest($request);
@@ -73,6 +82,7 @@ class ContextController extends AbstractController
         }
 
         return $this->render('context/edit.html.twig', [
+            'avatar' => $gravatar->getAvatar($security),
             'context' => $context,
             'form' => $form->createView(),
         ]);

@@ -12,63 +12,22 @@
             <h1>Mes contextes de travail</h1>
         </div>
         <div class="contexts-container">
+             {% for context in contextes %}
 
            <div class="context-space">
-               <a href="#" class="contexts-link">
-                   <p class="context-title">Contexte 1</p>
-                   <p class="context-description">Un exemple de description du premier contexte de travail.</p>
+               <a href="{{ path('context_show', {'id': context.id }) }}" class="contexts-link">
+                   <p class="context-title">{{ context.title }}</p>
+                   <p class="context-description">{{ context.description }}</p>
                </a>
                <p class="context-days">Jours restants :</p>
                <i class="fas fa-cog fa-2x icon-context"></i>
            </div>
 
-            <div class="context-space">
-                <a href="#" class="contexts-link">
-                    <p class="context-title">Contexte 2</p>
-                    <p class="context-description">Un exemple de description du second contexte de travail.</p>
-                </a>
-                <p class="context-days">Jours restants :</p>
-                <i class="fas fa-cog fa-2x icon-context"></i>
-            </div>
+            {% endfor %}
+
 
             <div class="context-space">
-                <a href="#" class="contexts-link">
-                    <p class="context-title">Contexte 3</p>
-                    <p class="context-description">Un exemple de description du troisième contexte de travail.</p>
-                </a>
-                <p class="context-days">Jours restants :</p>
-                <i class="fas fa-cog fa-2x icon-context"></i>
-            </div>
-
-            <div class="context-space">
-                <a href="#" class="contexts-link">
-                    <p class="context-title">Contexte 4</p>
-                    <p class="context-description">Un exemple de description du quatrième contexte de travail.</p>
-                </a>
-                <p class="context-days">Jours restants :</p>
-                <i class="fas fa-cog fa-2x icon-context"></i>
-            </div>
-
-            <div class="context-space">
-                <a href="#" class="contexts-link">
-                    <p class="context-title">Contexte 5</p>
-                    <p class="context-description">Un exemple de description du cinquième contexte de travail.</p>
-                </a>
-                <p class="context-days">Jours restants :</p>
-                <i class="fas fa-cog fa-2x icon-context"></i>
-            </div>
-
-            <div class="context-space">
-                <a href="#" class="contexts-link">
-                    <p class="context-title">Contexte 7</p>
-                    <p class="context-description">Un exemple de description du septième contexte de travail.</p>
-                </a>
-                <p class="context-days">Jours restants :</p>
-                <i class="fas fa-cog fa-2x icon-context"></i>
-            </div>
-
-            <div class="context-space">
-                <a href="#" id="link-create"><span class="context-plus">+</span></a>
+                <a href="{{ path('context_new') }}" id="link-create"><span class="context-plus">+</span></a>
             </div>
         </div>
         <div class="separator-bottom"></div>
