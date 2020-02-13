@@ -58,7 +58,7 @@ h1 {
 }
 
 .icon-context {
-    height: 25px;
+    font-size: 25px;
     position: relative;
     right: -220px;
     bottom: 38px;
@@ -78,3 +78,6 @@ h1 {
     bottom: 30px;
 }
 
+#days-end {
+    font-weight: bolder;
+}

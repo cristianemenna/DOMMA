@@ -1,5 +1,5 @@
-<form method="post" action="{{ path('context_delete', {'id': context.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+<form method="post" action="{{ path('context_delete', {'id': context.id}) }}" id="context-delete-form" onsubmit="return confirm('Êtes vous sur de vouloir supprimer le contexte de travail ?');">
     <input type="hidden" name="_method" value="DELETE">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ context.id) }}">
-    <button class="btn">Delete</button>
+    <button class="context-delete"><i class="fas fa-trash-alt"></i></button>
 </form>

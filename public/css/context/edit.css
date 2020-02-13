@@ -28,3 +28,99 @@ h1 {
     width: 1700px;
     border-bottom: 2px solid #e6e6e6;
 }
+
+form {
+    width: 500px;
+    padding-top: 50px;
+    margin-left: 150px;
+}
+
+.field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 35px 0;
+    color: #676767;
+}
+
+#context {
+    width: 550px;
+}
+
+#context_title, #context_description, #context_duration {
+    height: 30px;
+    width: 330px;
+    padding-left: 15px;
+    outline: none;
+}
+
+.edit-context {
+    color: #ebebeb;
+    background-color: #7f7f7f;
+    width: 200px;
+    height: 45px;
+    font-size: 1em;
+    border: none;
+    outline: none;
+    box-shadow: 3px 5px 5px 0 rgba(0, 0, 0, 0.2), 0 3px 20px 0 rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+}
+
+#form-cancel {
+    color: #646464;
+    background-color: #EBEBEB;
+    text-decoration: none;
+    padding: 15px 50px;
+    margin-left: 10px;
+    font-size: 1em;
+    border: none;
+    outline: none;
+    box-shadow: 3px 5px 5px 0 rgba(0, 0, 0, 0.2), 0 3px 20px 0 rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+
+}
+
+#form-cancel:hover {
+    background-color: #F8F8F8;
+    cursor: pointer;
+}
+
+.edit-context:hover {
+    background-color: #A5A5A5;
+    cursor: pointer;
+}
+
+::placeholder {
+    font-size: 15px;
+}
+
+.form-buttons {
+    width: 600px;
+    margin-left: 400px;
+    padding-top: 80px;
+}
+
+.context-delete {
+    text-decoration: none;
+    border: none;
+    background: transparent;
+    position: absolute;
+    top: -5px;
+    right: 0;
+}
+
+.context-delete:hover {
+    cursor: pointer;
+}
+
+.fa-trash-alt {
+    font-size: 20px;
+    color: #a6a6a6;
+    padding: 10px;
+}
+
+#context-delete-form {
+    margin: 0;
+    padding: 0;
+    width: 10px;
+}
