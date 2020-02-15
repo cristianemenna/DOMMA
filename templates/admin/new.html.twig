@@ -1,6 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/admin/new_user.css') }}">{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/admin/new_user.css') }}">
+    <link rel="stylesheet" href="{{ asset('select/css/select2.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ asset('javascript/new_user.js') }}"></script>
+    <script src="{{ asset('select/js/select2.js') }}"></script>
+    <script src="{{ asset('select/js/i18n/fr.js') }}"></script>
+{% endblock %}
+
 {% block title %}DOMMA - Créer un nouvel utilisateur{% endblock %}
 
 {% block body %}
