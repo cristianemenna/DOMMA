@@ -83,7 +83,7 @@ h1 {
 }
 
 select {
-    margin-left: 13px;
+    margin-left: 50px;
     margin-top: 13px;
     width: 350px;
     height: 70px;
@@ -103,4 +103,12 @@ select option {
 .form-buttons {
     width: 600px;
     margin: 80px 0 0 300px;
+}
+
+span.select2 {
+    margin: 13px 0 0 13px;
+}
+
+input.select2-search__field::placeholder {
+    padding-left: 10px;
 }
