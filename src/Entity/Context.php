@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Le context correspond à l'espace de travail sur lequel les utilisateurs
+ * peuvent importer un ou plusieurs fichiers.
  * @ORM\Entity(repositoryClass="App\Repository\ContextRepository")
  */
 class Context
@@ -128,6 +130,10 @@ class Context
         return $this;
     }
 
+    /**
+     * Calcule la date final du contexte de travail, à partir de la date de création +
+     * la durée définie par l'utilisateur. Retourne le nombre de jours restants avant la fin.
+     */
     public function daysLeft(): int
     {
         $creationDate = $this->created_at;
