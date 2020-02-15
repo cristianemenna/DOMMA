@@ -46,7 +46,7 @@ class ContextController extends AbstractController
             $entityManager->persist($context);
             $entityManager->flush();
 
-            return $this->redirectToRoute('context_index');
+            return $this->redirectToRoute('users_index');
         }
 
         return $this->render('context/new.html.twig', [

@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\Security;
 use Gravatar\Gravatar;
 
 /**
- * @Route("/profil")
+ * @Route("/accueil")
  */
 class UsersController extends AbstractController
 {
