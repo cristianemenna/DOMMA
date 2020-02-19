@@ -31,7 +31,22 @@ class UsersFixtures extends Fixture
         $admin->setRoles(['ROLE_ADMIN']);
         $admin->setAttempts(0);
 
+        $user = new Users();
+        $user->setPassword(
+            $encoder->encodePassword(
+                $user,
+                'test'
+            )
+        );
+        $user->setEmail('usertest@yopmail.com');
+        $user->setUsername('user');
+        $user->setFirstName('User');
+        $user->setLastName('User');
+        $user->setRoles(['ROLE_USER']);
+        $user->setAttempts(0);
+
         $manager->persist($admin);
+        $manager->persist($user);
         $manager->flush();
     }
 }
