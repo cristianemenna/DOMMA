@@ -10,5 +10,10 @@
             <h1>{{ context.title }}<a href="{{ path('context_edit', {'id': context.id}) }}"><i class="fa fa-pen icon-pen"></i></a></h1>
         </div>
 
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button class="btn">{{ button_label|default('Envoyer le fichier') }}</button>
+        {{ form_end(form) }}
+
     </main>
 {% endblock %}

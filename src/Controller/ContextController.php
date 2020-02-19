@@ -3,10 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Context;
+use App\Entity\Import;
 use App\Form\ContextType;
+use App\Form\ImportType;
 use App\Repository\ContextRepository;
 use App\Service\ContexteHelper;
 use App\Service\GravatarHelper;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -58,18 +62,52 @@ class ContextController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="context_show", methods={"GET"})
+     * @Route("/{id}", name="context_show", methods={"GET", "POST"})
      */
-    public function show(Context $context, Security $security, GravatarHelper $gravatar): Response
+    public function show(Context $context, Security $security, GravatarHelper $gravatar, Request $request, EntityManagerInterface $entityManager): Response
     {
+        // Récupere l'utilisateur actif
         $user = $security->getUser();
+
+        // Si l'utilisateur actif n'as pas droit d'accès au contexte, on affiche un 'Not found'
         if (!$context->getUsers()->contains($user))
         {
             throw $this->createNotFoundException();
         }
+
+        $form = $this->createForm(ImportType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $importedFile = $form->get('file')->getData();
+
+            if ($importedFile) {
+                foreach ($importedFile as $file) {
+                    /** @var UploadedFile $file */
+                    $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                    $filename = md5(uniqid()) . '.' . $file->guessExtension();
+                    $newFilename = $originalFilename . '-' . uniqid() . '.' . $file->guessExtension();
+
+                    $file->move(
+                        $this->getParameter('kernel.project_dir') . '/var/uploads',
+                        $newFilename
+                    );
+
+                    $import = new Import();
+                    $import->setFile($newFilename);
+                    $import->setContext($context);
+                    $entityManager->persist($import);
+                    $entityManager->flush();
+                }
+
+                return $this->redirectToRoute('users_index');
+            }
+        }
+
         return $this->render('context/show.html.twig', [
             'context' => $context,
             'avatar' => $gravatar->getAvatar($security),
+            'form' => $form->createView(),
         ]);
     }
 
