@@ -32,7 +32,7 @@ class ContextController extends AbstractController
     /**
      * @Route("/new", name="context_new", methods={"GET","POST"})
      */
-    public function new(Request $request, Security $security, GravatarHelper $gravatar): Response
+    public function new(Request $request, Security $security, GravatarHelper $gravatar, ContextRepository $contextRepository): Response
     {
         $context = new Context();
         $form = $this->createForm(ContextType::class, $context);
@@ -45,6 +45,7 @@ class ContextController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($context);
             $entityManager->flush();
+            $contextRepository->createSchema($context->getTitle());
 
             return $this->redirectToRoute('users_index');
         }
