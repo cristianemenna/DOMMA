@@ -45,10 +45,16 @@ class Context
      */
     private $duration;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Import", mappedBy="context", orphanRemoval=true)
+     */
+    private $imports;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->duration = 30;
+        $this->imports = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -143,5 +149,36 @@ class Context
         $difference = $currentDate->diff($finalDate);
 
         return $difference->days;
+    }
+
+    /**
+     * @return Collection|Import[]
+     */
+    public function getImports(): Collection
+    {
+        return $this->imports;
+    }
+
+    public function addImport(Import $import): self
+    {
+        if (!$this->imports->contains($import)) {
+            $this->imports[] = $import;
+            $import->setContext($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImport(Import $import): self
+    {
+        if ($this->imports->contains($import)) {
+            $this->imports->removeElement($import);
+            // set the owning side to null (unless already changed)
+            if ($import->getContext() === $this) {
+                $import->setContext(null);
+            }
+        }
+
+        return $this;
     }
 }
