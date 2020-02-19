@@ -5,7 +5,7 @@ namespace App\Service;
 use App\Repository\UsersRepository;
 use Gravatar\Gravatar;
 
-class GravatarHelper
+class GravatarManager
 {
     public function getAvatar($security)
     {

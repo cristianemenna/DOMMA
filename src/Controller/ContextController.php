@@ -8,7 +8,7 @@ use App\Form\ContextType;
 use App\Form\ImportType;
 use App\Repository\ContextRepository;
 use App\Service\ContexteHelper;
-use App\Service\GravatarHelper;
+use App\Service\GravatarManager;
 use App\Service\UploadManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,7 +26,7 @@ class ContextController extends AbstractController
     /**
      * @Route("/", name="context_index", methods={"GET"})
      */
-    public function index(ContextRepository $contextRepository, Security $security, GravatarHelper $gravatar): Response
+    public function index(ContextRepository $contextRepository, Security $security, GravatarManager $gravatar): Response
     {
         return $this->render('context/index.html.twig', [
             'contexts' => $contextRepository->findAll(),
@@ -37,7 +37,7 @@ class ContextController extends AbstractController
     /**
      * @Route("/new", name="context_new", methods={"GET","POST"})
      */
-    public function new(Request $request, Security $security, GravatarHelper $gravatar, ContextRepository $contextRepository): Response
+    public function new(Request $request, Security $security, GravatarManager $gravatar, ContextRepository $contextRepository): Response
     {
         $context = new Context();
         $form = $this->createForm(ContextType::class, $context);
@@ -65,7 +65,7 @@ class ContextController extends AbstractController
     /**
      * @Route("/{id}", name="context_show", methods={"GET", "POST"})
      */
-    public function show(Context $context, Security $security, GravatarHelper $gravatar, Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager): Response
+    public function show(Context $context, Security $security, GravatarManager $gravatar, Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager): Response
     {
         // Récupere l'utilisateur actif
         $user = $security->getUser();
@@ -95,7 +95,7 @@ class ContextController extends AbstractController
     /**
      * @Route("/{id}/edit", name="context_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Context $context, Security $security, GravatarHelper $gravatar): Response
+    public function edit(Request $request, Context $context, Security $security, GravatarManager $gravatar): Response
     {
         $user = $security->getUser();
         if (!$context->getUsers()->contains($user))
