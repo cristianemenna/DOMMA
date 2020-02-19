@@ -87,6 +87,7 @@ class ContextController extends AbstractController
 
         return $this->render('context/show.html.twig', [
             'context' => $context,
+            'imports' => $context->getImports(),
             'avatar' => $gravatar->getAvatar($security),
             'form' => $form->createView(),
         ]);
