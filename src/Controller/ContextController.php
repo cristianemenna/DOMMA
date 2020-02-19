@@ -9,6 +9,7 @@ use App\Form\ImportType;
 use App\Repository\ContextRepository;
 use App\Service\ContexteHelper;
 use App\Service\GravatarHelper;
+use App\Service\UploadManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -64,7 +65,7 @@ class ContextController extends AbstractController
     /**
      * @Route("/{id}", name="context_show", methods={"GET", "POST"})
      */
-    public function show(Context $context, Security $security, GravatarHelper $gravatar, Request $request, EntityManagerInterface $entityManager): Response
+    public function show(Context $context, Security $security, GravatarHelper $gravatar, Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager): Response
     {
         // Récupere l'utilisateur actif
         $user = $security->getUser();
@@ -79,29 +80,9 @@ class ContextController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $importedFile = $form->get('file')->getData();
+            $uploadManager->uploadFile($form, $context);
 
-            if ($importedFile) {
-                foreach ($importedFile as $file) {
-                    /** @var UploadedFile $file */
-                    $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                    $filename = md5(uniqid()) . '.' . $file->guessExtension();
-                    $newFilename = $originalFilename . '-' . uniqid() . '.' . $file->guessExtension();
-
-                    $file->move(
-                        $this->getParameter('kernel.project_dir') . '/var/uploads',
-                        $newFilename
-                    );
-
-                    $import = new Import();
-                    $import->setFile($newFilename);
-                    $import->setContext($context);
-                    $entityManager->persist($import);
-                    $entityManager->flush();
-                }
-
-                return $this->redirectToRoute('users_index');
-            }
+            return $this->redirectToRoute('users_index');
         }
 
         return $this->render('context/show.html.twig', [
