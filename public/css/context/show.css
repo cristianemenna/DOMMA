@@ -56,3 +56,29 @@ i.icon-check {
     color: #009a00;
     margin-right: 18px;
 }
+
+.import-line {
+    display: flex;
+    justify-content: space-between;
+}
+
+.import-delete {
+    text-decoration: none;
+    border: none;
+    background: transparent;
+}
+
+.import-delete:hover {
+    cursor: pointer;
+}
+
+.fa-trash-alt {
+    font-size: 20px;
+    color: #a6a6a6;
+    padding: 10px;
+}
+
+#import-delete-form {
+    margin: 0;
+    padding: 0;
+}
