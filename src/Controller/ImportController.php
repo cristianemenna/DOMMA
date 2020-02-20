@@ -29,6 +29,43 @@ class ImportController extends AbstractController
     }
 
     /**
+     * @Route("/{id}", name="import_show", methods={"GET", "POST"})
+     */
+    public function show(Import $import, Security $security, GravatarManager $gravatar): Response
+    {
+        $fileName = $import->getFile();
+        $filePath = $this->getParameter('kernel.project_dir') . '/var/uploads/' . $fileName;
+        $inputFileType = \PhpOffice\PhpSpreadsheet\IOFactory::identify($filePath);
+        $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
+        $reader->setReadDataOnly(true);
+        $spreadSheet = $reader->load($filePath);
+
+        $sheetRows = $spreadSheet->getSheet(0)->getRowIterator();
+
+        echo '<table>';
+
+        foreach ($sheetRows as $row)
+        {
+            echo '<tr>';
+
+            foreach ($row->getCellIterator() as $cell)
+            {
+                echo '<td>';
+                print_r($cell->getValue());
+                echo '</td>';
+            }
+
+            echo '</tr>';
+        }
+
+        echo '</table>';
+
+        return $this->render('import/show.html.twig', [
+            'avatar' => $gravatar->getAvatar($security),
+        ]);
+    }
+
+    /**
      * @Route("/{id}", name="import_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Import $import, EntityManagerInterface $entityManager): Response
