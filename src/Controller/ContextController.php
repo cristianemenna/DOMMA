@@ -82,7 +82,7 @@ class ContextController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $uploadManager->uploadFile($form, $context);
 
-            return $this->redirectToRoute('users_index');
+            return $this->redirectToRoute('context_show', ['id' => $context->getId()]);
         }
 
         return $this->render('context/show.html.twig', [
