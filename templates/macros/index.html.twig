@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Macros index{% endblock %}
+
+{% block body %}
+    <h1>Macros index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for macro in macros %}
+            <tr>
+                <td>{{ macro.id }}</td>
+                <td>{{ macro.title }}</td>
+                <td>{{ macro.description }}</td>
+                <td>
+                    <a href="{{ path('macros_show', {'id': macro.id}) }}">show</a>
+                    <a href="{{ path('macros_edit', {'id': macro.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('macros_new') }}">Create new</a>
+{% endblock %}

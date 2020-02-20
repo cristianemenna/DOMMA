@@ -60,9 +60,15 @@ class Users implements UserInterface
      */
     private $contexts;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Macros", mappedBy="users")
+     */
+    private $macros;
+
     public function __construct()
     {
         $this->contexts = new ArrayCollection();
+        $this->macros = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -223,6 +229,34 @@ class Users implements UserInterface
         if ($this->contexts->contains($context)) {
             $this->contexts->removeElement($context);
             $context->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Macros[]
+     */
+    public function getMacros(): Collection
+    {
+        return $this->macros;
+    }
+
+    public function addMacro(Macros $macro): self
+    {
+        if (!$this->macros->contains($macro)) {
+            $this->macros[] = $macro;
+            $macro->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMacro(Macros $macro): self
+    {
+        if ($this->macros->contains($macro)) {
+            $this->macros->removeElement($macro);
+            $macro->removeUser($this);
         }
 
         return $this;

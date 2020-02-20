@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Macros{% endblock %}
+
+{% block body %}
+    <h1>Edit Macros</h1>
+
+    {{ include('macros/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('macros_index') }}">back to list</a>
+
+    {{ include('macros/_delete_form.html.twig') }}
+{% endblock %}

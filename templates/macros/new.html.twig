@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Macros{% endblock %}
+
+{% block body %}
+    <h1>Create new Macros</h1>
+
+    {{ include('macros/_form.html.twig') }}
+
+    <a href="{{ path('macros_index') }}">back to list</a>
+{% endblock %}
