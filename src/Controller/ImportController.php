@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Import;
+use App\Repository\ImportRepository;
 use App\Service\GravatarManager;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -31,7 +32,7 @@ class ImportController extends AbstractController
     /**
      * @Route("/{id}", name="import_show", methods={"GET", "POST"})
      */
-    public function show(Import $import, Security $security, GravatarManager $gravatar): Response
+    public function show(Import $import, Security $security, GravatarManager $gravatar, ImportRepository $importRepository): Response
     {
         $fileName = $import->getFile();
         $filePath = $this->getParameter('kernel.project_dir') . '/var/uploads/' . $fileName;
@@ -40,15 +41,14 @@ class ImportController extends AbstractController
         $reader->setReadDataOnly(true);
         $spreadSheet = $reader->load($filePath);
 
-        $sheetRows = $spreadSheet->getSheet(0)->getRowIterator();
+        $sheetColumns = $spreadSheet->getSheet(0)->getRowIterator();
 
         echo '<table>';
 
-        foreach ($sheetRows as $row)
+        foreach ($sheetColumns as $column)
         {
             echo '<tr>';
-
-            foreach ($row->getCellIterator() as $cell)
+            foreach ($column->getCellIterator() as $cell)
             {
                 echo '<td>';
                 print_r($cell->getValue());
@@ -58,10 +58,12 @@ class ImportController extends AbstractController
             echo '</tr>';
         }
 
+        //$importRepository->createTable($import->getId(), $import->getContext()->getTitle(), $sheetColumns);
         echo '</table>';
 
         return $this->render('import/show.html.twig', [
             'avatar' => $gravatar->getAvatar($security),
+            'import' => $fileName,
         ]);
     }
 
