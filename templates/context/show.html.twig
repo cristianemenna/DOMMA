@@ -10,5 +10,20 @@
             <h1>{{ context.title }}<a href="{{ path('context_edit', {'id': context.id}) }}"><i class="fa fa-pen icon-pen"></i></a></h1>
         </div>
 
+        <div class="upload-files">
+            <h2>Importer un fichier</h2>
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+            <button class="btn">{{ button_label|default('Envoyer le fichier') }}</button>
+            {{ form_end(form) }}
+        </div>
+
+        <div class="imported-files">
+            <h3>Fichiers importés</h3>
+            {% for import in imports %}
+                <p><i class="fa fa-check-circle icon-check"></i><a href="{{ path('import_show', {'id': import.id}) }}">{{ import.file }}</a></p>
+            {% endfor %}
+        </div>
+
     </main>
 {% endblock %}

@@ -7,8 +7,8 @@ use App\Form\UsersEditType;
 use App\Form\UsersPasswordType;
 use App\Form\UsersType;
 use App\Repository\UsersRepository;
-use App\Service\GravatarHelper;
-use App\Service\PasswordHelper;
+use App\Service\GravatarManager;
+use App\Service\PasswordManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Gravatar\Gravatar;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,7 +28,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/", name="admin")
      */
-    public function index(UsersRepository $usersRepository, Security $security, GravatarHelper $gravatar)
+    public function index(UsersRepository $usersRepository, Security $security, GravatarManager $gravatar)
     {
         return $this->render('admin/index.html.twig', [
             'users' => $usersRepository->orderByUsername(),
@@ -39,7 +39,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/new", name="admin_new", methods={"GET","POST"})
      */
-    public function new(Request $request, UserPasswordEncoderInterface $encoder, Security $security, GravatarHelper $gravatar): Response
+    public function new(Request $request, UserPasswordEncoderInterface $encoder, Security $security, GravatarManager $gravatar): Response
     {
         $user = new Users();
         $form = $this->createForm(UsersType::class, $user);
@@ -76,7 +76,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/{id}/edit", name="admin_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Security $security, GravatarHelper $gravatar): Response
+    public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Security $security, GravatarManager $gravatar): Response
     {
         $form = $this->createForm(UsersEditType::class, $user);
         $form->handleRequest($request);
@@ -114,7 +114,7 @@ class AdminController extends AbstractController
      * @Route("/{id}/changement-mot-de-passe", name="admin_password", methods={"GET","POST"})
      * Permet le changement de mot de passe par un administrateur
      */
-    public function changePassword(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Security $security, GravatarHelper $gravatar)
+    public function changePassword(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Security $security, GravatarManager $gravatar)
     {
         if ($user != $security->getUser())
         {
@@ -154,7 +154,7 @@ class AdminController extends AbstractController
      * S'il est actif, les attempts deviennent 3 et le compte sera bloqué.
      */
 
-    public function locked(Request $request, Users $user, PasswordHelper $passwordHelper, UserPasswordEncoderInterface $encoder, EntityManagerInterface $entityManager): Response
+    public function locked(Request $request, Users $user, PasswordManager $passwordHelper, UserPasswordEncoderInterface $encoder, EntityManagerInterface $entityManager): Response
     {
         if ($user->getAttempts() >= 3){
             $user->resetAttempts();

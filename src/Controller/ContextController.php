@@ -3,10 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Context;
+use App\Entity\Import;
 use App\Form\ContextType;
+use App\Form\ImportType;
 use App\Repository\ContextRepository;
 use App\Service\ContexteHelper;
-use App\Service\GravatarHelper;
+use App\Service\GravatarManager;
+use App\Service\UploadManager;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +26,7 @@ class ContextController extends AbstractController
     /**
      * @Route("/", name="context_index", methods={"GET"})
      */
-    public function index(ContextRepository $contextRepository, Security $security, GravatarHelper $gravatar): Response
+    public function index(ContextRepository $contextRepository, Security $security, GravatarManager $gravatar): Response
     {
         return $this->render('context/index.html.twig', [
             'contexts' => $contextRepository->findAll(),
@@ -32,7 +37,7 @@ class ContextController extends AbstractController
     /**
      * @Route("/new", name="context_new", methods={"GET","POST"})
      */
-    public function new(Request $request, Security $security, GravatarHelper $gravatar): Response
+    public function new(Request $request, Security $security, GravatarManager $gravatar, ContextRepository $contextRepository): Response
     {
         $context = new Context();
         $form = $this->createForm(ContextType::class, $context);
@@ -45,6 +50,7 @@ class ContextController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($context);
             $entityManager->flush();
+            $contextRepository->createSchema($context->getTitle());
 
             return $this->redirectToRoute('users_index');
         }
@@ -57,25 +63,40 @@ class ContextController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="context_show", methods={"GET"})
+     * @Route("/{id}", name="context_show", methods={"GET", "POST"})
      */
-    public function show(Context $context, Security $security, GravatarHelper $gravatar): Response
+    public function show(Context $context, Security $security, GravatarManager $gravatar, Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager): Response
     {
+        // Récupere l'utilisateur actif
         $user = $security->getUser();
+
+        // Si l'utilisateur actif n'as pas droit d'accès au contexte, on affiche un 'Not found'
         if (!$context->getUsers()->contains($user))
         {
             throw $this->createNotFoundException();
         }
+
+        $form = $this->createForm(ImportType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $uploadManager->uploadFile($form, $context);
+
+            return $this->redirectToRoute('users_index');
+        }
+
         return $this->render('context/show.html.twig', [
             'context' => $context,
+            'imports' => $context->getImports(),
             'avatar' => $gravatar->getAvatar($security),
+            'form' => $form->createView(),
         ]);
     }
 
     /**
      * @Route("/{id}/edit", name="context_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Context $context, Security $security, GravatarHelper $gravatar): Response
+    public function edit(Request $request, Context $context, Security $security, GravatarManager $gravatar): Response
     {
         $user = $security->getUser();
         if (!$context->getUsers()->contains($user))

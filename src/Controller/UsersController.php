@@ -7,7 +7,7 @@ use App\Form\UsersEditType;
 use App\Form\UsersPasswordType;
 use App\Form\UsersType;
 use App\Repository\UsersRepository;
-use App\Service\GravatarHelper;
+use App\Service\GravatarManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +24,7 @@ class UsersController extends AbstractController
     /**
      * @Route("/", name="users_index", methods={"GET"})
      */
-    public function index(UsersRepository $usersRepository, Security $security, GravatarHelper $gravatar): Response
+    public function index(UsersRepository $usersRepository, Security $security, GravatarManager $gravatar): Response
     {
         $user = $security->getUser();
         return $this->render('users/index.html.twig', [
@@ -47,7 +47,7 @@ class UsersController extends AbstractController
     /**
      * @Route("/{id}/gestion-de-compte", name="users_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Security $security, GravatarHelper $gravatar): Response
+    public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Security $security, GravatarManager $gravatar): Response
     {
         if ($user != $security->getUser())
         {
@@ -90,7 +90,7 @@ class UsersController extends AbstractController
      * @Route("/{id}/changement-mot-de-passe", name="users_password", methods={"GET","POST"})
      * Permet le changement de mot de passe par un utilisateur
      */
-    public function changePassword(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Security $security, GravatarHelper $gravatar)
+    public function changePassword(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Security $security, GravatarManager $gravatar)
     {
         if ($user != $security->getUser())
         {

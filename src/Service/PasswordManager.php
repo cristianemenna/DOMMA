@@ -4,7 +4,7 @@ namespace App\Service;
 
 use App\Repository\UsersRepository;
 
-class PasswordHelper
+class PasswordManager
 {
     public function randomPassword()
     {

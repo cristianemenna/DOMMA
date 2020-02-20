@@ -23,5 +23,9 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
+    App\Service\UploadManager:
+        arguments:
+            $uploadsDirectory: '%kernel.project_dir%/var/uploads'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
