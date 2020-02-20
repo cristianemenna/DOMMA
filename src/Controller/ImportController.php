@@ -58,7 +58,7 @@ class ImportController extends AbstractController
             echo '</tr>';
         }
 
-        //$importRepository->createTable($import->getId(), $import->getContext()->getTitle(), $sheetColumns);
+        $importRepository->createTable($import->getId(), $import->getContext()->getTitle(), $sheetColumns);
         echo '</table>';
 
         return $this->render('import/show.html.twig', [

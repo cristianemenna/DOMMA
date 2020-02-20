@@ -39,12 +39,13 @@ class ImportRepository extends ServiceEntityRepository
         {
             foreach ($row->getCellIterator() as $cell)
             {
-                $columnName = str_replace([' ', '(', ')', '/', '-', ','], '_', mb_strtolower($cell->getValue()));
-                $dataBase->prepare(
-                    'ALTER TABLE ' . $schemaName . '.' . $tableName . ' 
+                if (1 == $row->getRowIndex()) {
+                    $columnName = str_replace([' ', '(', ')', '/', '-', ','], '_', mb_strtolower($cell->getValue()));
+                    $dataBase->prepare(
+                        'ALTER TABLE ' . $schemaName . '.' . $tableName . ' 
                                 ADD COLUMN ' . $columnName . ' VARCHAR')
-                                ->execute()
-                    ;
+                        ->execute();
+                }
             }
         }
     }
