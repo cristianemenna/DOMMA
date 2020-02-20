@@ -21,7 +21,7 @@
         <div class="imported-files">
             <h3>Fichiers importés</h3>
             {% for import in imports %}
-                <p><i class="fa fa-check-circle icon-check"></i><a href="#">{{ import.file }}</a></p>
+                <p><i class="fa fa-check-circle icon-check"></i><a href="{{ path('import_show', {'id': import.id}) }}">{{ import.file }}</a></p>
             {% endfor %}
         </div>
 
