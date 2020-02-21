@@ -23,22 +23,43 @@ class ImportRepository extends ServiceEntityRepository
 
     // Crée une table dans le schéma du contexte
     // Structure de la table selon les données de l'import
-    public function createTable(int $importId, string $contextName, RowIterator $sheetColumns)
+    public function createTable(int $importId, string $contextName, RowIterator $sheetRows)
     {
         $dataBase = $this->getEntityManager()->getConnection();
         // Remplace les espaces ou d'autre caractères dans le nom du contexte pour des underscores
         $schemaName = str_replace(' ', '_', mb_strtolower($contextName));
         $tableName = 'import_'. strval($importId);
         // Crée une table avec le nom 'import_id'
-        $dataBase->prepare('CREATE TABLE ' . $schemaName . '.' . $tableName . ' ' . '()')
+        $dataBase->prepare('CREATE TABLE ' . $schemaName . '.' . $tableName . ' ' . '(id serial primary key)')
             ->execute()
             ;
 
-        // Ajoute les colonnes dans la table, selon premier ligne du fichier excel
-        foreach ($sheetColumns as $row)
+        foreach ($sheetRows as $row)
         {
             foreach ($row->getCellIterator() as $cell)
             {
+                // Ajoute les colonnes en BDD seulement pour la première ligne du fichier excel
+                if (1 === $row->getRowIndex()) {
+                    $columnName = str_replace([' ', '(', ')', '/', '-', ','], '_', mb_strtolower($cell->getValue()));
+                    $dataBase->prepare(
+                        'ALTER TABLE ' . $schemaName . '.' . $tableName . ' 
+                                ADD COLUMN ' . $columnName . ' VARCHAR')
+                        ->execute();
+                }
+            }
+        }
+    }
+
+    public function addRows(int $importId, string $contextName, RowIterator $sheetRows)
+    {
+        $dataBase = $this->getEntityManager()->getConnection();
+        $schemaName = str_replace(' ', '_', mb_strtolower($contextName));
+        $tableName = 'import_'. strval($importId);
+        foreach ($sheetRows as $row)
+        {
+            foreach ($row->getCellIterator() as $cell)
+            {
+                // Ajoute les colonnes en BDD seulement pour la première ligne du fichier excel
                 if (1 == $row->getRowIndex()) {
                     $columnName = str_replace([' ', '(', ')', '/', '-', ','], '_', mb_strtolower($cell->getValue()));
                     $dataBase->prepare(
@@ -48,6 +69,7 @@ class ImportRepository extends ServiceEntityRepository
                 }
             }
         }
+
     }
     // /**
     //  * @return Import[] Returns an array of Import objects
