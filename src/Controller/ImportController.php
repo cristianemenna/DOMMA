@@ -34,10 +34,14 @@ class ImportController extends AbstractController
      */
     public function show(Import $import, Security $security, GravatarManager $gravatar, ImportRepository $importRepository): Response
     {
+        $connectedUser = $this->getUser();
+        $macros = $connectedUser->getMacros();
+
         return $this->render('import/show.html.twig', [
             'avatar' => $gravatar->getAvatar($security),
             'import' => $import,
             'importContent' => $importRepository->showTable($import),
+            'macros' => $macros,
         ]);
     }
 
@@ -54,5 +58,4 @@ class ImportController extends AbstractController
 
         return $this->redirectToRoute('context_show', ['id' => $context->getId()]);
     }
-
 }

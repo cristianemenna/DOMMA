@@ -17,6 +17,10 @@
                 <p>Les données :)</p>
             {% endif %}
         </div>
-    </main>
 
+        <a href="{{ path('macros_new') }}">Macro +</a>
+        {% for macro in macros %}
+             <p>{{ macro.title }}</p>
+        {% endfor %}
+    </main>
 {% endblock %}
