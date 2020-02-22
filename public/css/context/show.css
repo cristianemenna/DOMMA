@@ -127,3 +127,13 @@ form {
     margin: 30px 0 0 30px;
 }
 
+.file-container {
+    margin: 50px 0 0 100px;
+}
+
+.icon-loading {
+    margin-right: 15px;
+    color: #009a00;
+}
+
+
