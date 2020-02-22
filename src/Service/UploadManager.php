@@ -2,19 +2,26 @@
 
 namespace App\Service;
 
+use App\Entity\Context;
 use App\Entity\Import;
+use App\Repository\ImportRepository;
+use Doctrine\Bundle\DoctrineBundle\Command\Proxy\ImportDoctrineCommand;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+
 
 class UploadManager
 {
     private $uploadsDirectory;
 
-    public function __construct($uploadsDirectory, EntityManagerInterface $entityManager)
+    public function __construct($uploadsDirectory, EntityManagerInterface $entityManager, ImportRepository $importRepository)
     {
         $this->uploadsDirectory = $uploadsDirectory;
         $this->entityManager = $entityManager;
+        $this->importRepository = $importRepository;
     }
 
+    // Upload des fichiers et liaison avec leur contexte
     public function uploadFile($form, $context)
     {
         $importedFile = $form->get('file')->getData();
@@ -40,8 +47,38 @@ class UploadManager
         }
     }
 
+    // Recupère le dossier où les fichiers sont enregistrés
     public function getUploadsDirectory()
     {
         return $this->uploadsDirectory;
     }
+
+    // Lecture des fichiers
+    public function readFile(Context $context)
+    {
+        $imports = $context->getImports();
+
+        foreach ($imports as $import)
+        {
+            // Réalise la lecture seulement pour les fichiers en attente.
+            if ($import->getStatus() === 'En attente')
+            {
+                $fileName = $import->getFile();
+                $filePath = $this->getUploadsDirectory() . '/' . $fileName;
+                // Identifie l'extension du fichier
+                $inputFileType = \PhpOffice\PhpSpreadsheet\IOFactory::identify($filePath);
+                // Crée le lecteur adapté selon extension
+                $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
+                // Lit le tout en format texte
+                $reader->setReadDataOnly(true);
+                $spreadSheet = $reader->load($filePath);
+
+                $sheetColumns = $spreadSheet->getSheet(0)->getRowIterator();
+
+                $this->importRepository->createTable($import->getId(), $import->getContext()->getTitle(), $sheetColumns);
+                $this->importRepository->addRows($import->getId(), $import->getContext()->getTitle(), $sheetColumns);
+            }
+        }
+    }
+
 }

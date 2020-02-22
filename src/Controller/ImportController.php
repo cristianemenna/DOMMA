@@ -34,36 +34,10 @@ class ImportController extends AbstractController
      */
     public function show(Import $import, Security $security, GravatarManager $gravatar, ImportRepository $importRepository): Response
     {
-        $fileName = $import->getFile();
-        $filePath = $this->getParameter('kernel.project_dir') . '/var/uploads/' . $fileName;
-        $inputFileType = \PhpOffice\PhpSpreadsheet\IOFactory::identify($filePath);
-        $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
-        $reader->setReadDataOnly(true);
-        $spreadSheet = $reader->load($filePath);
-
-        $sheetColumns = $spreadSheet->getSheet(0)->getRowIterator();
-
-        echo '<table>';
-
-        foreach ($sheetColumns as $column)
-        {
-            echo '<tr>';
-            foreach ($column->getCellIterator() as $cell)
-            {
-                echo '<td>';
-                print_r($cell->getValue());
-                echo '</td>';
-            }
-
-            echo '</tr>';
-        }
-
-        $importRepository->createTable($import->getId(), $import->getContext()->getTitle(), $sheetColumns);
-        echo '</table>';
-
         return $this->render('import/show.html.twig', [
             'avatar' => $gravatar->getAvatar($security),
-            'import' => $fileName,
+            'import' => $import,
+            'importContent' => $importRepository->showTable($import),
         ]);
     }
 

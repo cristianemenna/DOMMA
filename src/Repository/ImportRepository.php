@@ -39,7 +39,7 @@ class ImportRepository extends ServiceEntityRepository
             foreach ($row->getCellIterator() as $cell)
             {
                 // Ajoute les colonnes en BDD seulement pour la première ligne du fichier excel
-                if (1 === $row->getRowIndex()) {
+                if ($row->getRowIndex() === 1) {
                     $columnName = str_replace([' ', '(', ')', '/', '-', ','], '_', mb_strtolower($cell->getValue()));
                     $dataBase->prepare(
                         'ALTER TABLE ' . $schemaName . '.' . $tableName . ' 
@@ -48,29 +48,52 @@ class ImportRepository extends ServiceEntityRepository
                 }
             }
         }
+        $import = $this->find($importId)->setStatus('En cours');
+        $this->getEntityManager()->persist($import);
+        $this->getEntityManager()->flush();
     }
 
+    // Itère sur chaque ligne du fichier
+    // Crée une requête pour ajouter toutes les valeurs de chaque ligne
     public function addRows(int $importId, string $contextName, RowIterator $sheetRows)
     {
         $dataBase = $this->getEntityManager()->getConnection();
         $schemaName = str_replace(' ', '_', mb_strtolower($contextName));
         $tableName = 'import_'. strval($importId);
-        foreach ($sheetRows as $row)
+
+        foreach ($sheetRows as $index => $row)
         {
-            foreach ($row->getCellIterator() as $cell)
+            // Crée une requête pour chaque ligne
+            $requestSQL = 'INSERT INTO ' . $schemaName . '.' . $tableName . ' ' . ' VALUES (' . $index;
+            foreach ($row->getCellIterator() as $key => $cell)
             {
-                // Ajoute les colonnes en BDD seulement pour la première ligne du fichier excel
-                if (1 == $row->getRowIndex()) {
-                    $columnName = str_replace([' ', '(', ')', '/', '-', ','], '_', mb_strtolower($cell->getValue()));
-                    $dataBase->prepare(
-                        'ALTER TABLE ' . $schemaName . '.' . $tableName . ' 
-                                ADD COLUMN ' . $columnName . ' VARCHAR')
-                        ->execute();
+                $cellContent = $cell->getValue();
+                if ($key === 'B')
+                {
+                    $requestSQL .= $dataBase->quote($cellContent);
+                } else
+                {
+                    $requestSQL .= ', ' . $dataBase->quote($cellContent);
                 }
             }
-        }
 
+            $requestSQL .= ')';
+            $dataBase->prepare($requestSQL)->execute();
+        }
     }
+
+    public function showTable(Import $import)
+    {
+        $dataBase = $this->getEntityManager()->getConnection();
+        $schemaName = str_replace(' ', '_', mb_strtolower($import->getContext()->getTitle()));
+        $tableName = 'import_'. strval($import->getId());
+
+        $statement = $dataBase->prepare('SELECT * FROM ' . $schemaName . '.' . $tableName);
+        $statement->execute();
+        return $statement;
+    }
+
+
     // /**
     //  * @return Import[] Returns an array of Import objects
     //  */

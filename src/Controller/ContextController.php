@@ -7,6 +7,7 @@ use App\Entity\Import;
 use App\Form\ContextType;
 use App\Form\ImportType;
 use App\Repository\ContextRepository;
+use App\Repository\ImportRepository;
 use App\Service\ContexteHelper;
 use App\Service\GravatarManager;
 use App\Service\UploadManager;
@@ -65,7 +66,7 @@ class ContextController extends AbstractController
     /**
      * @Route("/{id}", name="context_show", methods={"GET", "POST"})
      */
-    public function show(Context $context, Security $security, GravatarManager $gravatar, Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager): Response
+    public function show(Context $context, Security $security, GravatarManager $gravatar, Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager, ImportRepository $importRepository): Response
     {
         // Récupere l'utilisateur actif
         $user = $security->getUser();
@@ -81,6 +82,7 @@ class ContextController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $uploadManager->uploadFile($form, $context);
+            $uploadManager->readFile($context);
 
             return $this->redirectToRoute('context_show', ['id' => $context->getId()]);
         }
