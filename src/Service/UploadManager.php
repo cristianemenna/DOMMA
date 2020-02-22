@@ -14,11 +14,12 @@ class UploadManager
 {
     private $uploadsDirectory;
 
-    public function __construct($uploadsDirectory, EntityManagerInterface $entityManager, ImportRepository $importRepository)
+    public function __construct($uploadsDirectory, EntityManagerInterface $entityManager, ImportRepository $importRepository, LoadFileManager $loadFileManager)
     {
         $this->uploadsDirectory = $uploadsDirectory;
         $this->entityManager = $entityManager;
         $this->importRepository = $importRepository;
+        $this->loadFileManager = $loadFileManager;
     }
 
     // Upload des fichiers et liaison avec leur contexte
@@ -75,10 +76,9 @@ class UploadManager
 
                 $sheetColumns = $spreadSheet->getSheet(0)->getRowIterator();
 
-                $this->importRepository->createTable($import->getId(), $import->getContext()->getTitle(), $sheetColumns);
-                $this->importRepository->addRows($import->getId(), $import->getContext()->getTitle(), $sheetColumns);
+                $this->loadFileManager->createTable($import->getId(), $import->getContext()->getTitle(), $sheetColumns);
+                $this->loadFileManager->addRows($import->getId(), $import->getContext()->getTitle(), $sheetColumns);
             }
         }
     }
-
 }
