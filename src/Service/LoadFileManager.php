@@ -84,6 +84,20 @@ class LoadFileManager
                 $dataBase->prepare($requestSQL)->execute();
             }
         }
+        
+        $import = $this->entityManager->getRepository(Import::class)->find($importId);
+        // Si l'import contient des objets Log associés, le status de l'import devient 'Fini avec erreur'
+        if (count($import->getLogs()) > 0)
+        {
+            $import->setStatus('Fini avec erreur');
+        // Si l'imprt ne contient pas d'objets Log, status = 'Fini'
+        } else
+        {
+            $import->setStatus('Fini');
+        }
+
+        $this->entityManager->persist($import);
+        $this->entityManager->flush();
     }
 
     // Retourne le contenu complet de la table associée à un import
