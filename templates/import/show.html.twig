@@ -7,10 +7,16 @@
 {% block body %}
     <main>
         <div class="separator">
-            <h1>Coucou</h1>
+            <h1>{{ import.file }}</h1>
         </div>
 
-
+        <div class="file-container">
+            {% if import.status == 'En attente' %}
+                <p><i class="fas fa-spinner fa-2x icon-loading"></i> En cours de chargement...</p>
+            {% else %}
+                <p>Les données :)</p>
+            {% endif %}
+        </div>
     </main>
 
 {% endblock %}

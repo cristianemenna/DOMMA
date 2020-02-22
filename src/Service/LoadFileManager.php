@@ -1,38 +1,34 @@
 <?php
 
-namespace App\Repository;
+
+namespace App\Service;
+
 
 use App\Entity\Import;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\Worksheet\RowIterator;
 
-/**
- * @method Import|null find($id, $lockMode = null, $lockVersion = null)
- * @method Import|null findOneBy(array $criteria, array $orderBy = null)
- * @method Import[]    findAll()
- * @method Import[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
-class ImportRepository extends ServiceEntityRepository
+class LoadFileManager
 {
-    public function __construct(ManagerRegistry $registry)
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        parent::__construct($registry, Import::class);
+        $this->entityManager = $entityManager;
     }
 
     // Crée une table dans le schéma du contexte
     // Structure de la table selon les données de l'import
     public function createTable(int $importId, string $contextName, RowIterator $sheetRows)
     {
-        $dataBase = $this->getEntityManager()->getConnection();
+        $dataBase = $this->entityManager->getConnection();
         // Remplace les espaces ou d'autre caractères dans le nom du contexte pour des underscores
         $schemaName = str_replace(' ', '_', mb_strtolower($contextName));
         $tableName = 'import_'. strval($importId);
         // Crée une table avec le nom 'import_id'
         $dataBase->prepare('CREATE TABLE ' . $schemaName . '.' . $tableName . ' ' . '(id serial primary key)')
             ->execute()
-            ;
+        ;
 
         foreach ($sheetRows as $row)
         {
@@ -48,16 +44,17 @@ class ImportRepository extends ServiceEntityRepository
                 }
             }
         }
-        $import = $this->find($importId)->setStatus('En cours');
-        $this->getEntityManager()->persist($import);
-        $this->getEntityManager()->flush();
+
+        $import = $this->entityManager->getRepository(Import::class)->find($importId)->setStatus('En cours');
+        $this->entityManager->persist($import);
+        $this->entityManager->flush();
     }
 
     // Itère sur chaque ligne du fichier
     // Crée une requête pour ajouter toutes les valeurs de chaque ligne
     public function addRows(int $importId, string $contextName, RowIterator $sheetRows)
     {
-        $dataBase = $this->getEntityManager()->getConnection();
+        $dataBase = $this->entityManager->getConnection();
         $schemaName = str_replace(' ', '_', mb_strtolower($contextName));
         $tableName = 'import_'. strval($importId);
 
@@ -87,11 +84,26 @@ class ImportRepository extends ServiceEntityRepository
                 $dataBase->prepare($requestSQL)->execute();
             }
         }
+        
+        $import = $this->entityManager->getRepository(Import::class)->find($importId);
+        // Si l'import contient des objets Log associés, le status de l'import devient 'Fini avec erreur'
+        if (count($import->getLogs()) > 0)
+        {
+            $import->setStatus('Fini avec erreur');
+        // Si l'imprt ne contient pas d'objets Log, status = 'Fini'
+        } else
+        {
+            $import->setStatus('Fini');
+        }
+
+        $this->entityManager->persist($import);
+        $this->entityManager->flush();
     }
 
+    // Retourne le contenu complet de la table associée à un import
     public function showTable(Import $import)
     {
-        $dataBase = $this->getEntityManager()->getConnection();
+        $dataBase = $this->entityManager->getConnection();
         $schemaName = str_replace(' ', '_', mb_strtolower($import->getContext()->getTitle()));
         $tableName = 'import_'. strval($import->getId());
 
@@ -101,32 +113,4 @@ class ImportRepository extends ServiceEntityRepository
     }
 
 
-    // /**
-    //  * @return Import[] Returns an array of Import objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('i.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Import
-    {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

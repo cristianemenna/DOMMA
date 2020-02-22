@@ -45,7 +45,7 @@ h2, h3 {
 
 .upload-files, .imported-files {
     margin: 50px 0 0 200px;
-    padding: 20px;
+    padding: 20px 20px 40px 20px;
     width: 800px;
     background-color: #f5f5f5;
     border-radius: 10px;
@@ -56,3 +56,84 @@ i.icon-check {
     color: #009a00;
     margin-right: 18px;
 }
+
+.import-line {
+    display: flex;
+    justify-content: space-between;
+}
+
+.import-delete {
+    text-decoration: none;
+    border: none;
+    background: transparent;
+}
+
+.import-delete:hover {
+    cursor: pointer;
+}
+
+.fa-trash-alt {
+    font-size: 20px;
+    color: #a6a6a6;
+    padding: 10px;
+}
+
+#import-delete-form {
+    margin: 0;
+    padding: 0;
+}
+
+#import_file {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+label {
+    padding: 10px 30px;
+    border: 1px solid #a6a6a6;
+    border-radius: 3px;
+    color: #646464;
+    font-size: 15px;
+    background-color: #FFFFFF;
+    box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.3), 0 3px 20px 0 rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+}
+
+.btn-file {
+    padding: 12px 20px;
+    border-radius: 3px;
+    background-color: #757575;
+    color: #e6e6e6;
+    border: none;
+    box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.3), 0 3px 20px 0 rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+}
+
+.btn-file:hover {
+    background-color: #5c5c5c;
+}
+
+.btn-file:disabled {
+    display: none;
+}
+
+form {
+    display: flex;
+    align-items: baseline;
+    margin: 30px 0 0 30px;
+}
+
+.file-container {
+    margin: 50px 0 0 100px;
+}
+
+.icon-loading {
+    margin-right: 15px;
+    color: #009a00;
+}
+
+
