@@ -63,22 +63,29 @@ class ImportRepository extends ServiceEntityRepository
 
         foreach ($sheetRows as $index => $row)
         {
-            // Crée une requête pour chaque ligne
-            $requestSQL = 'INSERT INTO ' . $schemaName . '.' . $tableName . ' ' . ' VALUES (' . $index;
-            foreach ($row->getCellIterator() as $key => $cell)
+            if ($index > 1)
             {
-                $cellContent = $cell->getValue();
-                if ($key === 'B')
+                // Décremente l'index pour qu'il corresponde au numéro de la ligne en BDD
+                $index -= 1;
+                // Crée un début de requête pour chaque ligne
+                $requestSQL = 'INSERT INTO ' . $schemaName . '.' . $tableName . ' ' . ' VALUES (' . $index . ', ';
+                // Itère entre les colonnes pour concaténer la valeur à la requête
+                foreach ($row->getCellIterator() as $key => $cell)
                 {
-                    $requestSQL .= $dataBase->quote($cellContent);
-                } else
-                {
-                    $requestSQL .= ', ' . $dataBase->quote($cellContent);
+                    $cellContent = $cell->getValue();
+                    // N'ajoute pas de virgule à la première valeur
+                    if ($key === 'A')
+                    {
+                        $requestSQL .= $dataBase->quote($cellContent);
+                    } else
+                    {
+                        $requestSQL .= ', ' . $dataBase->quote($cellContent);
+                    }
                 }
-            }
 
-            $requestSQL .= ')';
-            $dataBase->prepare($requestSQL)->execute();
+                $requestSQL .= ')';
+                $dataBase->prepare($requestSQL)->execute();
+            }
         }
     }
 
