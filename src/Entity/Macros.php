@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use App\Controller\MacrosController;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MacrosRepository")
@@ -32,6 +34,16 @@ class Macros
      * @ORM\ManyToMany(targetEntity="App\Entity\Users", inversedBy="macros")
      */
     private $users;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $code;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $type;
 
     public function __construct()
     {
@@ -75,7 +87,7 @@ class Macros
         return $this->users;
     }
 
-    public function addUser(Users $user): self
+    public function addUser(UserInterface $user): self
     {
         if (!$this->users->contains($user)) {
             $this->users[] = $user;
@@ -89,6 +101,30 @@ class Macros
         if ($this->users->contains($user)) {
             $this->users->removeElement($user);
         }
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

@@ -14,7 +14,8 @@ class MacrosType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            ->add('users')
+            ->add('code')
+            ->add('type')
         ;
     }
 
