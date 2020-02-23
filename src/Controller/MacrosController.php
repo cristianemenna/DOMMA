@@ -76,7 +76,7 @@ class MacrosController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('macros_index');
+            return $this->redirectToRoute('users_index');
         }
 
         return $this->render('macros/edit.html.twig', [

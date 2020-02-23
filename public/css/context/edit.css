@@ -43,18 +43,18 @@ form {
     color: #676767;
 }
 
-#context {
+#context, #macro {
     width: 550px;
 }
 
-#context_title, #context_description, #context_duration {
+#context_title, #context_description, #context_duration, #macros_title, #macros_description, #macros_code, #macros_type {
     height: 30px;
     width: 330px;
     padding-left: 15px;
     outline: none;
 }
 
-.edit-context {
+.edit-context, .edit-macros {
     color: #ebebeb;
     background-color: #7f7f7f;
     width: 200px;
@@ -81,12 +81,12 @@ form {
 }
 
 #form-cancel:hover {
-    background-color: #F8F8F8;
+    background-color: #d1d1d1;
     cursor: pointer;
 }
 
-.edit-context:hover {
-    background-color: #A5A5A5;
+.edit-context:hover, .edit-macros:hover {
+    background-color: #6b6b6b;
     cursor: pointer;
 }
 
@@ -100,7 +100,7 @@ form {
     padding-top: 80px;
 }
 
-.context-delete {
+.context-delete, .macro-delete {
     text-decoration: none;
     border: none;
     background: transparent;
@@ -109,7 +109,7 @@ form {
     right: 0;
 }
 
-.context-delete:hover {
+.context-delete:hover, .macro-delete:hover {
     cursor: pointer;
 }
 
@@ -119,7 +119,7 @@ form {
     padding: 10px;
 }
 
-#context-delete-form {
+#context-delete-form, #macro-delete-form {
     margin: 0;
     padding: 0;
     width: 10px;
