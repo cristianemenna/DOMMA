@@ -1,11 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Macros{% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/macro/new.css') }}">{% endblock %}
+
+{% block title %}DOMMA - Créer une macro{% endblock %}
 
 {% block body %}
-    <h1>Create new Macros</h1>
+    <main>
+        <div class="separator">
+            <h1>Créer une macro</h1>
+        </div>
 
-    {{ include('macros/_form.html.twig') }}
-
-    <a href="{{ path('macros_index') }}">back to list</a>
+        <div class="form">
+            {{ form_start(form) }}
+                {{ form_widget(form.title,  {'attr': {'class': 'form-input', 'placeholder': 'Titre'}} ) }}
+                {{ form_widget(form.description,  {'attr': {'class': 'form-input', 'placeholder': 'Description'}} ) }}
+                {{ form_widget(form.code,  {'attr': {'class': 'form-input', 'placeholder': 'Code'}} ) }}
+                {{ form_widget(form.type,  {'attr': {'class': 'form-input', 'placeholder': 'Type'}} ) }}
+                <div class="form-buttons">
+                    <button id="btn-create-macro">{{ button_label|default('Créer macro') }}</button>
+                    <a href="{{ path('context_index') }}" id="form-cancel">Annuler</a>
+                </div>
+            {{ form_end(form) }}
+        </div>
+        <div class="separator-bottom"></div>
+    </main>
 {% endblock %}
+
+
