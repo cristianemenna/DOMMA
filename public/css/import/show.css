@@ -62,7 +62,7 @@ h2, h3 {
     margin: 20px 0 0 80px;
 }
 
-.checkbox-rows, .search-input, #button-new-macro {
+.checkbox-rows, .search-input {
     margin: 0 80px;
 }
 
@@ -117,4 +117,8 @@ select.max-rows-select, select.macros-select {
     width: 200px;
     height: 35px;
     color: #4f4f4f;
+}
+
+select.macros-select {
+    width: 400px;
 }
