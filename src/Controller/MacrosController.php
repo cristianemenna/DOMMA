@@ -21,18 +21,18 @@ class MacrosController extends AbstractController
     /**
      * @Route("/", name="macros_index", methods={"GET"})
      */
-    public function index(MacrosRepository $macrosRepository, Security $security, GravatarManager $gravatar): Response
+    public function index(MacrosRepository $macrosRepository, GravatarManager $gravatar): Response
     {
         return $this->render('macros/index.html.twig', [
             'macros' => $macrosRepository->findAll(),
-            'avatar' => $gravatar->getAvatar($security),
+            'avatar' => $gravatar->getAvatar($this->getUser()),
         ]);
     }
 
     /**
      * @Route("/new", name="macros_new", methods={"GET","POST"})
      */
-    public function new(Request $request, GravatarManager $gravatar, Security $security): Response
+    public function new(Request $request, GravatarManager $gravatar): Response
     {
         $macro = new Macros();
         $form = $this->createForm(MacrosType::class, $macro);
@@ -50,25 +50,25 @@ class MacrosController extends AbstractController
         return $this->render('macros/new.html.twig', [
             'macro' => $macro,
             'form' => $form->createView(),
-            'avatar' => $gravatar->getAvatar($security),
+            'avatar' => $gravatar->getAvatar($this->getUser()),
         ]);
     }
 
     /**
      * @Route("/{id}", name="macros_show", methods={"GET"})
      */
-    public function show(Macros $macro, Security $security, GravatarManager $gravatar): Response
+    public function show(Macros $macro, GravatarManager $gravatar): Response
     {
         return $this->render('macros/show.html.twig', [
             'macro' => $macro,
-            'avatar' => $gravatar->getAvatar($security),
+            'avatar' => $gravatar->getAvatar($this->getUser()),
         ]);
     }
 
     /**
      * @Route("/{id}/edit", name="macros_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Macros $macro, Security $security, GravatarManager $gravatar): Response
+    public function edit(Request $request, Macros $macro, GravatarManager $gravatar): Response
     {
         $form = $this->createForm(MacrosType::class, $macro);
         $form->handleRequest($request);
@@ -82,7 +82,7 @@ class MacrosController extends AbstractController
         return $this->render('macros/edit.html.twig', [
             'macro' => $macro,
             'form' => $form->createView(),
-            'avatar' => $gravatar->getAvatar($security),
+            'avatar' => $gravatar->getAvatar($this->getUser()),
         ]);
     }
 

@@ -32,13 +32,13 @@ class ImportController extends AbstractController
     /**
      * @Route("/{id}", name="import_show", methods={"GET", "POST"})
      */
-    public function show(Import $import, Security $security, GravatarManager $gravatar, ImportRepository $importRepository): Response
+    public function show(Import $import, GravatarManager $gravatar, ImportRepository $importRepository): Response
     {
         $connectedUser = $this->getUser();
         $macros = $connectedUser->getMacros();
 
         return $this->render('import/show.html.twig', [
-            'avatar' => $gravatar->getAvatar($security),
+            'avatar' => $gravatar->getAvatar($connectedUser),
             'import' => $import,
             'importContent' => $importRepository->showTable($import),
             'macros' => $macros,

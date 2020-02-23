@@ -7,10 +7,9 @@ use Gravatar\Gravatar;
 
 class GravatarManager
 {
-    public function getAvatar($security)
+    public function getAvatar($user)
     {
         $gravatar = new Gravatar();
-        $user = $security->getUser();
         $userMail = $user->getEmail();
         $avatar = $gravatar->avatar($userMail, ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true);
 

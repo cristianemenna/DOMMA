@@ -28,18 +28,18 @@ class AdminController extends AbstractController
     /**
      * @Route("/", name="admin")
      */
-    public function index(UsersRepository $usersRepository, Security $security, GravatarManager $gravatar)
+    public function index(UsersRepository $usersRepository, GravatarManager $gravatar)
     {
         return $this->render('admin/index.html.twig', [
             'users' => $usersRepository->orderByUsername(),
-            'avatar' => $gravatar->getAvatar($security),
+            'avatar' => $gravatar->getAvatar($this->getUser()),
         ]);
     }
 
     /**
      * @Route("/new", name="admin_new", methods={"GET","POST"})
      */
-    public function new(Request $request, UserPasswordEncoderInterface $encoder, Security $security, GravatarManager $gravatar): Response
+    public function new(Request $request, UserPasswordEncoderInterface $encoder, GravatarManager $gravatar): Response
     {
         $user = new Users();
         $form = $this->createForm(UsersType::class, $user);
@@ -69,14 +69,14 @@ class AdminController extends AbstractController
         return $this->render('admin/new.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
-            'avatar' => $gravatar->getAvatar($security),
+            'avatar' => $gravatar->getAvatar($this->getUser()),
         ]);
     }
 
     /**
      * @Route("/{id}/edit", name="admin_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Security $security, GravatarManager $gravatar): Response
+   public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder, GravatarManager $gravatar): Response
     {
         $form = $this->createForm(UsersEditType::class, $user);
         $form->handleRequest($request);
@@ -92,7 +92,7 @@ class AdminController extends AbstractController
         return $this->render('users/edit.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
-            'avatar' => $gravatar->getAvatar($security),
+            'avatar' => $gravatar->getAvatar($this->getUser()),
         ]);
     }
 
@@ -114,9 +114,9 @@ class AdminController extends AbstractController
      * @Route("/{id}/changement-mot-de-passe", name="admin_password", methods={"GET","POST"})
      * Permet le changement de mot de passe par un administrateur
      */
-    public function changePassword(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Security $security, GravatarManager $gravatar)
+    public function changePassword(Request $request, Users $user, UserPasswordEncoderInterface $encoder, GravatarManager $gravatar)
     {
-        if ($user != $security->getUser())
+        if ($user != $this->getUser())
         {
             throw $this->createNotFoundException();
         }
@@ -140,7 +140,7 @@ class AdminController extends AbstractController
         return $this->render('users/change_password.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
-            'avatar' => $gravatar->getAvatar($security),
+            'avatar' => $gravatar->getAvatar($this->getUser()),
         ]);
     }
 

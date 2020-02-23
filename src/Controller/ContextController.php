@@ -27,18 +27,18 @@ class ContextController extends AbstractController
     /**
      * @Route("/", name="context_index", methods={"GET"})
      */
-    public function index(ContextRepository $contextRepository, Security $security, GravatarManager $gravatar): Response
+    public function index(ContextRepository $contextRepository, GravatarManager $gravatar): Response
     {
         return $this->render('context/index.html.twig', [
             'contexts' => $contextRepository->findAll(),
-            'avatar' => $gravatar->getAvatar($security),
+            'avatar' => $gravatar->getAvatar($this->getUser()),
         ]);
     }
 
     /**
      * @Route("/new", name="context_new", methods={"GET","POST"})
      */
-    public function new(Request $request, Security $security, GravatarManager $gravatar, ContextRepository $contextRepository): Response
+    public function new(Request $request, GravatarManager $gravatar, ContextRepository $contextRepository): Response
     {
         $context = new Context();
         $form = $this->createForm(ContextType::class, $context);
@@ -46,7 +46,7 @@ class ContextController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $context->setCreatedAt(new \DateTime());
-            $connectedUser = $security->getUser();
+            $connectedUser = $this->getUser();
             $context->addUser($connectedUser);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($context);
@@ -59,17 +59,17 @@ class ContextController extends AbstractController
         return $this->render('context/new.html.twig', [
             'context' => $context,
             'form' => $form->createView(),
-            'avatar' => $gravatar->getAvatar($security),
+            'avatar' => $gravatar->getAvatar($this->getUser()),
         ]);
     }
 
     /**
      * @Route("/{id}", name="context_show", methods={"GET", "POST"})
      */
-    public function show(Context $context, Security $security, GravatarManager $gravatar, Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager, ImportRepository $importRepository): Response
+    public function show(Context $context, GravatarManager $gravatar, Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager, ImportRepository $importRepository): Response
     {
         // Récupere l'utilisateur actif
-        $user = $security->getUser();
+        $user = $this->getUser();
 
         // Si l'utilisateur actif n'as pas droit d'accès au contexte, on affiche un 'Not found'
         if (!$context->getUsers()->contains($user))
@@ -90,7 +90,7 @@ class ContextController extends AbstractController
         return $this->render('context/show.html.twig', [
             'context' => $context,
             'imports' => $context->getImports(),
-            'avatar' => $gravatar->getAvatar($security),
+            'avatar' => $gravatar->getAvatar($user),
             'form' => $form->createView(),
         ]);
     }
@@ -98,9 +98,9 @@ class ContextController extends AbstractController
     /**
      * @Route("/{id}/edit", name="context_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Context $context, Security $security, GravatarManager $gravatar): Response
+    public function edit(Request $request, Context $context, GravatarManager $gravatar): Response
     {
-        $user = $security->getUser();
+        $user = $this->getUser();
         if (!$context->getUsers()->contains($user))
         {
             throw $this->createNotFoundException();
@@ -116,7 +116,7 @@ class ContextController extends AbstractController
         }
 
         return $this->render('context/edit.html.twig', [
-            'avatar' => $gravatar->getAvatar($security),
+            'avatar' => $gravatar->getAvatar($user),
             'context' => $context,
             'form' => $form->createView(),
         ]);
@@ -133,6 +133,6 @@ class ContextController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('context_index');
+        return $this->redirectToRoute('users_index');
     }
 }

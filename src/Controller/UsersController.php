@@ -26,10 +26,10 @@ class UsersController extends AbstractController
      */
     public function index(UsersRepository $usersRepository, Security $security, GravatarManager $gravatar): Response
     {
-        $user = $security->getUser();
+        $user = $this->getUser();
         return $this->render('users/index.html.twig', [
             'user' => $user,
-            'avatar' => $gravatar->getAvatar($security),
+            'avatar' => $gravatar->getAvatar($user),
             'contextes'=>$user->getContexts(),
         ]);
     }
@@ -47,9 +47,9 @@ class UsersController extends AbstractController
     /**
      * @Route("/{id}/gestion-de-compte", name="users_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Security $security, GravatarManager $gravatar): Response
+    public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder, GravatarManager $gravatar): Response
     {
-        if ($user != $security->getUser())
+        if ($user != $this->getUser())
         {
             throw $this->createNotFoundException();
         }
@@ -68,7 +68,7 @@ class UsersController extends AbstractController
         return $this->render('users/edit.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
-            'avatar' => $gravatar->getAvatar($security),
+            'avatar' => $gravatar->getAvatar($this->getUser()),
         ]);
     }
 
@@ -90,9 +90,9 @@ class UsersController extends AbstractController
      * @Route("/{id}/changement-mot-de-passe", name="users_password", methods={"GET","POST"})
      * Permet le changement de mot de passe par un utilisateur
      */
-    public function changePassword(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Security $security, GravatarManager $gravatar)
+    public function changePassword(Request $request, Users $user, UserPasswordEncoderInterface $encoder, GravatarManager $gravatar)
     {
-        if ($user != $security->getUser())
+        if ($user != $this->getUser())
         {
             throw $this->createNotFoundException();
         }
@@ -117,7 +117,7 @@ class UsersController extends AbstractController
         return $this->render('users/change_password.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
-            'avatar' => $gravatar->getAvatar($security),
+            'avatar' => $gravatar->getAvatar($this->getUser()),
         ]);
     }
 }
