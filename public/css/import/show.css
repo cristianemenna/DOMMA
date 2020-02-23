@@ -66,9 +66,27 @@ h2, h3 {
     margin: 0 80px;
 }
 
-.max-rows-input, .max-rows-submit, .checkbox-rows, .search-button, .search-on-file, .macros-select-submit {
+.max-rows-input, .checkbox-rows, .search-button, .search-on-file {
     height: 30px;
     color: #4f4f4f;
+}
+
+.max-rows-submit, .macros-select-submit, .search-button {
+    color: #7f7f7f;
+    background-color: #EBEBEB;
+    text-decoration: none;
+    padding: 8px 30px;
+    margin-left: 5px;
+    font-size: 14px;
+    border: none;
+    outline: none;
+    box-shadow: 2px 1px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 20px 0 rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+}
+
+.max-rows-submit:hover, .macros-select-submit:hover, .search-button:hover {
+    background-color: #d1d1d1;
+    cursor: pointer;
 }
 
 .max-rows-select, .search-on-file, .macros-select {
