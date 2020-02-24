@@ -158,6 +158,10 @@ td {
     padding: 0 50px;
 }
 
-tr {
-    background-color: #fcfafa;
+tr:nth-child(odd) {
+    background-color: #f5f5f5;
+}
+
+tr:nth-child(even) {
+    background-color: #fdfcfc;
 }
