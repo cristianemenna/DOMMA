@@ -20,7 +20,7 @@ class ImportRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Import::class);
     }
-
+/*
     // Crée une table dans le schéma du contexte
     // Structure de la table selon les données de l'import
     public function createTable(int $importId, string $contextName, RowIterator $sheetRows)

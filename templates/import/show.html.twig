@@ -47,6 +47,22 @@
                     <p><i class="fas fa-spinner fa-2x icon-loading"></i>En cours de chargement...</p>
                 {% else %}
                     <p>Les données :)</p>
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                    {% for importColumn, importValue in importColumns %}
+                            <th>{{ importColumn }}</th>
+                    {% endfor %}
+                        </tr>
+                        <tr>
+                    {% for importObjet in importContent %}
+                        {% for importColumn, importValue in importObjet %}
+                            <td>{{ importValue }}</td>
+                        {% endfor %}
+                        </tr>
+                    {% endfor %}
+                        </tbody>
+                    </table>
                 {% endif %}
             </div>
         </div>

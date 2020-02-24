@@ -90,7 +90,7 @@ class LoadFileManager
         if (count($import->getLogs()) > 0)
         {
             $import->setStatus('Fini avec erreur');
-        // Si l'imprt ne contient pas d'objets Log, status = 'Fini'
+        // Si l'import ne contient pas d'objets Log, status = 'Fini'
         } else
         {
             $import->setStatus('Fini');
@@ -98,6 +98,18 @@ class LoadFileManager
 
         $this->entityManager->persist($import);
         $this->entityManager->flush();
+    }
+
+    // Retourne la premier ligne de la table associée à un import
+    public function showColumns(Import $import)
+    {
+        $dataBase = $this->entityManager->getConnection();
+        $schemaName = str_replace(' ', '_', mb_strtolower($import->getContext()->getTitle()));
+        $tableName = 'import_'. strval($import->getId());
+
+        $statement = $dataBase->prepare('SELECT * FROM ' . $schemaName . '.' . $tableName);
+        $statement->execute();
+        return $statement->fetch();
     }
 
     // Retourne le contenu complet de la table associée à un import
