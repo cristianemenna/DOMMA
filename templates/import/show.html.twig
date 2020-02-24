@@ -46,8 +46,7 @@
                 {% if (import.status == 'En attente') or (import.status == 'En cours') %}
                     <p><i class="fas fa-spinner fa-2x icon-loading"></i>En cours de chargement...</p>
                 {% else %}
-                    <p>Les données :)</p>
-                    <table class="table">
+                    <table class="import-table">
                         <tbody>
                         <tr>
                     {% for importColumn, importValue in importColumns %}

@@ -38,7 +38,7 @@ h2, h3 {
 }
 
 .file-container {
-    margin: 50px 0 0 100px;
+    margin: 50px 0 0 80px;
 }
 
 .icon-loading {
@@ -138,4 +138,26 @@ select.max-rows-select, select.macros-select {
 
 select.macros-select {
     width: 400px;
+}
+
+.import-table {
+    color: #4d4d4d;
+    font-size: 13px;
+}
+
+th {
+    background-color: #d9d9d9;
+    width: 250px;
+    height: 50px;
+    color: #4d4d4d;
+    padding: 0 50px;
+}
+
+td {
+    height: 50px;
+    padding: 0 50px;
+}
+
+tr {
+    background-color: #fcfafa;
 }
