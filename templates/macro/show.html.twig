@@ -22,9 +22,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('macros_index') }}">back to list</a>
+    <a href="{{ path('macro_index') }}">back to list</a>
 
-    <a href="{{ path('macros_edit', {'id': macro.id}) }}">edit</a>
+    <a href="{{ path('macro_edit', {'id': macro.id}) }}">edit</a>
 
-    {{ include('macros/_delete_form.html.twig') }}
+    {{ include('macro/_delete_form.html.twig') }}
 {% endblock %}

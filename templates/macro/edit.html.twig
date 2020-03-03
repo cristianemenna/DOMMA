@@ -8,15 +8,15 @@
     <main>
         <div class="separator">
             <h1>Edition de {{ macro.title }}</h1>
-            {{ include('macros/_delete_form.html.twig') }}
+            {{ include('macro/_delete_form.html.twig') }}
         </div>
 
         <div class="edit-container">
             {{ form_start(form) }}
                 {{ form_widget(form) }}
             <div class="form-buttons">
-                <button class="edit-macros">{{ button_label|default('Mettre à jour') }}</button>
-                <a href="{{ path('macros_show', {'id': macro.id}) }}" id="form-cancel">Annuler</a>
+                <button class="edit-macro">{{ button_label|default('Mettre à jour') }}</button>
+                <a href="{{ path('macro_show', {'id': macro.id}) }}" id="form-cancel">Annuler</a>
             </div>
             {{ form_end(form) }}
         </div>

@@ -61,7 +61,7 @@ class Users implements UserInterface
     private $contexts;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Macros", mappedBy="users")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Macro", mappedBy="users")
      */
     private $macros;
 
@@ -235,14 +235,14 @@ class Users implements UserInterface
     }
 
     /**
-     * @return Collection|Macros[]
+     * @return Collection|Macro[]
      */
     public function getMacros(): Collection
     {
         return $this->macros;
     }
 
-    public function addMacro(Macros $macro): self
+    public function addMacro(Macro $macro): self
     {
         if (!$this->macros->contains($macro)) {
             $this->macros[] = $macro;
@@ -252,7 +252,7 @@ class Users implements UserInterface
         return $this;
     }
 
-    public function removeMacro(Macros $macro): self
+    public function removeMacro(Macro $macro): self
     {
         if ($this->macros->contains($macro)) {
             $this->macros->removeElement($macro);
