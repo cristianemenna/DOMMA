@@ -21,7 +21,7 @@ class MacroController extends AbstractController
     /**
      * @Route("/", name="macro_index", methods={"GET"})
      */
-    public function index(MacroRepository $macrosRepository, GravatarManager $gravatar): Response
+    public function index(MacroRepository $macroRepository, GravatarManager $gravatar): Response
     {
         return $this->render('macro/index.html.twig', [
             'macros' => $macroRepository->findAll(),
