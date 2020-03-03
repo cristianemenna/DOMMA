@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Import;
 use App\Repository\ImportRepository;
 use App\Service\GravatarManager;
+use App\Service\LoadFileManager;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -32,15 +33,17 @@ class ImportController extends AbstractController
     /**
      * @Route("/{id}", name="import_show", methods={"GET", "POST"})
      */
-    public function show(Import $import, GravatarManager $gravatar, ImportRepository $importRepository): Response
+    public function show(Import $import, GravatarManager $gravatar, LoadFileManager $loadFileManager): Response
     {
         $connectedUser = $this->getUser();
         $macros = $connectedUser->getMacros();
+        //dd($importRepository->showTable($import));
 
         return $this->render('import/show.html.twig', [
             'avatar' => $gravatar->getAvatar($connectedUser),
             'import' => $import,
-            'importContent' => $importRepository->showTable($import),
+            'importContent' => $loadFileManager->showTable($import),
+            'importColumns' => $loadFileManager->showColumns($import),
             'macros' => $macros,
         ]);
     }

@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Macros;
-use App\Form\MacrosType;
-use App\Repository\MacrosRepository;
+use App\Entity\Macro;
+use App\Form\MacroType;
+use App\Repository\MacroRepository;
 use App\Service\GravatarManager;
 use Gravatar\Gravatar;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,28 +14,28 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/macros")
+ * @Route("/macro")
  */
-class MacrosController extends AbstractController
+class MacroController extends AbstractController
 {
     /**
-     * @Route("/", name="macros_index", methods={"GET"})
+     * @Route("/", name="macro_index", methods={"GET"})
      */
-    public function index(MacrosRepository $macrosRepository, GravatarManager $gravatar): Response
+    public function index(MacroRepository $macrosRepository, GravatarManager $gravatar): Response
     {
-        return $this->render('macros/index.html.twig', [
-            'macros' => $macrosRepository->findAll(),
+        return $this->render('macro/index.html.twig', [
+            'macros' => $macroRepository->findAll(),
             'avatar' => $gravatar->getAvatar($this->getUser()),
         ]);
     }
 
     /**
-     * @Route("/new", name="macros_new", methods={"GET","POST"})
+     * @Route("/new", name="macro_new", methods={"GET","POST"})
      */
     public function new(Request $request, GravatarManager $gravatar): Response
     {
-        $macro = new Macros();
-        $form = $this->createForm(MacrosType::class, $macro);
+        $macro = new Macro();
+        $form = $this->createForm(MacroType::class, $macro);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -44,10 +44,10 @@ class MacrosController extends AbstractController
             $entityManager->persist($macro);
             $entityManager->flush();
 
-            return $this->redirectToRoute('macros_index');
+            return $this->redirectToRoute('macro_index');
         }
 
-        return $this->render('macros/new.html.twig', [
+        return $this->render('macro/new.html.twig', [
             'macro' => $macro,
             'form' => $form->createView(),
             'avatar' => $gravatar->getAvatar($this->getUser()),
@@ -55,22 +55,22 @@ class MacrosController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="macros_show", methods={"GET"})
+     * @Route("/{id}", name="macro_show", methods={"GET"})
      */
-    public function show(Macros $macro, GravatarManager $gravatar): Response
+    public function show(Macro $macro, GravatarManager $gravatar): Response
     {
-        return $this->render('macros/show.html.twig', [
+        return $this->render('macro/show.html.twig', [
             'macro' => $macro,
             'avatar' => $gravatar->getAvatar($this->getUser()),
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="macros_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="macro_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Macros $macro, GravatarManager $gravatar): Response
+    public function edit(Request $request, Macro $macro, GravatarManager $gravatar): Response
     {
-        $form = $this->createForm(MacrosType::class, $macro);
+        $form = $this->createForm(MacroType::class, $macro);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -79,7 +79,7 @@ class MacrosController extends AbstractController
             return $this->redirectToRoute('users_index');
         }
 
-        return $this->render('macros/edit.html.twig', [
+        return $this->render('macro/edit.html.twig', [
             'macro' => $macro,
             'form' => $form->createView(),
             'avatar' => $gravatar->getAvatar($this->getUser()),
@@ -87,9 +87,9 @@ class MacrosController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="macros_delete", methods={"DELETE"})
+     * @Route("/{id}", name="macro_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Macros $macro): Response
+    public function delete(Request $request, Macro $macro): Response
     {
         if ($this->isCsrfTokenValid('delete'.$macro->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -97,6 +97,6 @@ class MacrosController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('macros_index');
+        return $this->redirectToRoute('macro_index');
     }
 }

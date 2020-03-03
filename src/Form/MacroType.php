@@ -2,13 +2,13 @@
 
 namespace App\Form;
 
-use App\Entity\Macros;
+use App\Entity\Macro;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MacrosType extends AbstractType
+class MacroType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -43,7 +43,7 @@ class MacrosType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Macros::class,
+            'data_class' => Macro::class,
         ]);
     }
 }

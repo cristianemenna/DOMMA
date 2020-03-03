@@ -6,12 +6,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
-use App\Controller\MacrosController;
+use App\Controller\MacroController;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MacrosRepository")
  */
-class Macros
+class Macro
 {
     /**
      * @ORM\Id()

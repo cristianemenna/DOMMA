@@ -27,7 +27,7 @@
                 <input type="text" class="search-on-file" placeholder="Rechercher">
                 <input type="submit" value="&#xf002;" class="search-button" name="search-on-file" />
             </form>
-            <a href="{{ path('macros_new') }}" id="button-new-macro">Macro <i class="fa fa-plus icon-plus-macro"></i></a>
+            <a href="{{ path('macro_new') }}" id="button-new-macro">Macro <i class="fa fa-plus icon-plus-macro"></i></a>
         </div>
 
         <div class="macros-select-container">
@@ -46,7 +46,22 @@
                 {% if (import.status == 'En attente') or (import.status == 'En cours') %}
                     <p><i class="fas fa-spinner fa-2x icon-loading"></i>En cours de chargement...</p>
                 {% else %}
-                    <p>Les données :)</p>
+                    <table class="import-table">
+                        <tbody>
+                        <tr>
+                    {% for importColumn, importValue in importColumns %}
+                            <th>{{ importColumn }}</th>
+                    {% endfor %}
+                        </tr>
+                        <tr>
+                    {% for importObjet in importContent %}
+                        {% for importColumn, importValue in importObjet %}
+                            <td>{{ importValue }}</td>
+                        {% endfor %}
+                        </tr>
+                    {% endfor %}
+                        </tbody>
+                    </table>
                 {% endif %}
             </div>
         </div>
