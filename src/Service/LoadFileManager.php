@@ -5,6 +5,7 @@ namespace App\Service;
 
 
 use App\Entity\Import;
+use App\Entity\Log;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\Worksheet\RowIterator;
 
@@ -81,7 +82,27 @@ class LoadFileManager
                 }
 
                 $requestSQL .= ')';
-                $dataBase->prepare($requestSQL)->execute();
+
+                // D'abord essaie d'exécuter la requête SQL pour ajouter tous les colonnes d'une ligne en BDD
+                try
+                {
+                    $dataBase->prepare($requestSQL)->execute();
+                }
+                // En cas d'erreur :
+                catch (\Exception $e)
+                {
+                    $import = $this->entityManager->getRepository(Import::class)->find($importId);
+                    // Crée un objet log et l'associe à l'import courant
+                    $log = new Log();
+                    $log->setCreatedAt(new \DateTimeInterface());
+                    $log->setImport($import);
+                    // Ajoute un message d'erreur au log avec l'index de la ligne qui n'a pas pu être lit
+                    $log->setMessage('Erreur dans la ligne numéro ' . $index);
+                    $import->addLog($log);
+                    $this->entityManager->persist($import);
+                    $this->entityManager->flush();
+                }
+
             }
         }
         
