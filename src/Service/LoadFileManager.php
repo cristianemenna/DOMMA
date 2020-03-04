@@ -24,8 +24,8 @@ class LoadFileManager
     {
         $dataBase = $this->entityManager->getConnection();
         // Remplace les espaces ou d'autre caractères dans le nom du contexte pour des underscores
-        $schemaName = str_replace([' ', '(', ')', '/', '-', ',', '\'', '*', '+', '&', '#', '"', '.', '!', ':', '?', '='], '_', mb_strtolower($contextName));
-        $tableName = 'import_'. strval($importId);
+        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($contextName));
+        $tableName = $dataBase->quoteIdentifier('import_'. strval($importId));
         // Crée une table avec le nom 'import_id'
         $dataBase->prepare('CREATE TABLE ' . $schemaName . '.' . $tableName . ' ' . '(id serial primary key)')
             ->execute()
@@ -37,7 +37,7 @@ class LoadFileManager
             {
                 // Ajoute les colonnes en BDD seulement pour la première ligne du fichier excel
                 if ($row->getRowIndex() === 1) {
-                    $columnName = str_replace([' ', '(', ')', '/', '-', ',', '\'', '*', '+', '&', '#', '"', '.', '!', ':', '?', '='], '_', mb_strtolower($cell->getValue()));
+                    $columnName = $dataBase->quoteIdentifier(mb_strtolower($cell->getValue()));
                     $dataBase->prepare(
                         'ALTER TABLE ' . $schemaName . '.' . $tableName . ' 
                                 ADD COLUMN ' . $columnName . ' VARCHAR')
@@ -56,8 +56,8 @@ class LoadFileManager
     public function addRows(int $importId, string $contextName, RowIterator $sheetRows)
     {
         $dataBase = $this->entityManager->getConnection();
-        $schemaName = str_replace([' ', '(', ')', '/', '-', ',', '\'', '*', '+', '&', '#', '"', '.', '!', ':', '?', '='], '_', mb_strtolower($contextName));
-        $tableName = 'import_'. strval($importId);
+        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($contextName));
+        $tableName = $dataBase->quoteIdentifier('import_'. strval($importId));
 
         foreach ($sheetRows as $index => $row)
         {
@@ -70,7 +70,7 @@ class LoadFileManager
                 // Itère entre les colonnes pour concaténer la valeur à la requête
                 foreach ($row->getCellIterator() as $key => $cell)
                 {
-                    $cellContent = $cell->getValue();
+                    $cellContent = $cell->getCalculatedValue(false);
                     // N'ajoute pas de virgule à la première valeur
                     if ($key === 'A')
                     {
@@ -86,7 +86,7 @@ class LoadFileManager
                 // D'abord essaie d'exécuter la requête SQL pour ajouter tous les colonnes d'une ligne en BDD
                 try
                 {
-                    $dataBase->prepare($requestSQL)->execute();
+                    $dataBase->executeQuery($requestSQL);
                 }
                 // En cas d'erreur :
                 catch (\Exception $e)
@@ -94,7 +94,7 @@ class LoadFileManager
                     $import = $this->entityManager->getRepository(Import::class)->find($importId);
                     // Crée un objet log et l'associe à l'import courant
                     $log = new Log();
-                    $log->setCreatedAt(new \DateTimeInterface());
+                    $log->setCreatedAt(new \DateTime());
                     $log->setImport($import);
                     // Ajoute un message d'erreur au log avec l'index de la ligne qui n'a pas pu être lit
                     $log->setMessage('Erreur dans la ligne numéro ' . $index);
@@ -125,8 +125,8 @@ class LoadFileManager
     public function showColumns(Import $import)
     {
         $dataBase = $this->entityManager->getConnection();
-        $schemaName = str_replace([' ', '(', ')', '/', '-', ',', '\'', '*', '+', '&', '#', '"', '.', '!', ':', '?', '='], '_', mb_strtolower($import->getContext()->getTitle()));
-        $tableName = 'import_'. strval($import->getId());
+        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($import->getContext()->getTitle()));
+        $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
 
         $statement = $dataBase->prepare('SELECT * FROM ' . $schemaName . '.' . $tableName);
         $statement->execute();
@@ -137,8 +137,8 @@ class LoadFileManager
     public function showTable(Import $import)
     {
         $dataBase = $this->entityManager->getConnection();
-        $schemaName = str_replace([' ', '(', ')', '/', '-', ',', '\'', '*', '+', '&', '#', '"', '.', '!', ':', '?', '='], '_', mb_strtolower($import->getContext()->getTitle()));
-        $tableName = 'import_'. strval($import->getId());
+        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($import->getContext()->getTitle()));
+        $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
 
         $statement = $dataBase->prepare('SELECT * FROM ' . $schemaName . '.' . $tableName);
         $statement->execute();
