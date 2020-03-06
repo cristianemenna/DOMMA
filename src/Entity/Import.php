@@ -35,7 +35,7 @@ class Import
     private $context;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Log", mappedBy="import", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Log", mappedBy="import", orphanRemoval=true, cascade={"persist"})
      */
     private $logs;
 
