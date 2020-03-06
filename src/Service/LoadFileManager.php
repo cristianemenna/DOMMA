@@ -83,7 +83,7 @@ class LoadFileManager
 
                 $requestSQL .= ')';
 
-                // D'abord essaie d'exécuter la requête SQL pour ajouter tous les colonnes d'une ligne en BDD
+                // D'abord essai d'exécuter la requête SQL pour ajouter toutes les colonnes d'une ligne en BDD
                 try
                 {
                     $dataBase->executeQuery($requestSQL);
@@ -96,7 +96,7 @@ class LoadFileManager
                     $log = new Log();
                     $log->setCreatedAt(new \DateTime());
                     $log->setImport($import);
-                    // Ajoute un message d'erreur au log avec l'index de la ligne qui n'a pas pu être lit
+                    // Ajoute un message d'erreur au log avec l'index de la ligne qui n'a pas pu être ajoutée
                     $log->setMessage('Erreur dans la ligne numéro ' . $index);
                     $import->addLog($log);
                     $this->entityManager->persist($import);

@@ -57,6 +57,12 @@ i.icon-check {
     margin-right: 18px;
 }
 
+i.icon-erreur {
+    font-size: 20px;
+    color: #C82829;
+    margin-right: 18px;
+}
+
 .import-line {
     display: flex;
     justify-content: space-between;
