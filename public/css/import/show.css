@@ -51,7 +51,7 @@ h2, h3 {
 }
 
 .import-container {
-    margin: 50px 0 0 80px;
+    margin: 25px 0 0 80px;
     display: flex;
     flex-wrap: wrap;
     justify-content: right ;
@@ -60,6 +60,9 @@ h2, h3 {
 
 .macros-select-container {
     margin: 20px 0 0 80px;
+    display: flex;
+    align-items: baseline;
+
 }
 
 .checkbox-rows, .search-input {
@@ -103,11 +106,9 @@ h2, h3 {
 }
 
 #button-new-macro {
-    position: relative;
-    right: 50px;
+    margin-left: 80px;
     box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.3), 0 3px 20px 0 rgba(0, 0, 0, 0.15);
-    height: 30px;
-    padding: 12px 30px 5px 30px;
+    padding: 12px 30px 15px 30px;
     border: none;
     background-color: #757575;
     color: #e6e6e6;
@@ -165,3 +166,34 @@ tr:nth-child(odd) {
 tr:nth-child(even) {
     background-color: #fdfcfc;
 }
+
+/******************************************* DATATABLES *******************************************************/
+
+#file-table_wrapper {
+    margin-bottom: 200px;
+}
+
+#file-table_length select {
+    background-color: #FFFFFF;
+    width: 100px;
+    height: 35px;
+    color: #4f4f4f;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+#file-table_length label, #file-table_filter label, #file-table_paginate {
+    color: #4f4f4f;
+    font-size: 15px;
+}
+
+#file-table_filter input {
+    width: 350px;
+    height: 30px;
+    margin-right: 30px;
+}
+
+#file-table_paginate {
+    margin: 30px 30px 0 0 ;
+}
+

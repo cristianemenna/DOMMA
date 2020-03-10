@@ -1,4 +1,7 @@
-console.log('coucou');
+$(document).ready( function () {
+    $('#file-table').DataTable( {
+        "scrollX": true
+    }
+);
+} );
 
-const importField = document.getElementsByTagName('label')[0];
-importField.addEventListener('click', function ())

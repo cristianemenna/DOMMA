@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/import/show.css') }}">{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/import/show.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('DataTables/datatables.css') }}">
+{% endblock %}
+
+
 
 {% block title %}DOMMA - Import{% endblock %}
 
@@ -11,6 +16,7 @@
         </div>
 
         <div class="import-container">
+{#
             <form action="POST" class="filter-rows">
                 <select class="max-rows-select">
                     <option value="" disabled selected>Lignes par page</option>
@@ -27,7 +33,7 @@
                 <input type="text" class="search-on-file" placeholder="Rechercher">
                 <input type="submit" value="&#xf002;" class="search-button" name="search-on-file" />
             </form>
-            <a href="{{ path('macro_new') }}" id="button-new-macro">Macro <i class="fa fa-plus icon-plus-macro"></i></a>
+#}
         </div>
 
         <div class="macros-select-container">
@@ -40,30 +46,39 @@
                 </select>
                 <input type="submit" class="macros-select-submit" value="Appliquer">
             </form>
+            <a href="{{ path('macro_new') }}" id="button-new-macro">Macro <i class="fa fa-plus icon-plus-macro"></i></a>
         </div>
 
         <div class="file-container">
                 {% if (import.status == 'En attente') or (import.status == 'En cours') %}
                     <p><i class="fas fa-spinner fa-2x icon-loading"></i>En cours de chargement...</p>
                 {% else %}
-                    <table class="import-table">
-                        <tbody>
-                        <tr>
-                    {% for importColumn, importValue in importColumns %}
-                            <th>{{ importColumn }}</th>
-                    {% endfor %}
-                        </tr>
-                        <tr>
-                    {% for importObjet in importContent %}
-                        {% for importColumn, importValue in importObjet %}
-                            <td>{{ importValue }}</td>
+                    <table class="import-table display" id="file-table">
+                        <thead>
+                            <tr>
+                        {% for importColumn, importValue in importColumns %}
+                                <th>{{ importColumn }}</th>
                         {% endfor %}
-                        </tr>
-                    {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                        {% for importObjet in importContent %}
+                            {% for importColumn, importValue in importObjet %}
+                                <td>{{ importValue }}</td>
+                            {% endfor %}
+                            </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
                 {% endif %}
             </div>
         </div>
     </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('DataTables/datatables.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/show_import.js') }}"></script>
 {% endblock %}
