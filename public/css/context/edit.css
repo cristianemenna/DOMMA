@@ -124,3 +124,20 @@ form {
     padding: 0;
     width: 10px;
 }
+
+#btn-edit-macro {
+    color: #EBEBEB;
+    background-color: #7f7f7f;
+    width: 200px;
+    height: 45px;
+    font-size: 1em;
+    border: none;
+    outline: none;
+    box-shadow: 3px 5px 5px 0 rgba(0, 0, 0, 0.2), 0 3px 20px 0 rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+}
+
+#btn-edit-macro:hover {
+    background-color: #A5A5A5;
+    cursor: pointer;
+}
