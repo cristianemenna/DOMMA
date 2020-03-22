@@ -11,3 +11,10 @@ $(document).ready(function() {
         allowClear: true
     });
 });
+
+$(document).ready(function() {
+    $('#macro_apply_macro').select2({
+        allowClear: false,
+        placeholder: "Appliquer macro"
+    });
+});

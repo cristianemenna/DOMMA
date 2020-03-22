@@ -3,6 +3,7 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/import/show.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('DataTables/datatables.css') }}">
+    <link rel="stylesheet" href="{{ asset('select/css/select2.css') }}">
 {% endblock %}
 
 
@@ -16,36 +17,15 @@
         </div>
 
         <div class="import-container">
-{#
-            <form action="POST" class="filter-rows">
-                <select class="max-rows-select">
-                    <option value="" disabled selected>Lignes par page</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="30">30</option>
-                    <option value="40">40</option>
-                    <option value="50">50</option>
-                    <option value="100">Tout afficher</option>
-                </select>
-                <input type="submit" class="max-rows-submit" value="Filtrer">
-            </form>
-            <form action="POST" class="search-input">
-                <input type="text" class="search-on-file" placeholder="Rechercher">
-                <input type="submit" value="&#xf002;" class="search-button" name="search-on-file" />
-            </form>
-#}
         </div>
 
         <div class="macros-select-container">
-            <form action="POST">
-                <select class="macros-select">
-                    <option value="" disabled selected>Appliquer macro</option>
-                    {% for macro in macros %}
-                        <option value="{{ macro.id }}">{{ macro.title }}</option>
-                    {% endfor %}
-                </select>
-                <input type="submit" class="macros-select-submit" value="Appliquer">
-            </form>
+            <div>
+                {{ form_start(macroForm) }}
+                    {{ form_widget(macroForm) }}
+                    <button class="macros-select-submit">{{ button_label|default('Appliquer macro') }}</button>
+                {{ form_end(macroForm) }}
+            </div>
             <a href="{{ path('macro_new') }}" id="button-new-macro">Macro <i class="fa fa-plus icon-plus-macro"></i></a>
         </div>
 
@@ -79,6 +59,10 @@
 
 {% block javascripts %}
     <script src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ asset('javascript/select_apply.js') }}"></script>
+    <script src="{{ asset('select/js/select2.js') }}"></script>
+    <script src="{{ asset('select/js/fr.js') }}"></script>
     <script type="text/javascript" charset="utf8" src="{{ asset('DataTables/datatables.js') }}"></script>
     <script type="text/javascript" charset="utf8" src="{{ asset('javascript/show_import.js') }}"></script>
 {% endblock %}
+
