@@ -31,6 +31,7 @@ class MacroType extends AbstractType
                 'choices' => ['Empty' => '',
                     'Select' => 'select',
                     'Update' => 'update',
+                    'Remplace tiret par espace vice' => 'tiret-par-espace',
                 ],
                 'label' => 'Type',
                 'row_attr' => [

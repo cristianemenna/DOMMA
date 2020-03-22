@@ -40,20 +40,25 @@ class ImportController extends AbstractController
     {
         $connectedUser = $this->getUser();
         $macros = $connectedUser->getMacros();
-        //dd($importRepository->showTable($import));
-        $macro = new MacroApplyManager();
+        $importContent = $loadFileManager->showTable($import);
+        $importColumns = $loadFileManager->showColumns($import);
 
+        $macro = new MacroApplyManager();
         $form = $this->createForm(MacroApplyType::class, $macro, ['macros' => $connectedUser->getMacros()]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $macroManager->applyMacro($macro);
+            // Exécute la requête en BDD de la macro séléctionnée
+            $macroQuery = $macroManager->applyMacro($macro, $import);
+            $importContent = $macroQuery[0]; // Premier élément du tableau correspond au contenu de la table
+            $importColumns = $macroQuery[1]; // Deuxième élément du tableau correspond aux colonnes de la table
+
         }
 
         return $this->render('import/show.html.twig', [
             'avatar' => $gravatar->getAvatar($connectedUser),
             'import' => $import,
-            'importContent' => $loadFileManager->showTable($import),
-            'importColumns' => $loadFileManager->showColumns($import),
+            'importContent' => $importContent,
+            'importColumns' => $importColumns,
             'macros' => $macros,
             'macroForm' => $form->createView(),
         ]);
