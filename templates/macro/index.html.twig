@@ -19,17 +19,17 @@
             </thead>
             <tbody>
             {% for macro in macros %}
-                <tr>
-                    <td><span>{{ macro.title }}</span></td>
-                    <td>{{ macro.description }}</td>
-                    <td>
-{#                        <a href="{{ path('macro_show', {'id': macro.id}) }}"><i class="fa fa-info-circle icon-info"></i></a>#}
-                        <a href="{{ path('macro_edit', {'id': macro.id}) }}"><i class="fa fa-pen icon-pen"></i></a>
+                <tr class="macro-line">
+                    <td><i class="fa fa-angle-double-right icon-angle"></i>
+                        <a href="{{ path('macro_edit', {'id': macro.id}) }}">
+                            <span>{{ macro.title }}</span></a>
                     </td>
+                    <td>{{ macro.description }}</td>
+                    <td><a href="{{ path('macro_edit', {'id': macro.id}) }}"><i class="fa fa-pen icon-pen"></i></a></td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="4">no records found</td>
+                    <td colspan="4">Vous n'avez pas encore créé de macro.</td>
                 </tr>
             {% endfor %}
             </tbody>
