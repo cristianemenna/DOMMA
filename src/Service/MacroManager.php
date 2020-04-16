@@ -18,16 +18,20 @@ class MacroManager
         $this->loadFileManager = $loadFileManager;
     }
 
+    /** Vérifie le type de la macro appliquée et exécute la fonction correspondante
+     *
+     * @param MacroApplyManager $macro
+     * @param Import $import
+     * @return mixed
+     * @throws \Doctrine\DBAL\DBALException
+     */
     public function applyMacro(MacroApplyManager $macro, Import $import)
     {
-        // Vérifie le type de la macro appliquée et exécute la fonction correspondante
         switch ($macro->getMacro()->getType())
         {
             case 'select':
-                // Résultat est un tableau :
-                // Premier élément = résultat du select
-                // Deuxième élément = colonnes du fichier
-                return [$this->select($macro, $import), $this->columnsForSelect($macro, $import)];
+                $this->addQueryColumnsToTable($macro, $import);
+                $this->addQueryToTable($macro, $import);
                 break;
             case 'update':
                 return $this->update($macro, $import);
@@ -38,7 +42,14 @@ class MacroManager
         }
     }
 
-    // Application de macro de type "Select"
+
+    /** Application de macro de type "Select"
+     *
+     * @param MacroApplyManager $macro
+     * @param Import $import
+     * @return mixed[]
+     * @throws \Doctrine\DBAL\DBALException
+     */
     public function select(MacroApplyManager $macro, Import $import)
     {
         $dataBase = $this->entityManager->getConnection();
@@ -59,20 +70,13 @@ class MacroManager
         return $statement->fetchAll();
     }
 
-    // Recupère le nom des colonnes du résultat du select
-    public function columnsForSelect(MacroApplyManager $macro, Import $import)
-    {
-        $columns = $this->select($macro, $import)[0];
-        $columnsName = [];
-        // Duplique en clef/valeur juste la première ligne des résultats de la requête, pour afficher le nom des colonnes
-        foreach ($columns as $key => $value) {
-            $columnsName[$key] = $key;
-        }
-
-        return $columnsName;
-    }
-
-    // TODO débugger array end
+    /** Boucle sur le résultat de la requête de select pour ajouter modifier la table
+     *  et ajouter les colonnes en BDD, s'ils elles n'existent pas encore.
+     *
+     * @param MacroApplyManager $macro
+     * @param Import $import
+     * @throws \Doctrine\DBAL\DBALException
+     */
     public function addQueryColumnsToTable(MacroApplyManager $macro, Import $import)
     {
         $dataBase = $this->entityManager->getConnection();
@@ -86,18 +90,24 @@ class MacroManager
 
         $requestSQL = 'ALTER TABLE ' . $schemaName . '.' . $tableName;
 
+        $columnsKeys = array_keys($columns);
         foreach ($columns as $columnName => $value) {
-            if ($columnName !== array_pop(array_keys($columns))) {
-                $requestSQL .= ' ADD COLUMN ' . $columnName . ' TEXT,';
+            if ($columnName !== end($columnsKeys)) {
+                $requestSQL .= ' ADD COLUMN IF NOT EXISTS ' . $columnName . ' TEXT,';
             } else {
-                $requestSQL .= ' ADD COLUMN ' . $columnName . ' TEXT';
+                $requestSQL .= ' ADD COLUMN IF NOT EXISTS ' . $columnName . ' TEXT';
             }
         }
 
-        return $dataBase->executeQuery($requestSQL);
+        $dataBase->executeQuery($requestSQL);
     }
 
-    // TODO débugger array end
+    /** Modifie la table en BDD pour ajouter le résultat d'un select
+     *
+     * @param MacroApplyManager $macro
+     * @param Import $import
+     * @throws \Doctrine\DBAL\DBALException
+     */
     public function addQueryToTable(MacroApplyManager $macro, Import $import)
     {
         $dataBase = $this->entityManager->getConnection();
@@ -109,57 +119,58 @@ class MacroManager
         // Recupère le nom de la table de l'import
         $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
 
+        // Boucle sur chaque ligne du résultat de la requête
+        foreach ($content as $key => $line) {
+            $requestSQL = 'UPDATE ' . $schemaName . '.' . $tableName . ' SET (';
 
-        foreach ($content as $line) {
-            $requestSQL = 'INSERT INTO ' . $schemaName . '.' . $tableName . ' (';
-
+            // Ajoute les noms des colonnes à modifier sur chaque ligne
+            $lineKeys = array_keys($line);
             foreach ($line as $column => $contentValue) {
-                if ($line != end($content)) {
+                if ($column !== end($lineKeys)) {
                     $requestSQL .= $column . ', ';
                 } else {
                     $requestSQL .= $column;
                 }
             }
 
-            $requestSQL .= ') VALUES (';
+            $requestSQL .= ') = (';
 
+            // Ajoute les valeurs à ajouter sur chaque colonne
             foreach ($line as $column => $contentValue) {
-                if ($line != end($content)) {
+                if ($column !== end($lineKeys)) {
                     $requestSQL .= $contentValue . ', ';
                 } else {
                     $requestSQL .= $contentValue;
                 }
             }
 
-            $requestSQL .= ')';
+            // Indique l'id de chaque ligne depuis la première
+            $requestSQL .= ') WHERE id = ' . ($key + 1);
+            $dataBase->executeQuery($requestSQL);
         }
-
-        return $dataBase->executeQuery($requestSQL);
-
-
     }
 
+    /** Application de macro qui substitue les tirets par espaces vide dans une colonne
+     *
+     * @param MacroApplyManager $macro
+     * @param Import $import
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function replaceHyphenBySpace(MacroApplyManager $macro, Import $import)
+    {
+        $dataBase = $this->entityManager->getConnection();
+        // Recupère le code de la macro
+        $macroCode = $macro->getMacro()->getCode();
 
-//    // Application de macro qui substitue les tirets par espaces vide
-//    public function replaceHyphenBySpace(MacroApplyManager $macro, Import $import)
-//    {
-//        $dataBase = $this->entityManager->getConnection();
-//        // Recupère le code de la macro
-//        $macroCode = $macro->getMacro()->getCode();
-//
-//        // Recupère le nom du contexte pour identifier le nom du schema de l'import
-//        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($import->getContext()->getTitle()));
-//        $schemaName = str_replace([' '], '_', $schemaName);
-//        // Recupère le nom de la table de l'import
-//        $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
-//
-//        // Création de la requête avec le code de la macro
-//        $requestSQL = 'UPDATE ' . $schemaName . '.' . $tableName . ' SET ' . $macroCode . ' = REPLACE(' . $macroCode . ", '-', ' ')";
-//        $statement = $dataBase->executeQuery($requestSQL);
-//
-//        // Retourne un tableau : premier élément est le contenu de la table, le deuxième sont les colonnes
-//        return [$this->loadFileManager->showTable($import),
-//                        $this->loadFileManager->showColumns($import)];
-//    }
+        // Recupère le nom du contexte pour identifier le nom du schema de l'import
+        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($import->getContext()->getTitle()));
+        $schemaName = str_replace([' '], '_', $schemaName);
+        // Recupère le nom de la table de l'import
+        $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
+
+        // Création de la requête avec le code de la macro
+        $requestSQL = 'UPDATE ' . $schemaName . '.' . $tableName . ' SET ' . $macroCode . ' = REPLACE(' . $macroCode . ", '-', ' ')";
+        $dataBase->executeQuery($requestSQL);
+    }
 
 }
