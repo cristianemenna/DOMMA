@@ -5,7 +5,7 @@
             <li><a href="{{ path('users_index') }}"><img src="{{ asset('img/logo.png') }}" alt="logo" id="nav-logo" /></a></li>
             <div class="dropdown">
                 <button class="dropbtn">{{ app.user.firstName }}
-                    <img src="{{ asset('img/fleche_menu.png') }}" alt="Menu" id="nav-set" />
+                    <img src="{{ asset('img/fleche.png') }}" alt="Menu" id="nav-set" />
                 </button>
                 <div class="dropdown-content">
                     <a href="{{ path('users_edit', {'id': app.user.id}) }}">Gestion de compte</a>

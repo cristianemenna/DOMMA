@@ -1,7 +1,7 @@
 nav {
     top: 0;
-    height: 80px;
-    background-color: #ECECEC;
+    height: 75px;
+    background-color: #505050;
 }
 
 nav ul {
@@ -23,7 +23,7 @@ nav ul {
     font-size: 20px;
     border: none;
     outline: none;
-    color: #676767;
+    color: #C5C5C5;
     background-color: inherit;
 }
 
