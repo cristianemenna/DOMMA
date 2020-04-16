@@ -1,37 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Macros index{% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/macro/new.css') }}">{% endblock %}
+
+{% block title %}DOMMA - Mes macros{% endblock %}
 
 {% block body %}
-    <h1>Macros index</h1>
+    <main>
+        <div class="separator">
+            <h1>Mes macros</h1>
+        </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for macro in macros %}
-            <tr>
-                <td>{{ macro.id }}</td>
-                <td>{{ macro.title }}</td>
-                <td>{{ macro.description }}</td>
-                <td>
-                    <a href="{{ path('macro_show', {'id': macro.id}) }}">show</a>
-                    <a href="{{ path('macro_edit', {'id': macro.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <table class="macros-container">
+            <thead>
+                <tr class="macros-title">
+                    <th>Titre</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for macro in macros %}
+                <tr>
+                    <td><span>{{ macro.title }}</span></td>
+                    <td>{{ macro.description }}</td>
+                    <td>
+{#                        <a href="{{ path('macro_show', {'id': macro.id}) }}"><i class="fa fa-info-circle icon-info"></i></a>#}
+                        <a href="{{ path('macro_edit', {'id': macro.id}) }}"><i class="fa fa-pen icon-pen"></i></a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-    <a href="{{ path('macro_new') }}">Create new</a>
+    </main>
 {% endblock %}

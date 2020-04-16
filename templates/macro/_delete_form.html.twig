@@ -1,4 +1,4 @@
-<form method="post" action="{{ path('macro_delete', {'id': macro.id}) }}" id="macro-delete-form" onsubmit="return confirm('Are you sure you want to delete this item?');">
+<form method="post" action="{{ path('macro_delete', {'id': macro.id}) }}" id="macro-delete-form" onsubmit="return confirm('Êtes vous sûr de vouloir supprimer la macro ?');">
     <input type="hidden" name="_method" value="DELETE">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ macro.id) }}">
     <button class="macro-delete"><i class="fas fa-trash-alt"></i></button>
