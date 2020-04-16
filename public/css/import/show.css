@@ -197,3 +197,16 @@ tr:nth-child(even) {
     margin: 30px 30px 0 0 ;
 }
 
+/********************************************* SELECT MACRO *****************************************************/
+
+#macro_apply_macro {
+   width: 500px;
+}
+
+.macros-select-container > div > form {
+    display: flex;
+}
+
+.macros-select-submit {
+    margin-left: 10px;
+}

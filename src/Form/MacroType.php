@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Macro;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,14 +27,19 @@ class MacroType extends AbstractType
                     'class' => 'field'
                 ],
             ])
-            ->add('code', TextType::class, [
-                'label' => 'Code',
+            ->add('type', ChoiceType::class, [
+                'choices' => ['Empty' => '',
+                    'Select' => 'select',
+                    'Update' => 'update',
+                    'Remplace tiret par espace vice' => 'tiret-par-espace',
+                ],
+                'label' => 'Type',
                 'row_attr' => [
                     'class' => 'field'
                 ],
             ])
-            ->add('type', TextType::class, [
-                'label' => 'Type',
+            ->add('code', TextareaType::class, [
+                'label' => 'Code',
                 'row_attr' => [
                     'class' => 'field'
                 ],

@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use App\Controller\MacroController;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\MacrosRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\MacroRepository")
  */
 class Macro
 {

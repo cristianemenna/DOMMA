@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Import;
+use App\Form\MacroApplyType;
 use App\Repository\ImportRepository;
 use App\Service\GravatarManager;
 use App\Service\LoadFileManager;
+use App\Service\MacroApplyManager;
+use App\Service\MacroManager;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -33,18 +36,31 @@ class ImportController extends AbstractController
     /**
      * @Route("/{id}", name="import_show", methods={"GET", "POST"})
      */
-    public function show(Import $import, GravatarManager $gravatar, LoadFileManager $loadFileManager): Response
+    public function show(Request $request, Import $import, GravatarManager $gravatar, LoadFileManager $loadFileManager, MacroManager $macroManager): Response
     {
         $connectedUser = $this->getUser();
         $macros = $connectedUser->getMacros();
-        //dd($importRepository->showTable($import));
+        $importContent = $loadFileManager->showTable($import);
+        $importColumns = $loadFileManager->showColumns($import);
+
+        $macro = new MacroApplyManager();
+        $form = $this->createForm(MacroApplyType::class, $macro, ['macros' => $connectedUser->getMacros()]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Exécute la requête en BDD de la macro séléctionnée
+            $macroQuery = $macroManager->applyMacro($macro, $import);
+            $importContent = $macroQuery[0]; // Premier élément du tableau correspond au contenu de la table
+            $importColumns = $macroQuery[1]; // Deuxième élément du tableau correspond aux colonnes de la table
+
+        }
 
         return $this->render('import/show.html.twig', [
             'avatar' => $gravatar->getAvatar($connectedUser),
             'import' => $import,
-            'importContent' => $loadFileManager->showTable($import),
-            'importColumns' => $loadFileManager->showColumns($import),
+            'importContent' => $importContent,
+            'importColumns' => $importColumns,
             'macros' => $macros,
+            'macroForm' => $form->createView(),
         ]);
     }
 

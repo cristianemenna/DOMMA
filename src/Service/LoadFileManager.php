@@ -24,8 +24,10 @@ class LoadFileManager
     {
         $dataBase = $this->entityManager->getConnection();
         // Remplace les espaces ou d'autre caractères dans le nom du contexte pour des underscores
-//        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($contextName));
-        $schemaName = str_replace([' ', '(', ')', '/', '-', ',', '\'', '*', '+', '&', '#', '"', '.', '!', ':', '?', '='], '_', mb_strtolower($contextName));
+////        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($contextName));
+//        $schemaName = str_replace([' ', '(', ')', '/', '-', ',', '\'', '*', '+', '&', '#', '"', '.', '!', ':', '?', '='], '_', mb_strtolower($contextName));
+        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($contextName));
+        $schemaName = str_replace([' '], '_', $schemaName);
         $tableName = $dataBase->quoteIdentifier('import_'. strval($importId));
         // Crée une table avec le nom 'import_id'
         $dataBase->prepare('CREATE TABLE ' . $schemaName . '.' . $tableName . ' ' . '(id serial primary key)')
@@ -57,8 +59,10 @@ class LoadFileManager
     public function addRows(int $importId, string $contextName, RowIterator $sheetRows)
     {
         $dataBase = $this->entityManager->getConnection();
-        $schemaName = str_replace([' ', '(', ')', '/', '-', ',', '\'', '*', '+', '&', '#', '"', '.', '!', ':', '?', '='], '_', mb_strtolower($contextName));
+//        $schemaName = str_replace([' ', '(', ')', '/', '-', ',', '\'', '*', '+', '&', '#', '"', '.', '!', ':', '?', '='], '_', mb_strtolower($contextName));
 //        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($contextName));
+        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($contextName));
+        $schemaName = str_replace([' '], '_', $schemaName);
         $tableName = $dataBase->quoteIdentifier('import_'. strval($importId));
 
         foreach ($sheetRows as $index => $row)
@@ -128,7 +132,9 @@ class LoadFileManager
     {
         $dataBase = $this->entityManager->getConnection();
 //        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($import->getContext()->getTitle()));
-        $schemaName = str_replace([' ', '(', ')', '/', '-', ',', '\'', '*', '+', '&', '#', '"', '.', '!', ':', '?', '='], '_', mb_strtolower($import->getContext()->getTitle()));
+//        $schemaName = str_replace([' ', '(', ')', '/', '-', ',', '\'', '*', '+', '&', '#', '"', '.', '!', ':', '?', '='], '_', mb_strtolower($import->getContext()->getTitle()));
+        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($import->getContext()->getTitle()));
+        $schemaName = str_replace([' '], '_', $schemaName);
         $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
 
         $statement = $dataBase->prepare('SELECT * FROM ' . $schemaName . '.' . $tableName);
@@ -141,7 +147,9 @@ class LoadFileManager
     {
         $dataBase = $this->entityManager->getConnection();
 //        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($import->getContext()->getTitle()));
-        $schemaName = str_replace([' ', '(', ')', '/', '-', ',', '\'', '*', '+', '&', '#', '"', '.', '!', ':', '?', '='], '_', mb_strtolower($import->getContext()->getTitle()));
+//        $schemaName = str_replace([' ', '(', ')', '/', '-', ',', '\'', '*', '+', '&', '#', '"', '.', '!', ':', '?', '='], '_', mb_strtolower($import->getContext()->getTitle()));
+        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($import->getContext()->getTitle()));
+        $schemaName = str_replace([' '], '_', $schemaName);
         $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
 
         $statement = $dataBase->prepare('SELECT * FROM ' . $schemaName . '.' . $tableName);

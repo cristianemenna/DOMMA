@@ -1,6 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/macro/new.css') }}">{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/macro/new.css') }}">
+    <link rel="stylesheet" href="{{ asset('select/css/select2.css') }}">
+{% endblock %}
 
 {% block title %}DOMMA - Créer une macro{% endblock %}
 
@@ -14,8 +17,10 @@
             {{ form_start(form) }}
                 {{ form_widget(form.title,  {'attr': {'class': 'form-input', 'placeholder': 'Titre'}} ) }}
                 {{ form_widget(form.description,  {'attr': {'class': 'form-input', 'placeholder': 'Description'}} ) }}
-                {{ form_widget(form.code,  {'attr': {'class': 'form-input', 'placeholder': 'Code'}} ) }}
-                {{ form_widget(form.type,  {'attr': {'class': 'form-input', 'placeholder': 'Type'}} ) }}
+                {{ form_widget(form.code,  {'attr': {'class': 'form-input', id: 'form-code', 'placeholder': 'Code'}} ) }}
+            <div class="select-style">
+                {{ form_widget(form.type) }}
+            </div>
                 <div class="form-buttons">
                     <button id="btn-create-macro">{{ button_label|default('Créer macro') }}</button>
                     <a href="{{ path('context_index') }}" id="form-cancel">Annuler</a>
@@ -26,4 +31,10 @@
     </main>
 {% endblock %}
 
+{% block javascripts %}
+    <script src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ asset('javascript/select_apply.js') }}"></script>
+    <script src="{{ asset('select/js/select2.js') }}"></script>
+    <script src="{{ asset('select/js/fr.js') }}"></script>
+{% endblock %}
 

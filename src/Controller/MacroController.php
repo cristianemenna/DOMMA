@@ -44,7 +44,7 @@ class MacroController extends AbstractController
             $entityManager->persist($macro);
             $entityManager->flush();
 
-            return $this->redirectToRoute('macro_index');
+            return $this->redirectToRoute('users_index');
         }
 
         return $this->render('macro/new.html.twig', [

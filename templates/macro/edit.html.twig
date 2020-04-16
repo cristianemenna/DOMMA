@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/context/edit.css') }}">{% endblock %}
+{#{% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/context/edit.css') }}">{% endblock %}#}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/macro/new.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/context/edit.css') }}">
+    <link rel="stylesheet" href="{{ asset('select/css/select2.css') }}">
+{% endblock %}
 
 {% block title %}DOMMA - Edition de macro{% endblock %}
 
@@ -13,12 +18,25 @@
 
         <div class="edit-container">
             {{ form_start(form) }}
-                {{ form_widget(form) }}
+                {{ form_widget(form.title,  {'attr': {'class': 'form-input', 'placeholder': 'Titre'}} ) }}
+                {{ form_widget(form.description,  {'attr': {'class': 'form-input', 'placeholder': 'Description'}} ) }}
+                {{ form_widget(form.code,  {'attr': {'class': 'form-input', id: 'form-code', 'placeholder': 'Code'}} ) }}
+                <div class="select-style">
+                    {{ form_widget(form.type) }}
+                </div>
             <div class="form-buttons">
-                <button class="edit-macro">{{ button_label|default('Mettre à jour') }}</button>
+                <button id="btn-edit-macro">{{ button_label|default('Mettre à jour') }}</button>
                 <a href="{{ path('macro_show', {'id': macro.id}) }}" id="form-cancel">Annuler</a>
             </div>
             {{ form_end(form) }}
         </div>
     </main>
 {% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ asset('javascript/select_apply.js') }}"></script>
+    <script src="{{ asset('select/js/select2.js') }}"></script>
+    <script src="{{ asset('select/js/fr.js') }}"></script>
+{% endblock %}
+
