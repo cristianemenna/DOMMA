@@ -8,6 +8,8 @@
                     <img src="{{ asset('img/fleche.png') }}" alt="Menu" id="nav-set" />
                 </button>
                 <div class="dropdown-content">
+                    <a href="{{ path('users_index') }}">Mes contextes</a>
+                    <a href="{{ path('macro_index') }}">Mes macros</a>
                     <a href="{{ path('users_edit', {'id': app.user.id}) }}">Gestion de compte</a>
                     <a href="{{ path('app_logout') }}">Déconnexion</a>
                 </div>
