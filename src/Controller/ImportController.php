@@ -49,6 +49,8 @@ class ImportController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // Exécute la requête en BDD de la macro séléctionnée
             $macroManager->applyMacro($macro, $import);
+            $importContent = $loadFileManager->showTable($import);
+            $importColumns = $loadFileManager->showColumns($import);
         }
 
         return $this->render('import/show.html.twig', [
