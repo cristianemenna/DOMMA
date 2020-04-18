@@ -33,15 +33,20 @@ class MacroManager
                 $this->addQueryColumnsToTable($macro, $import);
                 $this->addQueryToTable($macro, $import);
                 break;
+            case 'insert':
+                $this->insert($macro, $import);
+                break;
             case 'update':
-                return $this->update($macro, $import);
+                $this->update($macro, $import);
+                break;
+            case 'delete':
+                $this->delete($macro, $import);
                 break;
             case 'tiret-par-espace':
-                return $this->replaceHyphenBySpace($macro, $import);
+                $this->replaceHyphenBySpace($macro, $import);
                 break;
         }
     }
-
 
     /** Application de macro de type "Select"
      *
@@ -50,7 +55,7 @@ class MacroManager
      * @return mixed[]
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function select(MacroApplyManager $macro, Import $import)
+    private function select(MacroApplyManager $macro, Import $import)
     {
         $dataBase = $this->entityManager->getConnection();
         // Recupère le code de la macro
@@ -77,7 +82,7 @@ class MacroManager
      * @param Import $import
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function addQueryColumnsToTable(MacroApplyManager $macro, Import $import)
+    private function addQueryColumnsToTable(MacroApplyManager $macro, Import $import)
     {
         $dataBase = $this->entityManager->getConnection();
         $columns = $this->select($macro, $import)[0];
@@ -108,7 +113,7 @@ class MacroManager
      * @param Import $import
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function addQueryToTable(MacroApplyManager $macro, Import $import)
+    private function addQueryToTable(MacroApplyManager $macro, Import $import)
     {
         $dataBase = $this->entityManager->getConnection();
         $content = $this->select($macro, $import);
@@ -150,13 +155,70 @@ class MacroManager
         }
     }
 
+    private function insert(MacroApplyManager $macro, Import $import)
+    {
+        $dataBase = $this->entityManager->getConnection();
+        // Recupère le code de la macro
+        $macroCode = $macro->getMacro()->getCode();
+
+        // Recupère le nom du contexte pour identifier le nom du schema de l'import
+        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($import->getContext()->getTitle()));
+        $schemaName = str_replace([' '], '_', $schemaName);
+        // Recupère le nom de la table de l'import
+        $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
+
+        // Création de la requête avec le code de la macro
+        $requestSQL = 'INSERT INTO ' . $schemaName . '.' . $tableName .
+                        ' VALUES ( ' . $macroCode . ')';
+
+        $dataBase->executeQuery($requestSQL);
+    }
+
+    private function update(MacroApplyManager $macro, Import $import)
+    {
+        $dataBase = $this->entityManager->getConnection();
+        // Recupère le code de la macro
+        $macroCode = $macro->getMacro()->getCode();
+
+        // Recupère le nom du contexte pour identifier le nom du schema de l'import
+        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($import->getContext()->getTitle()));
+        $schemaName = str_replace([' '], '_', $schemaName);
+        // Recupère le nom de la table de l'import
+        $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
+
+        // Création de la requête avec le code de la macro
+        $requestSQL = 'UPDATE ' . $schemaName . '.' . $tableName .
+                        ' SET ' . $macroCode;
+
+        $dataBase->executeQuery($requestSQL);
+    }
+
+    private function delete(MacroApplyManager $macro, Import $import)
+    {
+        $dataBase = $this->entityManager->getConnection();
+        // Recupère le code de la macro
+        $macroCode = $macro->getMacro()->getCode();
+
+        // Recupère le nom du contexte pour identifier le nom du schema de l'import
+        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($import->getContext()->getTitle()));
+        $schemaName = str_replace([' '], '_', $schemaName);
+        // Recupère le nom de la table de l'import
+        $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
+
+        // Création de la requête avec le code de la macro
+        $requestSQL = 'DELETE FROM ' . $schemaName . '.' . $tableName .
+                        ' WHERE ' . $macroCode;
+
+        $dataBase->executeQuery($requestSQL);
+    }
+
     /** Application de macro qui substitue les tirets par espaces vide dans une colonne
      *
      * @param MacroApplyManager $macro
      * @param Import $import
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function replaceHyphenBySpace(MacroApplyManager $macro, Import $import)
+    private function replaceHyphenBySpace(MacroApplyManager $macro, Import $import)
     {
         $dataBase = $this->entityManager->getConnection();
         // Recupère le code de la macro

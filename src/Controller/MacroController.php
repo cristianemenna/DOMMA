@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Import;
 use App\Entity\Macro;
 use App\Form\MacroType;
 use App\Repository\MacroRepository;
@@ -10,6 +11,7 @@ use Gravatar\Gravatar;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -32,8 +34,10 @@ class MacroController extends AbstractController
     /**
      * @Route("/new", name="macro_new", methods={"GET","POST"})
      */
-    public function new(Request $request, GravatarManager $gravatar): Response
+    public function new(Request $request, GravatarManager $gravatar, SessionInterface $session): Response
     {
+        // Recupère l'id de l'import de la page d'origine
+        $import = $session->get('import');
         $macro = new Macro();
         $form = $this->createForm(MacroType::class, $macro);
         $form->handleRequest($request);
@@ -44,7 +48,7 @@ class MacroController extends AbstractController
             $entityManager->persist($macro);
             $entityManager->flush();
 
-            return $this->redirectToRoute('users_index');
+            return $this->redirectToRoute('import_show', ['id' => $import]);
         }
 
         return $this->render('macro/new.html.twig', [

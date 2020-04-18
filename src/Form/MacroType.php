@@ -30,7 +30,9 @@ class MacroType extends AbstractType
             ->add('type', ChoiceType::class, [
                 'choices' => ['Empty' => '',
                     'Select' => 'select',
+                    'Insert' => 'insert',
                     'Update' => 'update',
+                    'Delete' => 'delete',
                     'Remplace tiret par espace vice' => 'tiret-par-espace',
                 ],
                 'label' => 'Type',
