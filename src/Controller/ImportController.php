@@ -15,6 +15,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
@@ -36,8 +37,9 @@ class ImportController extends AbstractController
     /**
      * @Route("/{id}", name="import_show", methods={"GET", "POST"})
      */
-    public function show(Request $request, Import $import, GravatarManager $gravatar, LoadFileManager $loadFileManager, MacroManager $macroManager): Response
+    public function show(Request $request, Import $import, GravatarManager $gravatar, LoadFileManager $loadFileManager, MacroManager $macroManager, SessionInterface $session): Response
     {
+        $session->set('import', $import->getId());
         $connectedUser = $this->getUser();
         $macros = $connectedUser->getMacros();
         $importContent = $loadFileManager->showTable($import);
