@@ -43,7 +43,7 @@ class MacroManager
                 $this->delete($macro, $import);
                 break;
             case 'tiret-par-espace':
-                return $this->replaceHyphenBySpace($macro, $import);
+                $this->replaceHyphenBySpace($macro, $import);
                 break;
         }
     }
