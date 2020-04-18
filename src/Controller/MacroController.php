@@ -54,6 +54,7 @@ class MacroController extends AbstractController
         return $this->render('macro/new.html.twig', [
             'macro' => $macro,
             'form' => $form->createView(),
+            'import' => $import,
             'avatar' => $gravatar->getAvatar($this->getUser()),
         ]);
     }
