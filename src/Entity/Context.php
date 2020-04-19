@@ -72,7 +72,7 @@ class Context
 
     public function addUser(Users $user): self
     {
-        if (!$this->users->contains($user)) {
+        if ($this->users === null || !$this->users->contains($user)) {
             $this->users[] = $user;
         }
 
