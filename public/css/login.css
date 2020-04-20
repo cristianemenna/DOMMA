@@ -1,5 +1,6 @@
 body {
-    background-color: #505050;
+    /*background-color: #505050;*/
+    background: linear-gradient(#505050, #646464);
     font-family: Dosis, Geneva, sans-serif;
     color: #646464;
 }
