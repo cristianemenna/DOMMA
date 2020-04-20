@@ -72,7 +72,7 @@ class ContextController extends AbstractController
         $user = $this->getUser();
 
         // Si l'utilisateur actif n'as pas droit d'accès au contexte, on affiche un 'Not found'
-        if (!$context->getUsers()->contains($user))
+        if (!$context->getUsers()->contains($this->getUser()))
         {
             throw $this->createNotFoundException();
         }

@@ -39,14 +39,20 @@ class ImportController extends AbstractController
      */
     public function show(Request $request, Import $import, GravatarManager $gravatar, LoadFileManager $loadFileManager, MacroManager $macroManager, SessionInterface $session): Response
     {
+        $user = $this->getUser();
+        // Si l'utilisateur actif n'as pas droit d'accès au contexte auquel appartient l'import, on affiche un 'Not found'
+        if (!$import->getContext()->getUsers()->contains($user))
+        {
+            throw $this->createNotFoundException();
+        }
+
         $session->set('import', $import->getId());
-        $connectedUser = $this->getUser();
-        $macros = $connectedUser->getMacros();
+        $macros = $user->getMacros();
         $importContent = $loadFileManager->showTable($import);
         $importColumns = $loadFileManager->showColumns($import);
 
         $macro = new MacroApplyManager();
-        $form = $this->createForm(MacroApplyType::class, $macro, ['macros' => $connectedUser->getMacros()]);
+        $form = $this->createForm(MacroApplyType::class, $macro, ['macros' => $user->getMacros()]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // Exécute la requête en BDD de la macro séléctionnée
@@ -56,7 +62,7 @@ class ImportController extends AbstractController
         }
 
         return $this->render('import/show.html.twig', [
-            'avatar' => $gravatar->getAvatar($connectedUser),
+            'avatar' => $gravatar->getAvatar($user),
             'import' => $import,
             'importContent' => $importContent,
             'importColumns' => $importColumns,
