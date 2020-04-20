@@ -1,7 +1,12 @@
 body {
-    background-color: #EAEAEA;
-    font-family: Verdana, Geneva, sans-serif;
+    background-color: #505050;
+    font-family: Dosis, Geneva, sans-serif;
     color: #646464;
+}
+
+@font-face {
+    font-family: "Dosis";
+    src: url("../fonts/Dosis-Medium.ttf");
 }
 
 img {
@@ -17,8 +22,9 @@ h1 {
     margin-left: 10px;
     font-weight: normal;
     text-align: center;
-    font-size: 1.1em;
-    margin-bottom: 50px;
+    font-size: 1.2em;
+    margin-bottom: 80px;
+    color: #BCBCBC;
 }
 
 form {
@@ -26,12 +32,13 @@ form {
     height: 400px;
     background-color: #F7F6F6;
     margin: 0 auto;
+    border-radius: 1%;
     box-shadow: 0 14px 18px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .login-button {
-    color: #646464;
-    background-color: #BFBFBF;
+    color: #F7F6F6;
+    background-color: #707070;
     width: 250px;
     height: 45px;
     margin-left: 50px;
@@ -42,7 +49,7 @@ form {
 }
 
 .login-button:hover {
-    background-color: #d9d9d9;
+    background-color: #8A8A8A;
     cursor: pointer;
 }
 
