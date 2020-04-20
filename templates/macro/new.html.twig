@@ -21,9 +21,9 @@
             <div class="select-style">
                 {{ form_widget(form.type) }}
             </div>
-                <div class="form-buttons">
+                <div class="form-buttons-macro">
                     <button id="btn-create-macro">{{ button_label|default('Créer macro') }}</button>
-                    <a href="{{ path('import_show', {id: import} ) }}" id="form-cancel">Annuler</a>
+                    <a href="{{ path('import_show', {id: import} ) }}" class="form-cancel">Annuler</a>
                 </div>
             {{ form_end(form) }}
         </div>

@@ -1,6 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{#{% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/context/edit.css') }}">{% endblock %}#}
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/macro/new.css') }}">
     <link rel="stylesheet" href="{{ asset('css/context/edit.css') }}">
@@ -24,12 +23,13 @@
                 <div class="select-style">
                     {{ form_widget(form.type) }}
                 </div>
-            <div class="form-buttons">
+            <div class="form-buttons-macro">
                 <button id="btn-edit-macro">{{ button_label|default('Mettre à jour') }}</button>
-                <a href="{{ path('macro_show', {'id': macro.id}) }}" id="form-cancel">Annuler</a>
+                <a href="{{ app.request.headers.get('referer') }}" class="form-cancel">Annuler</a>
             </div>
             {{ form_end(form) }}
         </div>
+        <div class="separator-bottom"></div>
     </main>
 {% endblock %}
 
