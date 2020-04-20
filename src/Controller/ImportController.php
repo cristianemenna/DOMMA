@@ -55,10 +55,10 @@ class ImportController extends AbstractController
         $form = $this->createForm(MacroApplyType::class, $macro, ['macros' => $user->getMacros()]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // Exécute la requête en BDD de la macro séléctionnée
             if (isset($_POST['details'])) {
                 return $this->redirectToRoute('macro_edit', ['id' => $macro->getMacro()->getId()]);
             } else {
+                // Exécute la requête en BDD de la macro séléctionnée
                 $macroManager->applyMacro($macro, $import);
                 $importContent = $loadFileManager->showTable($import);
                 $importColumns = $loadFileManager->showColumns($import);
