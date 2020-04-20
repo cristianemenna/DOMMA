@@ -105,8 +105,8 @@ form {
     border: none;
     background: transparent;
     position: absolute;
-    top: -5px;
-    right: 0;
+    top: 0;
+    right: -50px;
 }
 
 .context-delete:hover, .macro-delete:hover {
