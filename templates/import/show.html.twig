@@ -23,7 +23,8 @@
             <div>
                 {{ form_start(macroForm) }}
                     {{ form_widget(macroForm) }}
-                    <button class="macros-select-submit">{{ button_label|default('Appliquer macro') }}</button>
+                    <input type="submit" name="details" id="macro-details" class="macros-select-submit" value="Voir en détail">
+                    <input type="submit" name="apply" id="macro-apply" class="macros-select-submit" value="Appliquer macro">
                 {{ form_end(macroForm) }}
             </div>
             <a href="{{ path('macro_new') }}" id="button-new-macro">Macro <i class="fa fa-plus icon-plus-macro"></i></a>

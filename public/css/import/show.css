@@ -37,7 +37,7 @@ h2, h3 {
 }
 
 .file-container {
-    margin: 50px 0 0 80px;
+    margin: 80px 0 0 80px;
 }
 
 .icon-loading {
@@ -105,7 +105,8 @@ h2, h3 {
 }
 
 #button-new-macro {
-    margin-left: 80px;
+    position: absolute;
+    right: 5%;
     box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.3), 0 3px 20px 0 rgba(0, 0, 0, 0.15);
     padding: 12px 30px 15px 30px;
     border: none;
@@ -117,7 +118,7 @@ h2, h3 {
 }
 
 #button-new-macro:hover {
-    background-color: #6b6b6b;
+    background-color: #6B6B6B;
 }
 
 i.icon-plus-macro {
@@ -209,4 +210,17 @@ tr:nth-child(even) {
 
 .macros-select-submit {
     margin-left: 10px;
+}
+
+#macro-apply, #macro-details {
+    font-family: 'Dosis', sans-serif;
+}
+
+#macro-apply {
+    background-color: #CECECE;
+}
+
+#macro-apply:hover {
+    background-color: #9D9D9D;
+    color: #EBEBEB;
 }
