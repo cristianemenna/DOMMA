@@ -35,17 +35,7 @@ class UsersController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="users_show", methods={"GET"})
-     */
-    public function show(Users $user): Response
-    {
-        return $this->render('users/show.html.twig', [
-            'user' => $user,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}/gestion-de-compte", name="users_edit", methods={"GET","POST"})
+     * @Route("/{id}", name="users_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder, GravatarManager $gravatar): Response
     {
