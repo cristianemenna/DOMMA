@@ -60,18 +60,7 @@ class MacroController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="macro_show", methods={"GET"})
-     */
-    public function show(Macro $macro, GravatarManager $gravatar): Response
-    {
-        return $this->render('macro/show.html.twig', [
-            'macro' => $macro,
-            'avatar' => $gravatar->getAvatar($this->getUser()),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}/edit", name="macro_edit", methods={"GET","POST"})
+     * @Route("/{id}", name="macro_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Macro $macro, GravatarManager $gravatar): Response
     {
