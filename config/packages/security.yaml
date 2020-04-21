@@ -36,5 +36,4 @@ security:
          - { path: ^/admin, roles: ROLE_ADMIN }
          - { path: ^/utilisateur, roles: ROLE_USER }
          - { path: ^/context, roles: ROLE_USER }
-         - { path: ^/import, roles: ROLE_USER }
          - { path: ^/macro, roles: ROLE_USER }
