@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Import;
 use App\Entity\Macro;
 use App\Form\MacroType;
+use App\Repository\ImportRepository;
 use App\Repository\MacroRepository;
 use App\Service\GravatarManager;
 use Gravatar\Gravatar;
@@ -36,10 +37,11 @@ class MacroController extends AbstractController
     /**
      * @Route("/new", name="macro_new", methods={"GET","POST"})
      */
-    public function new(Request $request, GravatarManager $gravatar, SessionInterface $session): Response
+    public function new(Request $request, GravatarManager $gravatar, SessionInterface $session, ImportRepository $importRepository): Response
     {
         // Recupère l'id de l'import de la page d'origine
         $import = $session->get('import');
+        $context = $importRepository->find($import)->getContext()->getId();
         $macro = new Macro();
         $form = $this->createForm(MacroType::class, $macro);
         $form->handleRequest($request);
@@ -50,11 +52,12 @@ class MacroController extends AbstractController
             $entityManager->persist($macro);
             $entityManager->flush();
 
-            return $this->redirectToRoute('import_show', ['id' => $import]);
+            return $this->redirectToRoute('import_show', ['context' => $context, 'id' => $import]);
         }
 
         return $this->render('macro/new.html.twig', [
             'macro' => $macro,
+            'context' => $context,
             'form' => $form->createView(),
             'import' => $import,
             'avatar' => $gravatar->getAvatar($this->getUser()),
