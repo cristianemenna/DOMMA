@@ -3,7 +3,7 @@
 Application pour le traitement de données de masse.
 Projet développé dans le cadre de la formation <b>Web in-pulse</b> de l'Ecole Centrale de Nantes.
 
-### Pour utiliser le projet en local :
+### Pour essayer le projet en local :
 
 1. `$ git clone https://github.com/cristianemenna/DOMMA.git`
 
@@ -30,7 +30,7 @@ Vous pouvez vous connecter à l'application en tant qu'administrateur en utilisa
 
 Et en tant qu'utilisateur :
 
-- Identifiants : *user*
+- Identifiants : *user1* | *user2*
 - Mot de passe : *test*
 
 
