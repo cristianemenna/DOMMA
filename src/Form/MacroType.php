@@ -23,6 +23,7 @@ class MacroType extends AbstractType
             ])
             ->add('description', TextType::class, [
                 'label' => 'Description',
+                'required' => false,
                 'row_attr' => [
                     'class' => 'field'
                 ],
