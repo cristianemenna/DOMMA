@@ -66,6 +66,8 @@ class MacroController extends AbstractController
      */
     public function edit(Request $request, Macro $macro, GravatarManager $gravatar): Response
     {
+        // Si l'utilisateur actif n'as pas droit d'accès à la macro, on affiche page 403'
+        $this->denyAccessUnlessGranted('edit', $macro);
         $form = $this->createForm(MacroType::class, $macro);
         $form->handleRequest($request);
 

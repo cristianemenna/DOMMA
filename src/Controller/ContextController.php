@@ -72,12 +72,8 @@ class ContextController extends AbstractController
     {
         // Récupere l'utilisateur actif
         $user = $this->getUser();
-
-        // Si l'utilisateur actif n'as pas droit d'accès au contexte, on affiche un 'Not found'
-        if (!$context->getUsers()->contains($this->getUser()))
-        {
-            throw $this->createNotFoundException();
-        }
+        // Si l'utilisateur actif n'as pas droit d'accès au contexte, on affiche page 403'
+        $this->denyAccessUnlessGranted('view', $context);
 
         $form = $this->createForm(ImportType::class);
         $form->handleRequest($request);
@@ -103,10 +99,8 @@ class ContextController extends AbstractController
     public function edit(Request $request, Context $context, GravatarManager $gravatar): Response
     {
         $user = $this->getUser();
-        if (!$context->getUsers()->contains($user))
-        {
-            throw $this->createNotFoundException();
-        }
+        // Si l'utilisateur actif n'as pas droit d'accès au contexte, on affiche page 403'
+        $this->denyAccessUnlessGranted('view', $context);
 
         $form = $this->createForm(ContextType::class, $context);
         $form->handleRequest($request);

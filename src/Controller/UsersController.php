@@ -26,10 +26,7 @@ class UsersController extends AbstractController
      */
     public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder, GravatarManager $gravatar): Response
     {
-        if ($user != $this->getUser())
-        {
-            throw $this->createNotFoundException();
-        }
+        $this->denyAccessUnlessGranted('view', $user);
 
         $form = $this->createForm(UsersEditType::class, $user);
         $form->handleRequest($request);
@@ -69,10 +66,7 @@ class UsersController extends AbstractController
      */
     public function changePassword(Request $request, Users $user, UserPasswordEncoderInterface $encoder, GravatarManager $gravatar)
     {
-        if ($user != $this->getUser())
-        {
-            throw $this->createNotFoundException();
-        }
+        $this->denyAccessUnlessGranted('view', $user);
 
         $form = $this->createForm(UsersPasswordType::class, $user);
         $form->handleRequest($request);
