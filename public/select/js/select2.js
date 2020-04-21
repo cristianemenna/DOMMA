@@ -4711,12 +4711,12 @@ S2.define('select2/i18n/en',[],function () {
   // English
   return {
     errorLoading: function () {
-      return 'The results could not be loaded.';
+      return 'Les résultat ne peuvent pas être lus.';
     },
     inputTooLong: function (args) {
       var overChars = args.input.length - args.maximum;
 
-      var message = 'Please delete ' + overChars + ' character';
+      var message = 'Vous devez supprimer ' + overChars + ' caractères';
 
       if (overChars != 1) {
         message += 's';
@@ -4727,15 +4727,15 @@ S2.define('select2/i18n/en',[],function () {
     inputTooShort: function (args) {
       var remainingChars = args.minimum - args.input.length;
 
-      var message = 'Please enter ' + remainingChars + ' or more characters';
+      var message = 'Ajoutez ' + remainingChars + ' caractères ou plus';
 
       return message;
     },
     loadingMore: function () {
-      return 'Loading more results…';
+      return 'Chargement des résultats…';
     },
     maximumSelected: function (args) {
-      var message = 'You can only select ' + args.maximum + ' item';
+      var message = 'Vous ne pouvez pas sélectionner plus de ' + args.maximum + ' items';
 
       if (args.maximum != 1) {
         message += 's';
@@ -4744,13 +4744,13 @@ S2.define('select2/i18n/en',[],function () {
       return message;
     },
     noResults: function () {
-      return 'No results found';
+      return 'Aucun résultat à afficher';
     },
     searching: function () {
-      return 'Searching…';
+      return 'En recherche…';
     },
     removeAllItems: function () {
-      return 'Remove all items';
+      return 'Tout supprimer';
     }
   };
 });

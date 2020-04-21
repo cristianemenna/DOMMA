@@ -33,7 +33,6 @@ class MacroType extends AbstractType
                     'Insert' => 'insert',
                     'Update' => 'update',
                     'Delete' => 'delete',
-                    'Remplace tiret par espace vice' => 'tiret-par-espace',
                 ],
                 'label' => 'Type',
                 'row_attr' => [
