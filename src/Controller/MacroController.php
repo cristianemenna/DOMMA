@@ -25,8 +25,10 @@ class MacroController extends AbstractController
      */
     public function index(MacroRepository $macroRepository, GravatarManager $gravatar): Response
     {
+        $user = $this->getUser();
+
         return $this->render('macro/index.html.twig', [
-            'macros' => $macroRepository->findAll(),
+            'macros' => $user->getMacros(),
             'avatar' => $gravatar->getAvatar($this->getUser()),
         ]);
     }
