@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * @Route("/context")
+ * @Route("/contexte")
  */
 class ContextController extends AbstractController
 {
@@ -29,9 +29,11 @@ class ContextController extends AbstractController
      */
     public function index(ContextRepository $contextRepository, GravatarManager $gravatar): Response
     {
+        $user = $this->getUser();
         return $this->render('context/index.html.twig', [
-            'contexts' => $contextRepository->findAll(),
-            'avatar' => $gravatar->getAvatar($this->getUser()),
+            'user' => $user,
+            'avatar' => $gravatar->getAvatar($user),
+            'contextes'=>$user->getContexts(),
         ]);
     }
 
@@ -53,7 +55,7 @@ class ContextController extends AbstractController
             $entityManager->flush();
             $contextRepository->createSchema($context->getTitle());
 
-            return $this->redirectToRoute('users_index');
+            return $this->redirectToRoute('context_index');
         }
 
         return $this->render('context/new.html.twig', [
@@ -133,6 +135,6 @@ class ContextController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('users_index');
+        return $this->redirectToRoute('context_index');
     }
 }

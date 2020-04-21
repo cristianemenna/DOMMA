@@ -112,7 +112,7 @@ class UsersAuthenticator extends AbstractFormLoginAuthenticator implements Passw
         if ($user->getRoles() === ['ROLE_ADMIN']) {
             return new RedirectResponse($this->urlGenerator->generate('admin'));
         } else {
-            return new RedirectResponse($this->urlGenerator->generate('users_index'));
+            return new RedirectResponse($this->urlGenerator->generate('context_index'));
         }
 
         // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
