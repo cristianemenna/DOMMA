@@ -14,8 +14,9 @@
             <h2>Importer un fichier</h2>
             {{ form_start(form) }}
                 {{ form_widget(form) }}
-            <button class="btn-file">{{ button_label|default('Envoyer') }}</button>
+                <button class="btn-file">{{ button_label|default('Envoyer') }}</button>
             {{ form_end(form) }}
+            <p id="file-name"></p>
         </div>
 
         <div class="imported-files">
@@ -34,4 +35,8 @@
         </div>
 
     </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/show_context.js') }}"></script>
 {% endblock %}
