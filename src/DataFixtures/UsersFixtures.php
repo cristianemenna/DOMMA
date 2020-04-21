@@ -33,25 +33,41 @@ class UsersFixtures extends Fixture implements OrderedFixtureInterface
         $admin->setRoles(['ROLE_ADMIN']);
         $admin->setAttempts(0);
 
-        $user = new Users();
-        $user->setPassword(
+        $userOne = new Users();
+        $userOne->setPassword(
             $encoder->encodePassword(
-                $user,
+                $userOne,
                 'test'
             )
         );
-        $user->setEmail('usertest@yopmail.com');
-        $user->setUsername('user');
-        $user->setFirstName('User');
-        $user->setLastName('User');
-        $user->setRoles(['ROLE_USER']);
-        $user->setAttempts(0);
+        $userOne->setEmail('usertest@yopmail.com');
+        $userOne->setUsername('user1');
+        $userOne->setFirstName('User1');
+        $userOne->setLastName('User');
+        $userOne->setRoles(['ROLE_USER']);
+        $userOne->setAttempts(0);
+
+        $userTwo = new Users();
+        $userTwo->setPassword(
+            $encoder->encodePassword(
+                $userTwo,
+                'test'
+            )
+        );
+
+        $userTwo->setEmail('user2test@yopmail.com');
+        $userTwo->setUsername('user2');
+        $userTwo->setFirstName('User2');
+        $userTwo->setLastName('User');
+        $userTwo->setRoles(['ROLE_USER']);
+        $userTwo->setAttempts(0);
 
         $manager->persist($admin);
-        $manager->persist($user);
+        $manager->persist($userOne);
+        $manager->persist($userTwo);
         $manager->flush();
 
-        $this->addReference('user', $user);
+        $this->addReference('user', $userOne);
     }
 
     public function getOrder()

@@ -3,7 +3,7 @@
     <p><span>DOMMA</span> - Traitement de données de masse</p>
     <ul>
         {% if is_granted('ROLE_USER') %}
-            <li><a href="{{ path('users_index') }}">Contextes de travail</a></li>
+            <li><a href="{{ path('context_index') }}">Contextes de travail</a></li>
             <li class="footer-bolder">|</li>
             <li><a href="{{ path('users_edit', {'id': app.user.id}) }}">Gestion de compte</a></li>
             <li class="footer-bolder">|</li>

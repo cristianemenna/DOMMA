@@ -25,8 +25,10 @@ class MacroController extends AbstractController
      */
     public function index(MacroRepository $macroRepository, GravatarManager $gravatar): Response
     {
+        $user = $this->getUser();
+
         return $this->render('macro/index.html.twig', [
-            'macros' => $macroRepository->findAll(),
+            'macros' => $user->getMacros(),
             'avatar' => $gravatar->getAvatar($this->getUser()),
         ]);
     }
@@ -64,13 +66,15 @@ class MacroController extends AbstractController
      */
     public function edit(Request $request, Macro $macro, GravatarManager $gravatar): Response
     {
+        // Si l'utilisateur actif n'as pas droit d'accès à la macro, on affiche page 403'
+        $this->denyAccessUnlessGranted('edit', $macro);
         $form = $this->createForm(MacroType::class, $macro);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('users_index');
+            return $this->redirectToRoute('context_index');
         }
 
         return $this->render('macro/edit.html.twig', [

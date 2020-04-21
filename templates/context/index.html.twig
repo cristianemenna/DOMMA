@@ -1,39 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Context index{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/user/index.css') }}">
+{% endblock %}
+
+{% block title %}DOMMA - Accueil{% endblock %}
 
 {% block body %}
-    <h1>Context index</h1>
+    <main>
+        <div class="separator">
+            <h1>Mes contextes de travail</h1>
+        </div>
+        <div class="contexts-container">
+            {% for context in contextes %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Created_at</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for context in contexts %}
-            <tr>
-                <td>{{ context.id }}</td>
-                <td>{{ context.title }}</td>
-                <td>{{ context.description }}</td>
-                <td>{{ context.createdAt ? context.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('context_show', {'id': context.id}) }}">show</a>
-                    <a href="{{ path('context_edit', {'id': context.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                <div class="context-space">
+                    <a href="{{ path('context_show', {'id': context.id }) }}" class="contexts-link">
+                        <p class="context-title">{{ context.title }}</p>
+                        <p class="context-description">{{ context.description }}</p>
+                    </a>
+                    <p class="context-days">Jours restants : {{ context.daysLeft }}</p>
+                    <a href="{{ path('context_edit', {'id': context.id }) }}"><i class="fas fa-cog icon-context"></i></a>
+                </div>
 
-    <a href="{{ path('context_new') }}">Create new</a>
+            {% endfor %}
+
+
+            <div class="context-space">
+                <a href="{{ path('context_new') }}" id="link-create"><span class="context-plus">+</span></a>
+            </div>
+            <div class="separator-bottom"></div>
+        </div>
+    </main>
 {% endblock %}

@@ -17,32 +17,16 @@ use Symfony\Component\Security\Core\Security;
 use Gravatar\Gravatar;
 
 /**
- * @Route("/accueil")
+ * @Route("/utilisateur")
  */
 class UsersController extends AbstractController
 {
-    /**
-     * @Route("/", name="users_index", methods={"GET"})
-     */
-    public function index(UsersRepository $usersRepository, Security $security, GravatarManager $gravatar): Response
-    {
-        $user = $this->getUser();
-        return $this->render('users/index.html.twig', [
-            'user' => $user,
-            'avatar' => $gravatar->getAvatar($user),
-            'contextes'=>$user->getContexts(),
-        ]);
-    }
-
     /**
      * @Route("/{id}", name="users_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder, GravatarManager $gravatar): Response
     {
-        if ($user != $this->getUser())
-        {
-            throw $this->createNotFoundException();
-        }
+        $this->denyAccessUnlessGranted('view', $user);
 
         $form = $this->createForm(UsersEditType::class, $user);
         $form->handleRequest($request);
@@ -52,7 +36,7 @@ class UsersController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('users_index');
+            return $this->redirectToRoute('context_index');
         }
 
         return $this->render('users/edit.html.twig', [
@@ -82,10 +66,7 @@ class UsersController extends AbstractController
      */
     public function changePassword(Request $request, Users $user, UserPasswordEncoderInterface $encoder, GravatarManager $gravatar)
     {
-        if ($user != $this->getUser())
-        {
-            throw $this->createNotFoundException();
-        }
+        $this->denyAccessUnlessGranted('view', $user);
 
         $form = $this->createForm(UsersPasswordType::class, $user);
         $form->handleRequest($request);

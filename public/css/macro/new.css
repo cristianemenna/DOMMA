@@ -144,3 +144,7 @@ td > a > span, td > a {
 tr.macro-line {
     background-color: #FAFAFA;
 }
+
+#no-macro {
+    padding: 100px 0 0 600px;
+}

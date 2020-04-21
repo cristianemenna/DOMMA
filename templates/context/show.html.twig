@@ -27,7 +27,7 @@
                         <p><i class="fa fa-exclamation-circle icon-erreur"></i><a href="{{ path('import_show', {'id': import.id}) }}">{{ import.file }}</a></p>
                         {{ include('import/_delete_form.html.twig') }}
                     {% else %}
-                        <p><i class="fa fa-check-circle icon-check"></i><a href="{{ path('import_show', {'id': import.id}) }}">{{ import.file }}</a></p>
+                        <p><i class="fa fa-check-circle icon-check"></i><a href="{{ path('import_show', {'context': context.id, 'id': import.id}) }}">{{ import.file }}</a></p>
                         {{ include('import/_delete_form.html.twig') }}
                     {% endif %}
                 </div>
