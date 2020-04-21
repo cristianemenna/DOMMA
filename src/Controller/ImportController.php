@@ -20,20 +20,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * @Route("/import")
+ * @Route("/contexte/{context}/import")
  */
 class ImportController extends AbstractController
 {
-    /**
-     * @Route("/", name="import")
-     */
-    public function index()
-    {
-        return $this->render('import/index.html.twig', [
-            'controller_name' => 'ImportController',
-        ]);
-    }
-
     /**
      * @Route("/{id}", name="import_show", methods={"GET", "POST"})
      */
