@@ -35,7 +35,10 @@
         {% if error %}
             <div class="login-error">
                 <i class="fas fa-exclamation-triangle fa-2x" id="alert-icon"></i>
-                <p>{{ error.messageKey|trans(error.messageData, 'security') }}</div></p>
+                <p>{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+            </div>
+        {% else %}
+            <div class="login-message"></div>
         {% endif %}
 
     <form method="post">

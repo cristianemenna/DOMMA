@@ -1,5 +1,4 @@
 body {
-    /*background-color: #505050;*/
     background: linear-gradient(#505050, #646464);
     font-family: Dosis, Geneva, sans-serif;
     color: #646464;
@@ -24,7 +23,6 @@ h1 {
     font-weight: normal;
     text-align: center;
     font-size: 1.2em;
-    margin-bottom: 80px;
     color: #BCBCBC;
 }
 
@@ -95,13 +93,16 @@ input:focus {
 }
 
 .login-error {
-    color: EF5012;
+    color: #F58989;
     font-size: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+.login-message {
+    height: 50px;
+}
 
 #alert-icon {
     padding-right: 15px;
