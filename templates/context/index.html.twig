@@ -13,7 +13,6 @@
         </div>
         <div class="contexts-container">
             {% for context in contextes %}
-
                 <div class="context-space">
                     <a href="{{ path('context_show', {'id': context.id }) }}" class="contexts-link context-text">
                         <p class="context-title">{{ context.title }}</p>
@@ -24,9 +23,7 @@
                         <a href="{{ path('context_edit', {'id': context.id }) }}"><i class="fas fa-cog icon-context"></i></a>
                     </div>
                 </div>
-
             {% endfor %}
-
             <a href="{{ path('context_new') }}" class="context-space contexts-link"><span class="context-plus">+</span></a>
         </div>
         <div class="separator-bottom"></div>
