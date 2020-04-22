@@ -53,6 +53,7 @@ h2, h3 {
 
 #file-name {
     margin-left: 35px;
+    color: #567449;
 }
 
 i.icon-check {
@@ -110,6 +111,10 @@ i.icon-erreur {
     overflow: hidden;
     position: absolute;
     z-index: -1;
+}
+
+label:hover {
+    background-color: #FBFBFB;
 }
 
 label {
