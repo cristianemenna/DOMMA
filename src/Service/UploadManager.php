@@ -32,6 +32,7 @@ class UploadManager
                 // Recupère le nom du fichier téléchargé et le modifie pour générer un nom unique
                 $originalFileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
                 $uniqueFileName = $originalFileName . '-' . uniqid() . '.' . $file->guessExtension();
+                $originalFileName = $originalFileName . '.' . $file->guessExtension();
 
                 // Sauvegarde le fichier dans le dossier choisi pour les uploads
                 $file->move(
