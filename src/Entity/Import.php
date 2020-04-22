@@ -21,7 +21,12 @@ class Import
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $file;
+    private $filePath;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $fileName;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -45,28 +50,45 @@ class Import
         $this->status = "En attente";
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getFile(): ?string
+    /**
+     * @return string|null
+     */
+    public function getFilePath(): ?string
     {
-        return $this->file;
+        return $this->filePath;
     }
 
-    public function setFile(string $file): self
+    /**
+     * @param string $file
+     * @return $this
+     */
+    public function setFilePath(string $file): self
     {
-        $this->file = $file;
+        $this->filePath = $file;
 
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getStatus(): ?string
     {
         return $this->status;
     }
 
+    /**
+     * @param string $status
+     * @return $this
+     */
     public function setStatus(string $status): self
     {
         $this->status = $status;
@@ -74,11 +96,18 @@ class Import
         return $this;
     }
 
+    /**
+     * @return Context|null
+     */
     public function getContext(): ?Context
     {
         return $this->context;
     }
 
+    /**
+     * @param Context|null $context
+     * @return $this
+     */
     public function setContext(?Context $context): self
     {
         $this->context = $context;
@@ -94,6 +123,10 @@ class Import
         return $this->logs;
     }
 
+    /**
+     * @param Log $log
+     * @return $this
+     */
     public function addLog(Log $log): self
     {
         if (!$this->logs->contains($log)) {
@@ -104,11 +137,15 @@ class Import
         return $this;
     }
 
+    /**
+     * @param Log $log
+     * @return $this
+     */
     public function removeLog(Log $log): self
     {
         if ($this->logs->contains($log)) {
             $this->logs->removeElement($log);
-            // set the owning side to null (unless already changed)
+
             if ($log->getImport() === $this) {
                 $log->setImport(null);
             }
@@ -116,4 +153,22 @@ class Import
 
         return $this;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getFileName(): ?string
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * @param string $fileName
+     */
+    public function setFileName(string $fileName): void
+    {
+        $this->fileName = $fileName;
+    }
+
+
 }
