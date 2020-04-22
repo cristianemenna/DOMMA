@@ -7,6 +7,7 @@ use App\Form\UsersEditType;
 use App\Form\UsersPasswordType;
 use App\Form\UsersType;
 use App\Repository\UsersRepository;
+use App\Service\ContextService;
 use App\Service\GravatarManager;
 use App\Service\PasswordManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -101,10 +102,13 @@ class AdminController extends AbstractController
     /**
      * @Route("/{id}", name="admin_users_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Users $user): Response
+    public function delete(Request $request, Users $user, ContextService $contextService): Response
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+            // Itère sur le tableau de contextes de l'utilisateur, s'il est le seul à avoir accès à un contexte :
+            // supprime le contexte, ainsi que le schema et imports associés
+            $contextService->removeContextsFromUser($user->getContexts());
             $entityManager->remove($user);
             $entityManager->flush();
         }
