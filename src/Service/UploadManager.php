@@ -29,18 +29,21 @@ class UploadManager
 
         if ($importedFile) {
             foreach ($importedFile as $file) {
-                /** @var UploadedFile $file */
-                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                $filename = md5(uniqid()) . '.' . $file->guessExtension();
-                $newFilename = $originalFilename . '-' . uniqid() . '.' . $file->guessExtension();
+                // Recupère le nom du fichier téléchargé et le modifie pour générer un nom unique
+                $originalFileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $uniqueFileName = $originalFileName . '-' . uniqid() . '.' . $file->guessExtension();
 
+                // Sauvegarde le fichier dans le dossier choisi pour les uploads
                 $file->move(
                     $this->getUploadsDirectory(),
-                    $newFilename
+                    $uniqueFileName
                 );
 
                 $import = new Import();
-                $import->setFile($newFilename);
+                // L'objet porte le nom unique du fichier (modifié)
+                $import->setFilePath($uniqueFileName);
+                // Et aussi le nom d'origine pour l'affichage
+                $import->setFileName($originalFileName);
                 $import->setContext($context);
                 $this->entityManager->persist($import);
                 $this->entityManager->flush();
@@ -59,12 +62,10 @@ class UploadManager
     {
         $imports = $context->getImports();
 
-        foreach ($imports as $import)
-        {
+        foreach ($imports as $import) {
             // Réalise la lecture seulement pour les fichiers en attente.
-            if ($import->getStatus() === 'En attente')
-            {
-                $fileName = $import->getFile();
+            if ($import->getStatus() === 'En attente') {
+                $fileName = $import->getFilePath();
                 $filePath = $this->getUploadsDirectory() . '/' . $fileName;
                 // Identifie l'extension du fichier
                 $inputFileType = \PhpOffice\PhpSpreadsheet\IOFactory::identify($filePath);
