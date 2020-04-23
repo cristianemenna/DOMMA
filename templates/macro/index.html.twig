@@ -5,35 +5,34 @@
 {% block title %}DOMMA - Mes macros{% endblock %}
 
 {% block body %}
-    <main>
+    <main id="user-macros">
         <div class="separator">
             <h1>Mes macros</h1>
         </div>
-
-        <table class="macros-container">
-            <thead>
-                <tr class="macros-title">
-                    <th>Titre</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for macro in macros %}
-                <tr class="macro-line">
-                    <td><i class="fa fa-angle-double-right icon-angle"></i>
-                        <a href="{{ path('macro_edit', {'id': macro.id}) }}">
-                            <span>{{ macro.title }}</span></a>
-                    </td>
-                    <td>{{ macro.description }}</td>
-                    <td><a href="{{ path('macro_edit', {'id': macro.id}) }}"><i class="fa fa-pen icon-pen-macros"></i></a></td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="4" id="no-macro">Vous n'avez pas encore créé de macro.</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-
+        
+        <div class="container-macros">
+            <div class="title-macros">
+                <h2>Titre</h2>
+                <h2>Description</h2>
+            </div>
+            <div class="content-macros">
+                {% for macro in macros %}
+                    <div class="macro-line">
+                       <p class="macro-title">
+                           <a href="{{ path('macro_edit', {'id': macro.id}) }}">
+                               <span>{{ macro.title }}</span></a>
+                       </p>
+                       <p class="macro-description">
+                           <i class="fa fa-angle-double-right icon-angle"></i>
+                           {{ macro.description }}
+                       </p>
+                       <p><a href="{{ path('macro_edit', {'id': macro.id}) }}"><i class="fa fa-pen icon-pen-macros"></i></a></p>
+                    </div>
+                {% else %}
+                    <p id="no-macro">Vous n'avez pas encore créé de macro.</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="separator-bottom"></div>
     </main>
 {% endblock %}
