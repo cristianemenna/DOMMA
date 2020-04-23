@@ -28,8 +28,8 @@ h1 {
 }
 
 form {
-    width: 20%;
-    height: 40%;
+    width: 350px;
+    height: 350px;
     background-color: #F7F6F6;
     margin: 0 auto;
     border-radius: 1%;
@@ -40,14 +40,13 @@ form {
     color: #F7F6F6;
     background-color: #707070;
     width: 100%;
-    height: 45px;
-    font-size: 1em;
+    font-size: 0.9em;
     border: none;
     outline: none;
 }
 
 .login-button:hover {
-    background-color: #676767;
+    background-color: #5C5C5C;
     cursor: pointer;
 }
 
