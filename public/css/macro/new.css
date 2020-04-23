@@ -6,7 +6,7 @@ body {
 
 main {
     height: 100vh;
-    width: 100px;
+    width: 100%;
     padding-top: 20px;
 }
 
@@ -25,13 +25,14 @@ h1 {
 
 .separator-bottom{
     margin: 100px 0 0 80px;
-    width: 1700px;
     border-bottom: 2px solid #e6e6e6;
 }
 
-.form {
+form {
     padding-top: 50px;
     margin-left: 150px;
+    display: flex;
+    flex-direction: column;
 }
 
 .form-input {
@@ -104,12 +105,42 @@ input.select2-search__field::placeholder {
 
 /*************************************** INDEX MACRO ********************************************/
 
-.macros-container {
-    margin: 50px 0 0 100px;
-    padding: 20px 20px 40px 20px;
-    width: 1500px;
-    border-radius: 10px;
+.container-macros {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    font-size: 1em;
+}
+
+.title-macros {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding-right: 400px;
+}
+
+.macro-line {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.content-macros {
+    background-color: #FAFAFA;
+    padding: 50px 150px;
+}
+
+.macro-line > p > a {
+    text-decoration: none;
+    text-transform: uppercase;
     color: #626262;
+}
+
+.macro-description {
+}
+
+.macro-title {
+    margin-right: 30px;
 }
 
 .icon-angle, .icon-pen-macros {
@@ -118,33 +149,19 @@ input.select2-search__field::placeholder {
 }
 
 .icon-angle {
-    margin-right: 20px;
+    margin: 0 30px 0 5px;
+    color: #000000;
 }
 
 .icon-pen-macros {
-    margin-right: 25px;
+    margin: 0 25px;
 }
 
-th {
-    padding: 20px 20px 40px 0;
-    text-transform: uppercase;
-    font-weight: bolder;
-}
-
-td {
-    padding: 25px 0 25px 50px;
-}
-
-td > a > span, td > a {
-    text-decoration: none;
-    font-style: italic;
-    color: #626262;
-}
-
-tr.macro-line {
-    background-color: #FAFAFA;
+h2 {
+    color: #000000;
+    margin-bottom: 50px;
 }
 
 #no-macro {
-    padding: 100px 0 0 600px;
+    text-align: center;
 }

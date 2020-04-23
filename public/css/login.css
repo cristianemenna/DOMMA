@@ -1,7 +1,8 @@
 body {
-    background: linear-gradient(#505050, #646464);
+    background: linear-gradient(#3C3C3C, #646464);
     font-family: Dosis, Geneva, sans-serif;
     color: #646464;
+    height: 100vh;
 }
 
 @font-face {
@@ -22,13 +23,13 @@ h1 {
     margin-left: 10px;
     font-weight: normal;
     text-align: center;
-    font-size: 1.2em;
+    font-size: 1em;
     color: #BCBCBC;
 }
 
 form {
-    width: 400px;
-    height: 400px;
+    width: 350px;
+    height: 350px;
     background-color: #F7F6F6;
     margin: 0 auto;
     border-radius: 1%;
@@ -38,28 +39,26 @@ form {
 .login-button {
     color: #F7F6F6;
     background-color: #707070;
-    width: 250px;
-    height: 45px;
-    margin-left: 50px;
-    margin-top: 30px;
-    font-size: 1em;
+    width: 100%;
+    font-size: 0.9em;
     border: none;
     outline: none;
 }
 
 .login-button:hover {
-    background-color: #8A8A8A;
+    background-color: #5C5C5C;
     cursor: pointer;
 }
 
 .field {
-    width: 50%;
-    padding-left: 50px;
+    width: 70%;
 }
 
 .form-fields {
-    padding-top: 30px;
-    padding-left: 20px;
+    padding-top: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 div {
@@ -69,13 +68,9 @@ div {
 
 input {
     height: 40px;
-    width: 250px;
+    width: 100%;
     outline: none;
-    border: none;
     padding-left: 10px;
-}
-
-input:focus {
     border: 1px solid #d9d9d9;
 }
 
@@ -101,7 +96,7 @@ input:focus {
 }
 
 .login-message {
-    height: 50px;
+    height: 3%;
 }
 
 #alert-icon {

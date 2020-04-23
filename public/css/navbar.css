@@ -15,7 +15,7 @@ nav ul {
 
 .dropdown .dropbtn {
     font-family: 'Dosis', sans-serif;
-    font-size: 22px;
+    font-size: 1.2em;
     border: none;
     outline: none;
     color: #C5C5C5;
@@ -61,7 +61,7 @@ li {
 }
 
 #nav-logo {
-    height: 40px;
+    height: 35px;
 }
 
 #nav-avatar {
