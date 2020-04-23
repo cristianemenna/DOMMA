@@ -15,20 +15,19 @@
             {% for context in contextes %}
 
                 <div class="context-space">
-                    <a href="{{ path('context_show', {'id': context.id }) }}" class="contexts-link">
+                    <a href="{{ path('context_show', {'id': context.id }) }}" class="contexts-link context-text">
                         <p class="context-title">{{ context.title }}</p>
                         <p class="context-description">{{ context.description }}</p>
                     </a>
-                    <p class="context-days">Jours restants : {{ context.daysLeft }}</p>
-                    <a href="{{ path('context_edit', {'id': context.id }) }}"><i class="fas fa-cog icon-context"></i></a>
+                    <div class="days-edit-icon">
+                        <p class="context-days">Jours restants : {{ context.daysLeft }}</p>
+                        <a href="{{ path('context_edit', {'id': context.id }) }}"><i class="fas fa-cog icon-context"></i></a>
+                    </div>
                 </div>
 
             {% endfor %}
 
-
-            <div class="context-space">
-                <a href="{{ path('context_new') }}" id="link-create"><span class="context-plus">+</span></a>
-            </div>
+            <a href="{{ path('context_new') }}" class="context-space contexts-link"><span class="context-plus">+</span></a>
             <div class="separator-bottom"></div>
         </div>
     </main>

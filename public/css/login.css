@@ -2,6 +2,7 @@ body {
     background: linear-gradient(#505050, #646464);
     font-family: Dosis, Geneva, sans-serif;
     color: #646464;
+    height: 100vh;
 }
 
 @font-face {
@@ -27,8 +28,8 @@ h1 {
 }
 
 form {
-    width: 400px;
-    height: 400px;
+    width: 20%;
+    height: 40%;
     background-color: #F7F6F6;
     margin: 0 auto;
     border-radius: 1%;
@@ -48,7 +49,7 @@ form {
 }
 
 .login-button:hover {
-    background-color: #8A8A8A;
+    background-color: #676767;
     cursor: pointer;
 }
 
@@ -58,8 +59,8 @@ form {
 }
 
 .form-fields {
-    padding-top: 30px;
-    padding-left: 20px;
+    padding-top: 6%;
+    padding-left: 2%;
 }
 
 div {
@@ -101,7 +102,7 @@ input:focus {
 }
 
 .login-message {
-    height: 50px;
+    height: 5%;
 }
 
 #alert-icon {
