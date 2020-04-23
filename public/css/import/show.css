@@ -104,8 +104,7 @@ h2, h3 {
 }
 
 #button-new-macro {
-    position: absolute;
-    right: 5%;
+    margin-right: 5%;
     box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.3), 0 3px 20px 0 rgba(0, 0, 0, 0.15);
     padding: 12px 30px 15px 30px;
     border: none;
@@ -143,7 +142,7 @@ select.macros-select {
 .import-table {
     font-family: Verdana, Geneva, sans-serif;
     color: #4d4d4d;
-    font-size: 13px;
+    font-size: 0.8em;
 }
 
 th {
@@ -205,6 +204,13 @@ tr:nth-child(even) {
 
 .macros-select-container > div > form {
     display: flex;
+}
+
+.macros-select-container {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
 }
 
 .macros-select-submit {
