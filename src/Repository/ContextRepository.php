@@ -32,7 +32,6 @@ class ContextRepository extends ServiceEntityRepository
     {
         $dataBase = $this->getEntityManager()->getConnection();
         $contextNameNoSpaces = $dataBase->quoteIdentifier(mb_strtolower($contextName));
-        $contextNameNoSpaces = str_replace([' '], '_', $contextNameNoSpaces);
 
         return $dataBase->prepare('CREATE SCHEMA ' . $contextNameNoSpaces . ' AUTHORIZATION CURRENT_USER')
             ->execute()

@@ -57,9 +57,8 @@ class ContextService
     {
         $dataBase = $this->entityManager->getConnection();
         $schema = $dataBase->quoteIdentifier(mb_strtolower($contextName));
-        $contextName = str_replace([' '], '_', $schema);
 
-        $dataBase->prepare('DROP SCHEMA ' . $contextName . ' CASCADE')
+        $dataBase->prepare('DROP SCHEMA ' . $schema . ' CASCADE')
             ->execute()
             ;
     }
