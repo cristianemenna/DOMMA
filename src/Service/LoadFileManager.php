@@ -18,8 +18,15 @@ class LoadFileManager
         $this->entityManager = $entityManager;
     }
 
-    // Crée une table dans le schéma du contexte
-    // Structure de la table selon les données de l'import
+    /**
+     * Crée une table dans le schéma du contexte
+     * Structure de la table selon les données de l'import
+     *
+     * @param int $importId
+     * @param string $contextName
+     * @param RowIterator $sheetRows
+     * @throws \Doctrine\DBAL\DBALException
+     */
     public function createTable(int $importId, string $contextName, RowIterator $sheetRows)
     {
         $dataBase = $this->entityManager->getConnection();
@@ -50,8 +57,15 @@ class LoadFileManager
         $this->entityManager->flush();
     }
 
-    // Itère sur chaque ligne du fichier
-    // Crée une requête pour ajouter toutes les valeurs de chaque ligne
+    /**
+     * Itère sur chaque ligne du fichier
+     * Crée une requête pour ajouter toutes les valeurs de chaque ligne
+     *
+     * @param int $importId
+     * @param string $contextName
+     * @param RowIterator $sheetRows
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     */
     public function addRows(int $importId, string $contextName, RowIterator $sheetRows)
     {
         $dataBase = $this->entityManager->getConnection();
@@ -120,8 +134,16 @@ class LoadFileManager
         $this->entityManager->flush();
     }
 
-    // Retourne la premier ligne de la table associée à un import
-    public function showColumns(Import $import)
+    /**
+     * Retourne la premier ligne de la table associée à un import
+     * ou son contenu complet, selon variable $content
+     *
+     * @param Import $import
+     * @param string $content
+     * @return \Doctrine\DBAL\Driver\Statement|mixed
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function showTable(Import $import, string $content)
     {
         $dataBase = $this->entityManager->getConnection();
         $schemaName = $dataBase->quoteIdentifier(mb_strtolower($import->getContext()->getTitle()));
@@ -129,20 +151,12 @@ class LoadFileManager
 
         $statement = $dataBase->prepare('SELECT * FROM ' . $schemaName . '.' . $tableName);
         $statement->execute();
-        return $statement->fetch();
+
+        if ($content === 'columns') {
+            return $statement->fetch();
+        } else {
+            return $statement;
+        }
     }
-
-    // Retourne le contenu complet de la table associée à un import
-    public function showTable(Import $import)
-    {
-        $dataBase = $this->entityManager->getConnection();
-        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($import->getContext()->getTitle()));
-        $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
-
-        $statement = $dataBase->prepare('SELECT * FROM ' . $schemaName . '.' . $tableName);
-        $statement->execute();
-        return $statement;
-    }
-
 
 }
