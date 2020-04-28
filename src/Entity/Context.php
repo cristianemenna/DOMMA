@@ -57,6 +57,9 @@ class Context
         $this->imports = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
@@ -70,6 +73,10 @@ class Context
         return $this->users;
     }
 
+    /**
+     * @param Users $user
+     * @return $this
+     */
     public function addUser(Users $user): self
     {
         if ($this->users === null || !$this->users->contains($user)) {
@@ -79,6 +86,10 @@ class Context
         return $this;
     }
 
+    /**
+     * @param Users $user
+     * @return $this
+     */
     public function removeUser(Users $user): self
     {
         if ($this->users->contains($user)) {
@@ -88,11 +99,18 @@ class Context
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getTitle(): ?string
     {
         return $this->title;
     }
 
+    /**
+     * @param string $title
+     * @return $this
+     */
     public function setTitle(string $title): self
     {
         $this->title = $title;
@@ -100,11 +118,18 @@ class Context
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
+    /**
+     * @param string|null $description
+     * @return $this
+     */
     public function setDescription(?string $description): self
     {
         $this->description = $description;
@@ -112,11 +137,18 @@ class Context
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->created_at;
     }
 
+    /**
+     * @param \DateTimeInterface $created_at
+     * @return $this
+     */
     public function setCreatedAt(\DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;
@@ -124,11 +156,18 @@ class Context
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getDuration(): ?int
     {
         return $this->duration;
     }
 
+    /**
+     * @param int $duration
+     * @return $this
+     */
     public function setDuration(int $duration): self
     {
         $this->duration = $duration;
@@ -139,6 +178,8 @@ class Context
     /**
      * Calcule la date final du contexte de travail, à partir de la date de création +
      * la durée définie par l'utilisateur. Retourne le nombre de jours restants avant la fin.
+     * @return int
+     * @throws \Exception
      */
     public function daysLeft(): int
     {
@@ -159,6 +200,10 @@ class Context
         return $this->imports;
     }
 
+    /**
+     * @param Import $import
+     * @return $this
+     */
     public function addImport(Import $import): self
     {
         if (!$this->imports->contains($import)) {
@@ -169,11 +214,14 @@ class Context
         return $this;
     }
 
+    /**
+     * @param Import $import
+     * @return $this
+     */
     public function removeImport(Import $import): self
     {
         if ($this->imports->contains($import)) {
             $this->imports->removeElement($import);
-            // set the owning side to null (unless already changed)
             if ($import->getContext() === $this) {
                 $import->setContext(null);
             }

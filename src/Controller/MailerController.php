@@ -12,6 +12,9 @@ use Symfony\Component\Mime\Email;
 class MailerController extends AbstractController
 {
     /**
+     * Envoie de mail à l'utilisateur avec son identifiant et son mot de passe
+     * lors de la création de nouveau compte par l'administrateur
+     *
      * @Route("/new-user", name="mailer")
      */
     public function newUser(MailerInterface $mailer, $userEmail, $userPassword, $userName, $userUserName)
@@ -32,13 +35,15 @@ class MailerController extends AbstractController
                 'identifiant' => $userUserName,
             ]);
 
-        /** @var Symfony\Component\Mailer\SentMessage $sentEmail */
-        $sentEmail = $mailer->send($email);
+        $mailer->send($email);
 
         return $this->redirectToRoute('admin');
     }
 
     /**
+     * Envoie de mail à l'utilisateur avec le nouveau mot de passe lors du déblocage
+     * de son compte par l'administrateur
+     *
      * @Route("/unblocked-user", name="mailer")
      */
     public function unblockedUser(MailerInterface $mailer, $userEmail, $userPassword, $userName)
@@ -53,8 +58,7 @@ class MailerController extends AbstractController
                 'user' => $userName,
             ]);
 
-        /** @var Symfony\Component\Mailer\SentMessage $sentEmail */
-        $sentEmail = $mailer->send($email);
+        $mailer->send($email);
 
         return $this->redirectToRoute('admin');
     }

@@ -38,8 +38,8 @@ class ImportController extends AbstractController
 
         $session->set('import', $import->getId());
         $macros = $user->getMacros();
-        $importContent = $loadFileManager->showTable($import);
-        $importColumns = $loadFileManager->showColumns($import);
+        $importContent = $loadFileManager->showTable($import, 'content');
+        $importColumns = $loadFileManager->showTable($import, 'columns');
 
         $macro = new MacroApplyManager();
         $form = $this->createForm(MacroApplyType::class, $macro, ['macros' => $user->getMacros()]);
@@ -50,8 +50,8 @@ class ImportController extends AbstractController
             } else {
                 // Exécute la requête en BDD de la macro séléctionnée
                 $macroManager->applyMacro($macro, $import);
-                $importContent = $loadFileManager->showTable($import);
-                $importColumns = $loadFileManager->showColumns($import);
+                $importContent = $loadFileManager->showTable($import, 'content');
+                $importColumns = $loadFileManager->showTable($import, 'columns');
             }
         }
 

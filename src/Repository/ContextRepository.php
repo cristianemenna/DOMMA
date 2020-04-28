@@ -32,40 +32,10 @@ class ContextRepository extends ServiceEntityRepository
     {
         $dataBase = $this->getEntityManager()->getConnection();
         $contextNameNoSpaces = $dataBase->quoteIdentifier(mb_strtolower($contextName));
-        $contextNameNoSpaces = str_replace([' '], '_', $contextNameNoSpaces);
-//        $contextNameNoSpaces = str_replace([' ', '(', ')', '/', '-', ',', '\'', '*', '+', '&', '#', '"', '.', '!', ':', '?', '='],
-//            '_', $contextName);
+
         return $dataBase->prepare('CREATE SCHEMA ' . $contextNameNoSpaces . ' AUTHORIZATION CURRENT_USER')
             ->execute()
             ;
     }
 
-    // /**
-    //  * @return Context[] Returns an array of Context objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Context
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

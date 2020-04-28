@@ -60,7 +60,6 @@ class MacroManager
 
         // Recupère le nom du contexte pour identifier le nom du schema de l'import
         $schemaName = $dataBase->quoteIdentifier(mb_strtolower($import->getContext()->getTitle()));
-        $schemaName = str_replace([' '], '_', $schemaName);
         // Recupère le nom de la table de l'import
         $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
 
@@ -86,7 +85,6 @@ class MacroManager
 
         // Recupère le nom du contexte pour identifier le nom du schema de l'import
         $schemaName = $dataBase->quoteIdentifier(mb_strtolower($import->getContext()->getTitle()));
-        $schemaName = str_replace([' '], '_', $schemaName);
         // Recupère le nom de la table de l'import
         $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
 
@@ -120,7 +118,6 @@ class MacroManager
 
         // Recupère le nom du contexte pour identifier le nom du schema de l'import
         $schemaName = $dataBase->quoteIdentifier(mb_strtolower($import->getContext()->getTitle()));
-        $schemaName = str_replace([' '], '_', $schemaName);
         // Recupère le nom de la table de l'import
         $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
 
@@ -160,7 +157,6 @@ class MacroManager
 
         // Recupère le nom du contexte pour identifier le nom du schema de l'import
         $schemaName = $dataBase->quoteIdentifier(mb_strtolower($import->getContext()->getTitle()));
-        $schemaName = str_replace([' '], '_', $schemaName);
         // Recupère le nom de la table de l'import
         $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
 
@@ -179,7 +175,6 @@ class MacroManager
 
         // Recupère le nom du contexte pour identifier le nom du schema de l'import
         $schemaName = $dataBase->quoteIdentifier(mb_strtolower($import->getContext()->getTitle()));
-        $schemaName = str_replace([' '], '_', $schemaName);
         // Recupère le nom de la table de l'import
         $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
 
@@ -198,7 +193,6 @@ class MacroManager
 
         // Recupère le nom du contexte pour identifier le nom du schema de l'import
         $schemaName = $dataBase->quoteIdentifier(mb_strtolower($import->getContext()->getTitle()));
-        $schemaName = str_replace([' '], '_', $schemaName);
         // Recupère le nom de la table de l'import
         $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
 
