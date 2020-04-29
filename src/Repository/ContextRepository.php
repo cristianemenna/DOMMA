@@ -31,9 +31,9 @@ class ContextRepository extends ServiceEntityRepository
     public function createSchema(string $contextName)
     {
         $dataBase = $this->getEntityManager()->getConnection();
-        $contextNameNoSpaces = $dataBase->quoteIdentifier(mb_strtolower($contextName));
+        $contextName = $dataBase->quoteIdentifier($contextName);
 
-        return $dataBase->prepare('CREATE SCHEMA ' . $contextNameNoSpaces . ' AUTHORIZATION CURRENT_USER')
+        return $dataBase->prepare('CREATE SCHEMA ' . $contextName . ' AUTHORIZATION CURRENT_USER')
             ->execute()
             ;
     }
