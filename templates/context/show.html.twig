@@ -24,10 +24,31 @@
             {% for import in imports %}
                 <div class="import-line">
                     {% if import.status == 'Fini avec erreur' %}
-                        <p><i class="fa fa-exclamation-circle icon-erreur"></i><a href="{{ path('import_show', {'id': import.id}) }}">{{ import.fileName }}</a></p>
+                        <div class="import-line-content">
+                            <div class="hover-message-container">
+                                <i class="fa fa-exclamation-circle icon-erreur"></i>
+                                <span class="hover-message-text">Fichier chargé avec erreur</span>
+                            </div>
+                            <a href="{{ path('import_show', {'id': import.id}) }}">{{ import.fileName }}</a>
+                        </div>
+                        {{ include('import/_delete_form.html.twig') }}
+                    {% elseif  (import.status == 'En attente') or (import.status == 'En cours') %}
+                        <div class="import-line-content">
+                            <div class="hover-message-container">
+                                <i class="fa fa-clock icon-loading"></i>
+                                <span class="hover-message-text">En cours de chargement</span>
+                            </div>
+                            <a href="{{ path('import_show', {'context': context.id, 'id': import.id}) }}">{{ import.fileName }}</a>
+                        </div>
                         {{ include('import/_delete_form.html.twig') }}
                     {% else %}
-                        <p><i class="fa fa-check-circle icon-check"></i><a href="{{ path('import_show', {'context': context.id, 'id': import.id}) }}">{{ import.fileName }}</a></p>
+                        <div class="import-line-content">
+                            <div class="hover-message-container">
+                                <i class="fa fa-check-circle icon-check"></i>
+                                <span class="hover-message-text">Chargement complet</span>
+                            </div>
+                            <a href="{{ path('import_show', {'context': context.id, 'id': import.id}) }}">{{ import.fileName }}</a>
+                        </div>
                         {{ include('import/_delete_form.html.twig') }}
                     {% endif %}
                 </div>
