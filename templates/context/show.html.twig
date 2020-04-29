@@ -29,7 +29,7 @@
                                 <i class="fa fa-exclamation-circle icon-erreur"></i>
                                 <span class="hover-message-text">Fichier chargé avec erreur</span>
                             </div>
-                            <a href="{{ path('import_show', {'id': import.id}) }}">{{ import.fileName }}</a>
+                            <a href="{{ path('import_show', {'context': context.id, 'id': import.id}) }}">{{ import.fileName }}</a>
                         </div>
                         {{ include('import/_delete_form.html.twig') }}
                     {% elseif  (import.status == 'En attente') or (import.status == 'En cours') %}
