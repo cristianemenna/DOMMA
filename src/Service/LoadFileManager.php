@@ -6,7 +6,9 @@ namespace App\Service;
 
 use App\Entity\Import;
 use App\Entity\Log;
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Worksheet\RowIterator;
 
 class LoadFileManager
@@ -22,39 +24,40 @@ class LoadFileManager
      * Crée une table dans le schéma du contexte
      * Structure de la table selon les données de l'import
      *
-     * @param int $importId
+     * @param Import $import
      * @param string $contextName
      * @param RowIterator $sheetRows
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Exception
      */
-    public function createTable(int $importId, string $contextName, RowIterator $sheetRows)
+    public function createTable(Import $import, string $contextName, RowIterator $sheetRows)
     {
-        $dataBase = $this->entityManager->getConnection();
-        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($contextName));
-        $tableName = $dataBase->quoteIdentifier('import_'. strval($importId));
-        // Crée une table avec le nom 'import_id'
-        $dataBase->prepare('CREATE TABLE ' . $schemaName . '.' . $tableName . ' ' . '(id serial primary key)')
-            ->execute()
-        ;
+       $dataBase = $this->entityManager->getConnection();
+       $schemaName = $dataBase->quoteIdentifier($contextName);
+       $tableName = $dataBase->quoteIdentifier('import_' . strval($import->getId()));
 
-        foreach ($sheetRows as $row)
-        {
-            foreach ($row->getCellIterator() as $cell)
-            {
+       $requestSQL = 'CREATE TABLE ' . $schemaName . '.' . $tableName . ' ' . '(id serial primary key';
+
+        foreach ($sheetRows as $row) {
+            foreach ($row->getCellIterator() as $cell) {
                 // Ajoute les colonnes en BDD seulement pour la première ligne du fichier excel
                 if ($row->getRowIndex() === 1) {
-                    $columnName = $dataBase->quoteIdentifier(mb_strtolower($cell->getValue()));
-                    $dataBase->prepare(
-                        'ALTER TABLE ' . $schemaName . '.' . $tableName . ' 
-                                ADD COLUMN ' . $columnName . ' VARCHAR')
-                        ->execute();
+                    $columnName = $dataBase->quoteIdentifier($cell->getValue());
+                    $requestSQL .= ', ' . $columnName . ' VARCHAR';
                 }
             }
         }
 
-        $import = $this->entityManager->getRepository(Import::class)->find($importId)->setStatus('En cours');
-        $this->entityManager->persist($import);
-        $this->entityManager->flush();
+        $requestSQL .= ')';
+
+        try {
+            $dataBase->executeQuery($requestSQL);
+            $import->setStatus('En cours');
+            $this->entityManager->persist($import);
+            $this->entityManager->flush();
+        } catch (\Exception $e) {
+            throw new \Exception('La table ne peut pas être créé');
+        }
+
     }
 
     /**
@@ -64,32 +67,28 @@ class LoadFileManager
      * @param int $importId
      * @param string $contextName
      * @param RowIterator $sheetRows
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws Exception
      */
-    public function addRows(int $importId, string $contextName, RowIterator $sheetRows)
+    public function addRows(Import $import, string $contextName, RowIterator $sheetRows)
     {
         $dataBase = $this->entityManager->getConnection();
-        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($contextName));
-        $tableName = $dataBase->quoteIdentifier('import_'. strval($importId));
+        $schemaName = $dataBase->quoteIdentifier($contextName);
+        $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
 
         foreach ($sheetRows as $index => $row)
         {
-            if ($index > 1)
-            {
+            if ($index > 1) {
                 // Décremente l'index pour qu'il corresponde au numéro de la ligne en BDD
                 $index -= 1;
                 // Crée un début de requête pour chaque ligne
                 $requestSQL = 'INSERT INTO ' . $schemaName . '.' . $tableName . ' ' . ' VALUES (' . $index . ', ';
                 // Itère entre les colonnes pour concaténer la valeur à la requête
-                foreach ($row->getCellIterator() as $key => $cell)
-                {
+                foreach ($row->getCellIterator() as $key => $cell) {
                     $cellContent = $cell->getCalculatedValue(false);
                     // N'ajoute pas de virgule à la première valeur
-                    if ($key === 'A')
-                    {
+                    if ($key === 'A') {
                         $requestSQL .= $dataBase->quote($cellContent);
-                    } else
-                    {
+                    } else {
                         $requestSQL .= ', ' . $dataBase->quote($cellContent);
                     }
                 }
@@ -97,17 +96,12 @@ class LoadFileManager
                 $requestSQL .= ')';
 
                 // D'abord essai d'exécuter la requête SQL pour ajouter toutes les colonnes d'une ligne en BDD
-                try
-                {
+                try {
                     $dataBase->executeQuery($requestSQL);
-                }
                 // En cas d'erreur :
-                catch (\Exception $e)
-                {
-                    $import = $this->entityManager->getRepository(Import::class)->find($importId);
+                } catch (\Exception $e) {
                     // Crée un objet log et l'associe à l'import courant
                     $log = new Log();
-                    $log->setCreatedAt(new \DateTime());
                     $log->setImport($import);
                     // Ajoute un message d'erreur au log avec l'index de la ligne qui n'a pas pu être ajoutée
                     $log->setMessage('Erreur dans la ligne numéro ' . $index);
@@ -115,18 +109,14 @@ class LoadFileManager
                     $this->entityManager->persist($import);
                     $this->entityManager->flush();
                 }
-
             }
         }
         
-        $import = $this->entityManager->getRepository(Import::class)->find($importId);
         // Si l'import contient des objets Log associés, le status de l'import devient 'Fini avec erreur'
-        if (count($import->getLogs()) > 0)
-        {
+        if (count($import->getLogs()) > 0) {
             $import->setStatus('Fini avec erreur');
         // Si l'import ne contient pas d'objets Log, status = 'Fini'
-        } else
-        {
+        } else {
             $import->setStatus('Fini');
         }
 
@@ -141,22 +131,27 @@ class LoadFileManager
      * @param Import $import
      * @param string $content
      * @return \Doctrine\DBAL\Driver\Statement|mixed
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function showTable(Import $import, string $content)
     {
         $dataBase = $this->entityManager->getConnection();
-        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($import->getContext()->getTitle()));
+        $schemaName = $dataBase->quoteIdentifier($import->getContext()->getTitle());
         $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
 
         $statement = $dataBase->prepare('SELECT * FROM ' . $schemaName . '.' . $tableName);
-        $statement->execute();
 
-        if ($content === 'columns') {
-            return $statement->fetch();
-        } else {
-            return $statement;
+        try {
+            $statement->execute();
+            if ($content === 'columns') {
+                return $statement->fetch();
+            } else {
+                return $statement;
+            }
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         }
+
     }
 
 }

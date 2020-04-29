@@ -78,8 +78,24 @@ class UploadManager
 
                 $sheetColumns = $spreadSheet->getSheet(0)->getRowIterator();
 
-                $this->loadFileManager->createTable($import->getId(), $import->getContext()->getTitle(), $sheetColumns);
-                $this->loadFileManager->addRows($import->getId(), $import->getContext()->getTitle(), $sheetColumns);
+                // Essai de créer une table en BDD et d'ajouter le contenu du fichier
+                try {
+                    $this->loadFileManager->createTable($import, $import->getContext()->getTitle(), $sheetColumns);
+                    $this->loadFileManager->addRows($import, $import->getContext()->getTitle(), $sheetColumns);
+                // En cas d'erreur lors de la création de la table :
+                // supprime le fichier du dossier /var/uploads et l'import correspondant en BDD
+                } catch (\Exception $e) {
+                    if ($e->getMessage() === 'La table ne peut pas être créé') {
+                        $context->removeImport($import);
+                        $this->entityManager->remove($import);
+                        $this->entityManager->flush();
+                        // Supprime le fichier du serveur
+                        if (file_exists($filePath)) {
+                            unlink($filePath);
+                        }
+                    }
+                }
+
             }
         }
     }

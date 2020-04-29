@@ -32,7 +32,7 @@ h2, h3 {
 }
 
 .separator-bottom{
-    margin: 100px 0 0 80px;
+    margin: 100px 0 100px 80px;
     border-bottom: 2px solid #e6e6e6;
 }
 
@@ -55,16 +55,21 @@ h2, h3 {
     color: #567449;
 }
 
-i.icon-check {
+.icon-check, .icon-erreur, .icon-loading {
     font-size: 20px;
-    color: #009a00;
     margin-right: 18px;
 }
 
+i.icon-check {
+    color: #009a00;
+}
+
 i.icon-erreur {
-    font-size: 20px;
     color: #C82829;
-    margin-right: 18px;
+}
+
+i.icon-loading {
+    color: #EBC600;
 }
 
 .import-line {
@@ -72,12 +77,12 @@ i.icon-erreur {
     justify-content: space-between;
 }
 
-.import-line > p > a {
+.import-line > .import-line-content > a {
     text-decoration: none;
     color: #4f4f4f;
 }
 
-.import-line > p > a:hover {
+.import-line > .import-line-content > a:hover {
     font-size: 18px;
     font-weight: bolder;
 }
@@ -151,5 +156,29 @@ form {
     margin: 30px 0 0 30px;
 }
 
+/************************************************* TOOLTIP ***********************************************/
 
+.hover-message-container {
+    position: relative;
+    display: inline-block;
+}
+
+.hover-message-container .hover-message-text {
+    visibility: hidden;
+    width: 150px;
+    background-color: #FFFFFF;
+    color: #757575;
+    text-align: center;
+    font-size: 0.9em;
+    border-radius: 2px;
+    padding: 10px 0;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    z-index: 1;
+}
+
+.hover-message-container:hover .hover-message-text {
+    visibility: visible;
+}
 

@@ -29,7 +29,7 @@ final class Version20200424175354 extends AbstractMigration
                             DECLARE query RECORD;
                             DECLARE iterator INTEGER := 0;
                             BEGIN
-                                FOR query IN SELECT id, lower(title) as title
+                                FOR query IN SELECT id, title
                                 FROM context
                                 WHERE created_at + make_interval(days => duration) <= CURRENT_TIMESTAMP
                               LOOP

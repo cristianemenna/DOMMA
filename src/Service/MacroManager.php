@@ -59,7 +59,7 @@ class MacroManager
         $macroCode = $macro->getMacro()->getCode();
 
         // Recupère le nom du contexte pour identifier le nom du schema de l'import
-        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($import->getContext()->getTitle()));
+        $schemaName = $dataBase->quoteIdentifier($import->getContext()->getTitle());
         // Recupère le nom de la table de l'import
         $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
 
@@ -84,7 +84,7 @@ class MacroManager
         $columns = $this->select($macro, $import)[0];
 
         // Recupère le nom du contexte pour identifier le nom du schema de l'import
-        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($import->getContext()->getTitle()));
+        $schemaName = $dataBase->quoteIdentifier($import->getContext()->getTitle());
         // Recupère le nom de la table de l'import
         $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
 
@@ -117,7 +117,7 @@ class MacroManager
         $content = $this->select($macro, $import);
 
         // Recupère le nom du contexte pour identifier le nom du schema de l'import
-        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($import->getContext()->getTitle()));
+        $schemaName = $dataBase->quoteIdentifier($import->getContext()->getTitle());
         // Recupère le nom de la table de l'import
         $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
 
@@ -156,7 +156,7 @@ class MacroManager
         $macroCode = $macro->getMacro()->getCode();
 
         // Recupère le nom du contexte pour identifier le nom du schema de l'import
-        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($import->getContext()->getTitle()));
+        $schemaName = $dataBase->quoteIdentifier($import->getContext()->getTitle());
         // Recupère le nom de la table de l'import
         $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
 
@@ -174,7 +174,7 @@ class MacroManager
         $macroCode = $macro->getMacro()->getCode();
 
         // Recupère le nom du contexte pour identifier le nom du schema de l'import
-        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($import->getContext()->getTitle()));
+        $schemaName = $dataBase->quoteIdentifier($import->getContext()->getTitle());
         // Recupère le nom de la table de l'import
         $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
 
@@ -192,7 +192,7 @@ class MacroManager
         $macroCode = $macro->getMacro()->getCode();
 
         // Recupère le nom du contexte pour identifier le nom du schema de l'import
-        $schemaName = $dataBase->quoteIdentifier(mb_strtolower($import->getContext()->getTitle()));
+        $schemaName = $dataBase->quoteIdentifier($import->getContext()->getTitle());
         // Recupère le nom de la table de l'import
         $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
 
