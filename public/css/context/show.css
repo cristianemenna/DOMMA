@@ -182,3 +182,15 @@ form {
     visibility: visible;
 }
 
+/************************************************* ALERTES  ***********************************************/
+
+.alert-error {
+    color: #C82829;
+    margin-left: 35px;
+}
+
+.alert-success {
+    color: #567449;
+    margin-left: 35px;
+}
+

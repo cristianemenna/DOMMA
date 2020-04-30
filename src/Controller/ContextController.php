@@ -74,8 +74,7 @@ class ContextController extends AbstractController
         // Récupere l'utilisateur actif
         $user = $this->getUser();
         // Si l'utilisateur actif n'as pas droit d'accès au contexte, on affiche page 404
-        if (!$user->getContexts()->contains($context))
-        {
+        if (!$user->getContexts()->contains($context)) {
             throw $this->createNotFoundException();
         }
 
@@ -83,8 +82,14 @@ class ContextController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $uploadManager->uploadFile($form, $context);
-            $uploadManager->readFile($context);
+            try {
+                $uploadManager->uploadFile($form, $context);
+                $uploadManager->readFile($context);
+                $this->addFlash('success', 'Le fichier a bien été envoyé.');
+            } catch (\Exception $e) {
+                $this->addFlash(
+                    'error', 'Le fichier ne peut pas être chargé. Veuillez réessayer.');
+            }
 
             return $this->redirectToRoute('context_show', ['id' => $context->getId()]);
         }
@@ -105,8 +110,7 @@ class ContextController extends AbstractController
         // Récupere l'utilisateur actif
         $user = $this->getUser();
         // Si l'utilisateur actif n'as pas droit d'accès au contexte, on affiche page 404
-        if (!$user->getContexts()->contains($context))
-        {
+        if (!$user->getContexts()->contains($context)) {
             throw $this->createNotFoundException();
         }
 

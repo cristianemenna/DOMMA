@@ -94,6 +94,7 @@ class UploadManager
                             unlink($filePath);
                         }
                     }
+                    throw new \Exception();
                 }
 
             }
