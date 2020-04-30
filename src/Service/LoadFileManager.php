@@ -4,6 +4,7 @@
 namespace App\Service;
 
 
+use App\Entity\Context;
 use App\Entity\Import;
 use App\Entity\Log;
 use Doctrine\DBAL\DBALException;
@@ -29,10 +30,10 @@ class LoadFileManager
      * @param RowIterator $sheetRows
      * @throws \Exception
      */
-    public function createTable(Import $import, string $contextName, RowIterator $sheetRows)
+    public function createTable(Import $import, Context $context, RowIterator $sheetRows)
     {
        $dataBase = $this->entityManager->getConnection();
-       $schemaName = $dataBase->quoteIdentifier($contextName);
+       $schemaName = $dataBase->quoteIdentifier($context->getTitle() . '_' . $context->getId());
        $tableName = $dataBase->quoteIdentifier('import_' . strval($import->getId()));
 
        $requestSQL = 'CREATE TABLE ' . $schemaName . '.' . $tableName . ' ' . '(id serial primary key';
@@ -69,10 +70,10 @@ class LoadFileManager
      * @param RowIterator $sheetRows
      * @throws Exception
      */
-    public function addRows(Import $import, string $contextName, RowIterator $sheetRows)
+    public function addRows(Import $import, Context $context, RowIterator $sheetRows)
     {
         $dataBase = $this->entityManager->getConnection();
-        $schemaName = $dataBase->quoteIdentifier($contextName);
+        $schemaName = $dataBase->quoteIdentifier($context->getTitle() . '_' . $context->getId());
         $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
 
         foreach ($sheetRows as $index => $row)
@@ -136,7 +137,7 @@ class LoadFileManager
     public function showTable(Import $import, string $content)
     {
         $dataBase = $this->entityManager->getConnection();
-        $schemaName = $dataBase->quoteIdentifier($import->getContext()->getTitle());
+        $schemaName = $dataBase->quoteIdentifier($import->getContext()->getTitle() . '_' . $import->getContext()->getId());
         $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
 
         $statement = $dataBase->prepare('SELECT * FROM ' . $schemaName . '.' . $tableName);
