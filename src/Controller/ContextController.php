@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * @Route("/contexte")
+ * @Route("/contextes")
  */
 class ContextController extends AbstractController
 {
@@ -48,13 +48,21 @@ class ContextController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $context->setCreatedAt(new \DateTime());
-            $connectedUser = $this->getUser();
-            $context->addUser($connectedUser);
+            $user = $this->getUser();
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($context);
-            $entityManager->flush();
-            $contextRepository->createSchema($context->getTitle());
+
+            try {
+                $context->addUser($user);
+                $entityManager->persist($context);
+                $contextRepository->createSchema($context);
+                $entityManager->flush();
+                $this->addFlash('success', 'Votre contexte de travail a bien été créé !');
+            // En cas d'erreur lors de la création du schema
+            // affiche le message d'erreur sur la page de création de contexte
+            } catch (\Exception $e) {
+                $this->addFlash('error', $e->getMessage());
+                return $this->redirectToRoute('context_new');
+            }
 
             return $this->redirectToRoute('context_index');
         }
@@ -82,6 +90,8 @@ class ContextController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Affiche un message de confirmation si le fichier est chargé sans erreur en BDD
+            // ou un message en cas d'erreur.
             try {
                 $uploadManager->uploadFile($form, $context);
                 $uploadManager->readFile($context);
@@ -105,7 +115,7 @@ class ContextController extends AbstractController
     /**
      * @Route("/{id}/edit", name="context_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Context $context, GravatarManager $gravatar): Response
+    public function edit(Request $request, Context $context, GravatarManager $gravatar, ContextRepository $contextRepository): Response
     {
         // Récupere l'utilisateur actif
         $user = $this->getUser();
@@ -115,11 +125,23 @@ class ContextController extends AbstractController
         }
 
         $form = $this->createForm(ContextType::class, $context);
+        // Récupère le nom actuel du contexte de travail
+        $contextTitle = $form->getData()->getTitle();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            // Modifie le nom du schéma en BDD si le nom du contexte de travail a été modifié
+            if ($contextTitle !== $context->getTitle()) {
+                try {
+                    $contextRepository->renameSchema($context, $contextTitle);
+                } catch (\Exception $e) {
+                    $this->addFlash('error', $e->getMessage());
+                    return $this->redirectToRoute('context_edit');
+                }
+            }
 
+            $this->addFlash('success', 'Le contexte a bien été modifié.');
+            $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute('context_index');
         }
 
