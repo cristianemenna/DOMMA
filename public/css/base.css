@@ -6,3 +6,19 @@
 body {
     font-family: Dosis, Geneva, sans-serif;
 }
+
+.alert-error {
+    color: #C82829;
+    font-weight: bolder;
+    margin-left: 35px;
+}
+
+.alert-success {
+    color: #009A00;
+    font-weight: bolder;
+    margin-left: 35px;
+}
+
+.alert-margin-left {
+    margin: 10px 0 0 100px;
+}

@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Le context correspond à l'espace de travail sur lequel les utilisateurs
  * peuvent importer un ou plusieurs fichiers.
+ *
  * @ORM\Entity(repositoryClass="App\Repository\ContextRepository")
  */
 class Context
@@ -53,7 +54,8 @@ class Context
     public function __construct()
     {
         $this->users = new ArrayCollection();
-        $this->duration = 30;
+        $this->duration = 30; // Un contexte a une durée de vie de 30 jours par défault
+        $this->created_at = new \DateTime(); // C'est l'heure du moment de la création du contexte par défault
         $this->imports = new ArrayCollection();
     }
 
@@ -226,7 +228,6 @@ class Context
                 $import->setContext(null);
             }
         }
-
         return $this;
     }
 }

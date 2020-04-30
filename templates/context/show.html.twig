@@ -10,6 +10,7 @@
             <h1>{{ context.title }}<a href="{{ path('context_edit', {'id': context.id}) }}"><i class="fa fa-pen icon-pen"></i></a></h1>
         </div>
 
+
         <div class="upload-files">
             <h2>Importer un fichier</h2>
             {{ form_start(form) }}
@@ -17,6 +18,12 @@
                 <button class="btn-file">{{ button_label|default('Envoyer') }}</button>
             {{ form_end(form) }}
             <p id="file-name"></p>
+
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert-{{ label }}">{{ message }}</div>
+                {% endfor %}
+            {% endfor %}
         </div>
 
         <div class="imported-files">

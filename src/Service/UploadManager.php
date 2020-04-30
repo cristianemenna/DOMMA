@@ -80,8 +80,8 @@ class UploadManager
 
                 // Essai de créer une table en BDD et d'ajouter le contenu du fichier
                 try {
-                    $this->loadFileManager->createTable($import, $import->getContext()->getTitle(), $sheetColumns);
-                    $this->loadFileManager->addRows($import, $import->getContext()->getTitle(), $sheetColumns);
+                    $this->loadFileManager->createTable($import, $import->getContext(), $sheetColumns);
+                    $this->loadFileManager->addRows($import, $import->getContext(), $sheetColumns);
                 // En cas d'erreur lors de la création de la table :
                 // supprime le fichier du dossier /var/uploads et l'import correspondant en BDD
                 } catch (\Exception $e) {
@@ -94,6 +94,7 @@ class UploadManager
                             unlink($filePath);
                         }
                     }
+                    throw new \Exception();
                 }
 
             }
