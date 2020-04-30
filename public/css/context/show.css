@@ -52,7 +52,7 @@ h2, h3 {
 
 #file-name {
     margin-left: 35px;
-    color: #567449;
+    color: #009A00;
 }
 
 .icon-check, .icon-erreur, .icon-loading {
@@ -180,17 +180,5 @@ form {
 
 .hover-message-container:hover .hover-message-text {
     visibility: visible;
-}
-
-/************************************************* ALERTES  ***********************************************/
-
-.alert-error {
-    color: #C82829;
-    margin-left: 35px;
-}
-
-.alert-success {
-    color: #567449;
-    margin-left: 35px;
 }
 
