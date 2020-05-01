@@ -16,6 +16,12 @@
             <h1>{{ import.fileName }}</h1>
         </div>
 
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert-{{ label }} alert-margin-left">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
+
         <div class="import-container">
         </div>
 
