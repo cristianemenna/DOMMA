@@ -82,21 +82,21 @@ class UploadManager
                 try {
                     $this->loadFileManager->createTable($import, $import->getContext(), $sheetColumns);
                     $this->loadFileManager->addRows($import, $import->getContext(), $sheetColumns);
-                // En cas d'erreur lors de la création de la table :
+                    // En cas d'erreur lors de la création de la table :
                 // supprime le fichier du dossier /var/uploads et l'import correspondant en BDD
                 } catch (\Exception $e) {
                     if ($e->getMessage() === 'La table ne peut pas être créé') {
                         $context->removeImport($import);
                         $this->entityManager->remove($import);
                         $this->entityManager->flush();
-                        // Supprime le fichier du serveur
-                        if (file_exists($filePath)) {
-                            unlink($filePath);
-                        }
                     }
                     throw new \Exception();
+                // Dans tous les cas, supprime le fichier du serveur
+                } finally {
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
                 }
-
             }
         }
     }
