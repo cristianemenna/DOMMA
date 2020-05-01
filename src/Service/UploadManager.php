@@ -83,7 +83,6 @@ class UploadManager
                     $this->loadFileManager->createTable($import, $import->getContext(), $sheetColumns);
                     $this->loadFileManager->addRows($import, $import->getContext(), $sheetColumns);
                     // En cas d'erreur lors de la création de la table :
-                // supprime le fichier du dossier /var/uploads et l'import correspondant en BDD
                 } catch (\Exception $e) {
                     if ($e->getMessage() === 'La table ne peut pas être créé') {
                         $context->removeImport($import);
