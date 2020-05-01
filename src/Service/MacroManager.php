@@ -5,6 +5,8 @@ namespace App\Service;
 
 
 use App\Entity\Import;
+use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception\InvalidFieldNameException;
 use Doctrine\ORM\EntityManagerInterface;
 
 class MacroManager
@@ -23,7 +25,7 @@ class MacroManager
      * @param MacroApplyManager $macro
      * @param Import $import
      * @return mixed
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function applyMacro(MacroApplyManager $macro, Import $import)
     {
@@ -50,7 +52,7 @@ class MacroManager
      * @param MacroApplyManager $macro
      * @param Import $import
      * @return mixed[]
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Exception
      */
     private function select(MacroApplyManager $macro, Import $import)
     {
@@ -66,9 +68,20 @@ class MacroManager
         // Création de la requête avec le code de la macro
         $requestSQL = 'SELECT id AS query_id, ' . $macroCode .
                         ' FROM ' . $schemaName . '.' . $tableName;
-        $statement = $dataBase->executeQuery($requestSQL);
 
-        return $statement->fetchAll();
+        try {
+            $statement = $dataBase->executeQuery($requestSQL);
+            return $statement->fetchAll();
+        // Si l'erreur contient les mots 'ERREUR' et 'LINE'
+        // récupère le message entre les deux.
+        } catch (\Exception $e) {
+            $errorMessage = $this->getSubstringBetween($e->getMessage(), 'ERREUR:', 'LINE');
+            if ($errorMessage) {
+                throw new \Exception($errorMessage);
+            } else {
+                throw new \Exception('Une erreur est survenue lors de l\'application de la macro.');
+            }
+        }
     }
 
     /** Boucle sur le résultat de la requête de select pour ajouter modifier la table
@@ -76,7 +89,7 @@ class MacroManager
      *
      * @param MacroApplyManager $macro
      * @param Import $import
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Exception
      */
     private function addQueryColumnsToTable(MacroApplyManager $macro, Import $import)
     {
@@ -102,14 +115,25 @@ class MacroManager
             }
         }
 
-        $dataBase->executeQuery($requestSQL);
+        try {
+            $dataBase->executeQuery($requestSQL);
+        // Si l'erreur contient les mots 'ERREUR' et 'LINE'
+        // récupère le message entre les deux.
+        } catch (\Exception $e) {
+            $errorMessage = $this->getSubstringBetween($e->getMessage(), 'ERREUR:', 'LINE');
+            if ($errorMessage) {
+                throw new \Exception($errorMessage);
+            } else {
+                throw new \Exception('Une erreur est survenue lors de l\'application de la macro.');
+            }
+        }
     }
 
     /** Modifie la table en BDD pour ajouter le résultat d'un select
      *
      * @param MacroApplyManager $macro
      * @param Import $import
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Exception
      */
     private function addQueryToTable(MacroApplyManager $macro, Import $import)
     {
@@ -145,10 +169,30 @@ class MacroManager
 
             // Indique l'id de chaque ligne depuis la première
             $requestSQL .= ' WHERE id = ' . $id;
-            $dataBase->executeQuery($requestSQL);
+
+            try {
+                $dataBase->executeQuery($requestSQL);
+            // Si l'erreur contient les mots 'ERREUR' et 'LINE'
+            // récupère le message entre les deux.
+            } catch (\Exception $e) {
+                $errorMessage = $this->getSubstringBetween($e->getMessage(), 'ERREUR:', 'LINE');
+                if ($errorMessage) {
+                    throw new \Exception($errorMessage);
+                } else {
+                    throw new \Exception('Une erreur est survenue lors de l\'application de la macro.');
+                }
+            }
         }
     }
 
+    /**
+     * Ajout de lignes sur la table correspondante à l'import en BDD
+     * selon code de la macro appliquée
+     *
+     * @param MacroApplyManager $macro
+     * @param Import $import
+     * @throws \Exception
+     */
     private function insert(MacroApplyManager $macro, Import $import)
     {
         $dataBase = $this->entityManager->getConnection();
@@ -164,9 +208,21 @@ class MacroManager
         $requestSQL = 'INSERT INTO ' . $schemaName . '.' . $tableName .
                         ' VALUES ( ' . $macroCode . ')';
 
-        $dataBase->executeQuery($requestSQL);
+        try {
+            $dataBase->executeQuery($requestSQL);
+        } catch (\Exception $e) {
+            throw new \Exception('Une erreur est survenue lors de l\'application de la macro');
+        }
     }
 
+    /**
+     * Mise à jour de lignes sur la table correspondante à l'import en BDD
+     * selon code de la macro appliquée
+     *
+     * @param MacroApplyManager $macro
+     * @param Import $import
+     * @throws \Exception
+     */
     private function update(MacroApplyManager $macro, Import $import)
     {
         $dataBase = $this->entityManager->getConnection();
@@ -182,9 +238,26 @@ class MacroManager
         $requestSQL = 'UPDATE ' . $schemaName . '.' . $tableName .
                         ' SET ' . $macroCode;
 
-        $dataBase->executeQuery($requestSQL);
+        try {
+            $dataBase->executeQuery($requestSQL);
+        } catch (\Exception $e) {
+            $errorMessage = $this->getSubstringBetween($e->getMessage(), 'ERREUR:', 'LINE');
+            if ($errorMessage) {
+                throw new \Exception($errorMessage);
+            } else {
+                throw new \Exception('Une erreur est survenue lors de l\'application de la macro.');
+            }
+        }
     }
 
+    /**
+     * Suppression de lignes de la table correspondante à l'import en BDD
+     * selon code de la macro appliquée
+     *
+     * @param MacroApplyManager $macro
+     * @param Import $import
+     * @throws \Exception
+     */
     private function delete(MacroApplyManager $macro, Import $import)
     {
         $dataBase = $this->entityManager->getConnection();
@@ -200,7 +273,32 @@ class MacroManager
         $requestSQL = 'DELETE FROM ' . $schemaName . '.' . $tableName .
                         ' WHERE ' . $macroCode;
 
-        $dataBase->executeQuery($requestSQL);
+        try {
+            $dataBase->executeQuery($requestSQL);
+        } catch (\Exception $e) {
+            $errorMessage = $this->getSubstringBetween($e->getMessage(), 'ERREUR:', 'LINE');
+            if ($errorMessage) {
+                throw new \Exception($errorMessage);
+            } else {
+                throw new \Exception('Une erreur est survenue lors de l\'application de la macro.');
+            }
+        }
+    }
+
+
+    /**
+     * Recherche une chaîne de caractères entre deux mots
+     * Utilisée pour l'affichage des messages d'erreur
+     *
+     * @param $stringToModify
+     * @param $startString
+     * @param $endString
+     * @return false|string
+     */
+    public function getSubstringBetween($stringToModify, $startString, $endString)
+    {
+        $substr = substr($stringToModify, strlen($startString)+strpos($stringToModify, $startString), (strlen($stringToModify) - strpos($stringToModify, $endString))*(-1));
+        return trim($substr);
     }
 
 }

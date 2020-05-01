@@ -43,7 +43,7 @@ class LoadFileManager
                 // Ajoute les colonnes en BDD seulement pour la première ligne du fichier excel
                 if ($row->getRowIndex() === 1) {
                     $columnName = $dataBase->quoteIdentifier($cell->getValue());
-                    $requestSQL .= ', ' . $columnName . ' VARCHAR';
+                    $requestSQL .= ', ' . $columnName . ' TEXT';
                 }
             }
         }

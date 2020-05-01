@@ -49,9 +49,14 @@ class ImportController extends AbstractController
                 return $this->redirectToRoute('macro_edit', ['id' => $macro->getMacro()->getId()]);
             } else {
                 // Exécute la requête en BDD de la macro séléctionnée
-                $macroManager->applyMacro($macro, $import);
-                $importContent = $loadFileManager->showTable($import, 'content');
-                $importColumns = $loadFileManager->showTable($import, 'columns');
+                try {
+                    $macroManager->applyMacro($macro, $import);
+                    $importContent = $loadFileManager->showTable($import, 'content');
+                    $importColumns = $loadFileManager->showTable($import, 'columns');
+                    $this->addFlash('success', 'La macro a bien été appliquée.');
+                } catch (\Exception $e) {
+                    $this->addFlash('error', $e->getMessage());
+                }
             }
         }
 
