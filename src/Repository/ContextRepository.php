@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Context;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\DBAL\Exception\DriverException;
 
 /**
  * @method Context|null find($id, $lockMode = null, $lockVersion = null)
@@ -34,15 +35,18 @@ class ContextRepository extends ServiceEntityRepository
             $dataBase->prepare('CREATE SCHEMA ' . $schemaName . ' AUTHORIZATION CURRENT_USER')
                 ->execute()
                 ;
-        } catch (\Exception $e) {
-            if (strstr($e->getMessage(), 'SQLSTATE[42P06]')) {
+        } catch (DriverException $e) {
+            if ($e->getSQLState() === '42P06') {
                throw new \Exception('Le contexte de travail n\'as pas pu être créé. Veuillez saisir un nouveau titre.');
             }
+            throw $e;
+        } catch (\Exception $e) {
+            throw new \Exception('Une erreur inconnue est survenue', 0, $e);
         }
-    }
+}
 
-    /**
-     * Récupère l'ancien nom du contexte de travail pour retrouver le nom du schéma en BDD
+/**
+ * Récupère l'ancien nom du contexte de travail pour retrouver le nom du schéma en BDD
      * et modifie le nom du schéma avec le nouveau nom du contexte.
      *
      * @param Context $context
@@ -59,12 +63,14 @@ class ContextRepository extends ServiceEntityRepository
             $dataBase->prepare('ALTER SCHEMA ' . $contextOldName . ' RENAME TO ' . $contextNewName)
                 ->execute()
                 ;
-        } catch (\Exception $e) {
-            if (strstr($e->getMessage(), 'SQLSTATE[42P06]')) {
+        } catch (DriverException $e) {
+            if ($e->getSQLState() === '42P06') {
                 throw new \Exception('Le contexte de travail n\'as pas pu être créé. Veuillez saisir un nouveau titre.');
             }
+            throw $e;
+        } catch (\Exception $e) {
+            throw new \Exception('Une erreur inconnue est survenue', 0, $e);
         }
-
     }
 
 }
