@@ -147,3 +147,13 @@ label {
     margin-left: 10px;
     font-size: 16px;
 }
+
+.field ul {
+    display: none;
+}
+
+.form-errors-container {
+    margin: 0;
+    font-size: 0.9em;
+    color: #C82829;
+}

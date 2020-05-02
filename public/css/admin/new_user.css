@@ -113,3 +113,10 @@ span.select2 {
 input.select2-search__field::placeholder {
     padding-left: 10px;
 }
+
+form ul {
+    margin: 0;
+    font-size: 0.9em;
+    color: #C82829;
+}
+
