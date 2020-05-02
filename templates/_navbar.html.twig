@@ -16,19 +16,19 @@
             </div>
             <li><a href="{{ path('context_index') }}"><img src="{{ avatar }}" alt="avatar" id="nav-avatar" /></a></li>
         {% else %}
-            <li><a href="{{ path('admin') }}"><img src="{{ asset('img/logo.png') }}" alt="logo" id="nav-logo" /></a></li>
+            <li><a href="{{ path('admin_index') }}"><img src="{{ asset('img/logo.png') }}" alt="logo" id="nav-logo" /></a></li>
             <div class="dropdown">
                 <button class="dropbtn">{{ app.user.firstName }}
                     <i class="fa fa-angle-down icon-angle-nav"></i>
                 </button>
                 <div class="dropdown-content">
-                    <a href="{{ path('admin') }}">Administration</a>
+                    <a href="{{ path('admin_index') }}">Administration</a>
                     <a href="{{ path('admin_new') }}">Créer utilisateur</a>
                     <a href="{{ path('admin_edit', {'id': app.user.id}) }}">Gérer mon compte</a>
                     <a href="{{ path('app_logout') }}">Déconnexion</a>
                 </div>
             </div>
-            <li><a href="{{ path('admin') }}"><img src="{{ avatar }}" alt="avatar" id="nav-avatar" /></a></li>
+            <li><a href="{{ path('admin_index') }}"><img src="{{ avatar }}" alt="avatar" id="nav-avatar" /></a></li>
         {% endif %}
     </ul>
 </nav>
