@@ -9,11 +9,20 @@
             <h1>Gestion de compte</h1>
         </div>
 
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert-{{ label }} alert-margin-left">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
+
         <div class="edit-container">
             <img src="{{ avatar }}" alt="avatar" id="edit-avatar" />
                 {{ form_start(form) }}
                     {{ form_widget(form) }}
-                {% if is_granted('ROLE_USER') %}
+                    <div class="form-errors-container">
+                        {{ form_errors(form.username) }}
+                    </div>
+            {% if is_granted('ROLE_USER') %}
                     <a id="edit-change-password" href="{{ path('users_password', {'id': user.id})  }}">Changer mot de passe</a>
                     <div class="form-buttons">
                         <button class="edit-user">{{ button_label|default('Mettre à jour') }}</button>

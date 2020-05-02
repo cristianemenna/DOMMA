@@ -26,8 +26,9 @@ class ContextType extends AbstractType
                     'class' => 'field'
                 ],
             ])
-            ->add('duration', TextType::class, [
+            ->add('duration', NumberType::class, [
                 'label' => 'Durée de vie (en jours)',
+                'invalid_message' => 'La durée de vie doit être représentée en nombre de jours !',
                 'row_attr' => [
                     'class' => 'field'
                 ],

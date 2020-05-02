@@ -21,6 +21,9 @@
         <div class="edit-container">
             {{ form_start(form) }}
                 {{ form_widget(form) }}
+                <div class="form-errors-container">
+                    {{ form_errors(form.duration) }}
+                </div>
             <div class="form-buttons">
                 <button class="edit-context">{{ button_label|default('Mettre à jour') }}</button>
                 <a href="{{ path('context_show', {'id': context.id}) }}" id="form-cancel">Annuler</a>

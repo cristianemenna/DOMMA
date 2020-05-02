@@ -140,3 +140,13 @@ form {
     background-color: #6B6B6B;
     cursor: pointer;
 }
+
+.field ul {
+    display: none;
+}
+
+.form-errors-container {
+    margin: 0 0 0 160px;
+    font-size: 1em;
+    color: #C82829;
+}
