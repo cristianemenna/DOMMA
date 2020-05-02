@@ -61,8 +61,16 @@ class AdminController extends AbstractController
                     $user->getPassword()
                 )
             );
-            $entityManager->persist($user);
-            $entityManager->flush();
+
+            try {
+                $entityManager->persist($user);
+                $entityManager->flush();
+                $this->addFlash('success',
+                    'Le nouveau compte a bien été crée. L\'utilisateur recevra un email avec ses identifiants d\'accès.');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Un problème inconnu est survenu. Veuillez réessayer.');
+                return $this->redirectToRoute('admin_new');
+            }
 
             return $this->redirectToRoute('admin_index');
         }
@@ -86,8 +94,16 @@ class AdminController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
+
+            try {
+                $entityManager->persist($user);
+                $entityManager->flush();
+                $this->addFlash('success',
+                    'Votre compte a bien été mis à jour');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Un problème inconnu est survenu. Veuillez réessayer.');
+                return $this->redirectToRoute('admin_edit');
+            }
 
             return $this->redirectToRoute('admin_index');
         }
@@ -108,12 +124,17 @@ class AdminController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             // Itère sur le tableau de contextes de l'utilisateur, s'il est le seul à avoir accès à un contexte :
             // supprime le contexte, ainsi que le schema et imports associés
-            $contextService->removeContextsFromUser($user->getContexts());
-            $entityManager->remove($user);
-            $entityManager->flush();
+            try {
+                $contextService->removeContextsFromUser($user->getContexts());
+                $entityManager->remove($user);
+                $entityManager->flush();
+                $this->addFlash('success', 'Le compte a bien été supprimé.');
+            } catch (\Exception $e) {
+                $this->addFlash('error', $e->getMessage());
+            } finally {
+                return $this->redirectToRoute('admin_index');
+            }
         }
-
-        return $this->redirectToRoute('admin_index');
     }
 
     /**
@@ -135,10 +156,16 @@ class AdminController extends AbstractController
                     $user->getPassword()
                 )
             );
-            $entityManager->persist($user);
-            $entityManager->flush();
 
-            return $this->redirectToRoute('admin_edit', ['id' => $user->getId()]);
+            try {
+                $entityManager->persist($user);
+                $entityManager->flush();
+                $this->addFlash('success', 'Votre mot de passe a bien été mis à jour.');
+                return $this->redirectToRoute('admin_edit', ['id' => $user->getId()]);
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Un problème inconnu est survenu. Veuillez réessayer.');
+                return $this->redirectToRoute('admin_password');
+            }
         }
 
         return $this->render('users/change_password.html.twig', [
