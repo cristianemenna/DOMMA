@@ -5,12 +5,15 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Le context correspond à l'espace de travail sur lequel les utilisateurs
  * peuvent importer un ou plusieurs fichiers.
  *
  * @ORM\Entity(repositoryClass="App\Repository\ContextRepository")
+ *
  */
 class Context
 {
@@ -43,6 +46,7 @@ class Context
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Positive(message="Les jours négatifs n'existent pas !")
      */
     private $duration;
 
