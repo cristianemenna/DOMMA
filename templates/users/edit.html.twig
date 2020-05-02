@@ -18,11 +18,11 @@
         <div class="edit-container">
             <img src="{{ avatar }}" alt="avatar" id="edit-avatar" />
                 {{ form_start(form) }}
+                    {{ form_widget(form) }}
                     <div class="form-errors-container">
                         {{ form_errors(form.username) }}
                     </div>
-                    {{ form_widget(form) }}
-                {% if is_granted('ROLE_USER') %}
+            {% if is_granted('ROLE_USER') %}
                     <a id="edit-change-password" href="{{ path('users_password', {'id': user.id})  }}">Changer mot de passe</a>
                     <div class="form-buttons">
                         <button class="edit-user">{{ button_label|default('Mettre à jour') }}</button>

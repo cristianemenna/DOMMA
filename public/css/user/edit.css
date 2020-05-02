@@ -153,7 +153,11 @@ label {
 }
 
 .form-errors-container {
-    margin: 0;
-    font-size: 0.9em;
+    margin: 0 0 50px 160px;
+    font-size: 1em;
     color: #C82829;
+}
+
+.form-errors-container ul {
+    padding: 0;
 }
