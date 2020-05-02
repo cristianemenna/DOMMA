@@ -25,9 +25,9 @@ class Users implements UserInterface
     private $username;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="string")
      */
-    private $roles = [];
+    private $role;
 
     /**
      * @var string The hashed password
@@ -71,14 +71,15 @@ class Users implements UserInterface
         $this->macros = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * A visual identifier that represents this user.
-     *
      * @see UserInterface
      */
     public function getUsername(): string
@@ -86,6 +87,10 @@ class Users implements UserInterface
         return (string) $this->username;
     }
 
+    /**
+     * @param string $username
+     * @return $this
+     */
     public function setUsername(string $username): self
     {
         $this->username = $username;
@@ -94,22 +99,24 @@ class Users implements UserInterface
     }
 
     /**
+     * @param string $role
+     */
+    public function setRole(string $role)
+    {
+        $this->role = $role;
+    }
+
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
      * @see UserInterface
      */
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        // $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
-    }
-
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
+        return [$this->role];
     }
 
     /**
@@ -120,6 +127,10 @@ class Users implements UserInterface
         return (string) $this->password;
     }
 
+    /**
+     * @param string $password
+     * @return $this
+     */
     public function setPassword(string $password): self
     {
         $this->password = $password;
@@ -132,7 +143,6 @@ class Users implements UserInterface
      */
     public function getSalt()
     {
-        // not needed when using the "bcrypt" algorithm in security.yaml
     }
 
     /**
@@ -144,11 +154,18 @@ class Users implements UserInterface
         // $this->plainPassword = null;
     }
 
+    /**
+     * @return string|null
+     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
+    /**
+     * @param string $email
+     * @return $this
+     */
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -156,11 +173,18 @@ class Users implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getFirstName(): ?string
     {
         return $this->first_name;
     }
 
+    /**
+     * @param string $first_name
+     * @return $this
+     */
     public function setFirstName(string $first_name): self
     {
         $this->first_name = $first_name;
@@ -168,11 +192,18 @@ class Users implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getLastName(): ?string
     {
         return $this->last_name;
     }
 
+    /**
+     * @param string $last_name
+     * @return $this
+     */
     public function setLastName(string $last_name): self
     {
         $this->last_name = $last_name;
@@ -180,11 +211,18 @@ class Users implements UserInterface
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getAttempts(): ?int
     {
         return $this->attempts;
     }
 
+    /**
+     * @param int $attempts
+     * @return $this
+     */
     public function setAttempts(int $attempts): self
     {
         $this->attempts = $attempts;
@@ -192,6 +230,9 @@ class Users implements UserInterface
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function incrementAttempts(): self
     {
         $this->attempts += 1;
@@ -199,6 +240,9 @@ class Users implements UserInterface
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function resetAttempts(): self
     {
         $this->attempts = 0;
@@ -214,6 +258,10 @@ class Users implements UserInterface
         return $this->contexts;
     }
 
+    /**
+     * @param Context $context
+     * @return $this
+     */
     public function addContext(Context $context): self
     {
         if (!$this->contexts->contains($context)) {
@@ -224,6 +272,10 @@ class Users implements UserInterface
         return $this;
     }
 
+    /**
+     * @param Context $context
+     * @return $this
+     */
     public function removeContext(Context $context): self
     {
         if ($this->contexts->contains($context)) {
@@ -242,6 +294,10 @@ class Users implements UserInterface
         return $this->macros;
     }
 
+    /**
+     * @param Macro $macro
+     * @return $this
+     */
     public function addMacro(Macro $macro): self
     {
         if (!$this->macros->contains($macro)) {
