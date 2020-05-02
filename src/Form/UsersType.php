@@ -25,10 +25,11 @@ class UsersType extends AbstractType
             ->add('email')
             ->add('first_name')
             ->add('last_name')
-            ->add('roles', ChoiceType::class,
-                ['choices' => ['Utilisateur' => 'ROLE_USER',
+            ->add('role', ChoiceType::class,
+                ['choices' => ['Empty' => '',
+                    'Utilisateur' => 'ROLE_USER',
                     'Administrateur' => 'ROLE_ADMIN'],
-                    'multiple' => true,])
+                ])
             ->add('attempts', HiddenType::class, [
                 'required'   => false,
                 'empty_data' => 0,])

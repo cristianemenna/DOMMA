@@ -27,7 +27,7 @@ use Symfony\Component\Security\Core\Security;
 class AdminController extends AbstractController
 {
     /**
-     * @Route("/", name="admin")
+     * @Route("/", name="admin_index")
      */
     public function index(UsersRepository $usersRepository, GravatarManager $gravatar)
     {
@@ -64,7 +64,7 @@ class AdminController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('admin');
+            return $this->redirectToRoute('admin_index');
         }
 
         return $this->render('admin/new.html.twig', [
@@ -89,7 +89,7 @@ class AdminController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('admin');
+            return $this->redirectToRoute('admin_index');
         }
 
         return $this->render('users/edit.html.twig', [
@@ -113,7 +113,7 @@ class AdminController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('admin');
+        return $this->redirectToRoute('admin_index');
     }
 
     /**
@@ -184,6 +184,6 @@ class AdminController extends AbstractController
         $entityManager->persist($user);
         $entityManager->flush();
 
-        return $this->redirectToRoute('admin');
+        return $this->redirectToRoute('admin_index');
     }
 }

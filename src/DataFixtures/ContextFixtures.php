@@ -26,7 +26,6 @@ class ContextFixtures extends Fixture implements OrderedFixtureInterface
         $context->setDescription('Ceci est la description de ce contexte');
         $context->setDuration(10);
         $context->setCreatedAt(new \DateTime('now'));
-        $this->contextRepository->createSchema($context->getTitle());
 
         $user = $this->getReference('user');
         $user->addContext($context);
@@ -34,6 +33,8 @@ class ContextFixtures extends Fixture implements OrderedFixtureInterface
         $manager->persist($context);
         $manager->persist($user);
         $manager->flush();
+        
+        $this->contextRepository->createSchema($context);
     }
 
     public function getOrder()

@@ -21,11 +21,11 @@
                 {{ form_widget(form.email,  {'attr': {'class': 'form-input', 'placeholder': 'Email'}} ) }}
                 {{ form_widget(form.username,  {'attr': {'class': 'form-input', 'placeholder': 'Identifiant'}} ) }}
                 <div class="select-style">
-                    {{ form_widget(form.roles) }}
+                    {{ form_widget(form.role) }}
                 </div>
                 <div class="form-buttons">
                     <button class="create-user">{{ button_label|default('Créer utilisateur') }}</button>
-                    <a href="{{ path('admin') }}" id="form-cancel">Annuler</a>
+                    <a href="{{ path('admin_index') }}" id="form-cancel">Annuler</a>
                 </div>
             {{ form_end(form) }}
         </div>

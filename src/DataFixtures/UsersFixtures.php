@@ -30,7 +30,7 @@ class UsersFixtures extends Fixture implements OrderedFixtureInterface
         $admin->setUsername('admin');
         $admin->setFirstName('Admin');
         $admin->setLastName('Admin');
-        $admin->setRoles(['ROLE_ADMIN']);
+        $admin->setRole('ROLE_ADMIN');
         $admin->setAttempts(0);
 
         $userOne = new Users();
@@ -44,7 +44,7 @@ class UsersFixtures extends Fixture implements OrderedFixtureInterface
         $userOne->setUsername('user1');
         $userOne->setFirstName('User1');
         $userOne->setLastName('User');
-        $userOne->setRoles(['ROLE_USER']);
+        $userOne->setRole('ROLE_USER');
         $userOne->setAttempts(0);
 
         $userTwo = new Users();
@@ -59,7 +59,7 @@ class UsersFixtures extends Fixture implements OrderedFixtureInterface
         $userTwo->setUsername('user2');
         $userTwo->setFirstName('User2');
         $userTwo->setLastName('User');
-        $userTwo->setRoles(['ROLE_USER']);
+        $userTwo->setRole('ROLE_USER');
         $userTwo->setAttempts(0);
 
         $manager->persist($admin);
