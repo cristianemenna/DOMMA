@@ -15,7 +15,7 @@
             <h2>Importer un fichier</h2>
             {{ form_start(form) }}
                 {{ form_widget(form) }}
-                <button class="btn-file">{{ button_label|default('Envoyer') }}</button>
+                <button class="btn-file" id="send-file">{{ button_label|default('Envoyer') }}</button>
             {{ form_end(form) }}
             <p id="file-name"></p>
 

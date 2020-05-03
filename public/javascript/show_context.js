@@ -14,3 +14,10 @@ document.getElementById("import_file").addEventListener("change", function(){
     // Ajoute le texte sur l'html pour affichage du nom des fichiers chargés
     document.getElementById("file-name").innerHTML = displayText;
 }, false);
+
+document.getElementById("send-file").addEventListener("click", function(){
+    var sentFiles = document.getElementById("import_file").files;
+    if (sentFiles.length === 0) {
+        document.getElementById("file-name").innerHTML = "Veuillez choisir un fichier.";
+    }
+});

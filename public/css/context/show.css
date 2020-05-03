@@ -52,7 +52,9 @@ h2, h3 {
 
 #file-name {
     margin-left: 35px;
-    color: #009A00;
+    color: #757575;
+    font-weight: bolder;
+    height: 5px;
 }
 
 .icon-check, .icon-erreur, .icon-loading {
