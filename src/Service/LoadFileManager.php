@@ -145,14 +145,32 @@ class LoadFileManager
         try {
             $statement->execute();
             if ($content === 'columns') {
-                return $statement->fetch();
+                $firstLigne = $statement->fetch();
+                return $this->showColumnsValue($firstLigne);
             } else {
                 return $statement;
             }
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
-
     }
+
+    //
+
+    /**
+     * Retourne un nouveau array pour déplacer les noms de colonnes de l'index à la valeur
+     *
+     * @param array $columnsIndexArray
+     * @return array
+     */
+    private function showColumnsValue(array $columnsIndexArray)
+    {
+        $columnsValueArray = [];
+        foreach ($columnsIndexArray as $key => $value) {
+            $columnsValueArray[$key] = $key;
+        }
+        return $columnsValueArray;
+    }
+
 
 }

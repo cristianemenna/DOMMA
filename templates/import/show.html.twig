@@ -22,8 +22,7 @@
             {% endfor %}
         {% endfor %}
 
-        <div class="import-container">
-        </div>
+        <div class="import-container"></div>
 
         <div class="macros-select-container">
             <div>
@@ -36,30 +35,39 @@
             <a href="{{ path('macro_new') }}" id="button-new-macro">Macro <i class="fa fa-plus icon-plus-macro"></i></a>
         </div>
 
-        <div class="file-container">
-                {% if (import.status == 'En attente') or (import.status == 'En cours') %}
-                    <p><i class="fas fa-spinner fa-2x icon-loading"></i>En cours de chargement...</p>
-                {% else %}
-                    <table class="import-table display" id="file-table">
-                        <thead>
-                            <tr>
-                        {% for importColumn, importValue in importColumns %}
-                                <th>{{ importColumn }}</th>
-                        {% endfor %}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                        {% for importObjet in importContent %}
-                            {% for importColumn, importValue in importObjet %}
-                                <td>{{ importValue }}</td>
-                            {% endfor %}
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                {% endif %}
+        <div class="macros-select-container">
+            <div>
+                {{ form_start(columnsForm) }}
+                    {{ form_widget(columnsForm) }}
+                    <input type="submit" name="apply" class="macros-select-submit column-delete" value="Supprimer colonnes">
+                {{ form_end(columnsForm) }}
             </div>
+        </div>
+
+        <div class="file-container">
+            {% if (import.status == 'En attente') or (import.status == 'En cours') %}
+                <p><i class="fas fa-spinner fa-2x icon-loading"></i>En cours de chargement...</p>
+            {% else %}
+                <table class="import-table display" id="file-table">
+                    <thead>
+                        <tr>
+                            {% for importColumn in importColumns %}
+                                <th>{{ importColumn }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {% for importObjet in importContent %}
+                                {% for importValue in importObjet %}
+                                    <td>{{ importValue }}</td>
+                                {% endfor %}
+                        </tr>
+                            {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
         </div>
     </main>
 {% endblock %}

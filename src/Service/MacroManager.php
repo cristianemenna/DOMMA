@@ -25,7 +25,7 @@ class MacroManager
      * @param MacroApplyManager $macro
      * @param Import $import
      * @return mixed
-     * @throws DBALException
+     * @throws \Exception
      */
     public function applyMacro(MacroApplyManager $macro, Import $import)
     {
