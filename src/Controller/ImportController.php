@@ -38,8 +38,15 @@ class ImportController extends AbstractController
 
         $session->set('import', $import->getId());
         $macros = $user->getMacros();
-        $importContent = $loadFileManager->showTable($import, 'content');
-        $importColumns = $loadFileManager->showTable($import, 'columns');
+
+        // Affiche un message sur la page du contexte si l'import ne peut pas être affiché
+        try {
+            $importContent = $loadFileManager->showTable($import, 'content');
+            $importColumns = $loadFileManager->showTable($import, 'columns');
+        } catch (\Exception $e) {
+            $this->addFlash('error', 'Le fichier ne peut pas être lu. Veuillez le charger à nouveau.');
+            return $this->redirectToRoute('context_show', ['id' => $import->getContext()->getId()]);
+        }
 
         $macro = new MacroApplyManager();
         $form = $this->createForm(MacroApplyType::class, $macro, ['macros' => $user->getMacros()]);
