@@ -222,10 +222,23 @@ tr:nth-child(even) {
 }
 
 #macro-apply {
-    background-color: #CECECE;
+    background-color: #9D9D9D;
+    color: #EBEBEB;
 }
 
 #macro-apply:hover {
-    background-color: #9D9D9D;
-    color: #EBEBEB;
+    background-color: #757575;
+}
+
+#macro_columns > div > span.select2.select2-container.select2-container--default {
+    width: 500px !important;
+}
+
+#macro_columns, span.selection {
+    width: 500px;
+}
+
+.column-delete {
+    padding: 8px 20px;
+    font-size: 0.8em;
 }

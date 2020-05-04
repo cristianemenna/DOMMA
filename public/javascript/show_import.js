@@ -20,3 +20,9 @@ $(document).ready( function () {
 );
 } );
 
+$(document).ready(function() {
+    $('#macro_columns_columns').select2({
+        allowClear: true,
+        placeholder: "Choisir colonnes"
+    });
+});
