@@ -169,7 +169,11 @@ label {
 
 .alert-import {
     margin-top: 15px;
+}
 
+.icon-reload {
+    margin-left: 15px;
+    font-size: 1.2em;
 }
 
 /************************************************* TOOLTIP ***********************************************/

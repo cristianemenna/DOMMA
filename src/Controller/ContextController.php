@@ -98,7 +98,7 @@ class ContextController extends AbstractController
                 $this->addFlash('success', 'Le fichier a bien été envoyé.');
             } catch (\Exception $e) {
                 $this->addFlash(
-                    'error', 'Le fichier ne peut pas être chargé. Veuillez réessayer.');
+                    'error', $e->getMessage());
             }
 
             return $this->redirectToRoute('context_show', ['id' => $context->getId()]);
