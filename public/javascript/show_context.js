@@ -12,12 +12,22 @@ document.getElementById("import_file").addEventListener("change", function(){
         }
 
     // Ajoute le texte sur l'html pour affichage du nom des fichiers chargés
-    document.getElementById("file-name").innerHTML = displayText;
+    document.getElementById("file-messages").innerHTML = displayText;
 }, false);
 
+// Affiche un message si l'utilisateur click sur "Envoyer" sans avoir choisit un fichier
 document.getElementById("send-file").addEventListener("click", function(){
     var sentFiles = document.getElementById("import_file").files;
     if (sentFiles.length === 0) {
-        document.getElementById("file-name").innerHTML = "Veuillez choisir un fichier.";
+        document.getElementById("file-messages").innerHTML = "Veuillez choisir un fichier.";
     }
+});
+
+// Supprime un message d'erreur lors que l'utilisateur click sur "Choisir un fichier"
+document.getElementById("import").addEventListener("click", function(){
+    var elementMessageParent = document.getElementsByClassName("file-errors-container")[0];
+    if (elementMessageParent.lastChild.previousSibling !== document.getElementById("file-messages")) {
+        elementMessageParent.lastChild.remove();
+    }
+
 });

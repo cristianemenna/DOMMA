@@ -14,14 +14,19 @@
         <div class="upload-files">
             <h2>Importer un fichier</h2>
             {{ form_start(form) }}
-                {{ form_widget(form) }}
-                <button class="btn-file" id="send-file">{{ button_label|default('Envoyer') }}</button>
+                <div class="select-files-container">
+                        {{ form_widget(form) }}
+                        <button class="btn-file" id="send-file">{{ button_label|default('Envoyer') }}</button>
+                    <div class="file-errors-container">
+                        <p id="file-messages"></p>
+                        {{ form_errors(form.file) }}
+                    </div>
+                </div>
             {{ form_end(form) }}
-            <p id="file-name"></p>
 
             {% for label, messages in app.flashes %}
                 {% for message in messages %}
-                    <div class="alert-{{ label }}">{{ message }}</div>
+                    <div class="alert-{{ label }} alert-import">{{ message }}</div>
                 {% endfor %}
             {% endfor %}
         </div>

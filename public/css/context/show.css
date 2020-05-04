@@ -45,16 +45,15 @@ h2, h3 {
 .upload-files, .imported-files {
     margin: 50px 0 0 200px;
     padding: 20px 20px 40px 20px;
-    width: 800px;
+    width: 60%;
     background-color: #f5f5f5;
     border-radius: 10px;
 }
 
-#file-name {
+#file-messages {
     margin-left: 35px;
     color: #757575;
     font-weight: bolder;
-    height: 5px;
 }
 
 .icon-check, .icon-erreur, .icon-loading {
@@ -152,10 +151,25 @@ label {
     display: none;
 }
 
-form {
+.select-files-container {
     display: flex;
     align-items: baseline;
     margin: 30px 0 0 30px;
+}
+
+.file-errors-container {
+    margin: 0;
+    color: #757575;
+    font-weight: bolder;
+}
+
+#import ul li {
+    display: none;
+}
+
+.alert-import {
+    margin-top: 15px;
+
 }
 
 /************************************************* TOOLTIP ***********************************************/
