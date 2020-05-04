@@ -9,6 +9,7 @@ use App\Service\GravatarManager;
 use App\Service\LoadFileManager;
 use App\Service\MacroApplyManager;
 use App\Service\MacroManager;
+use App\Service\UploadManager;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -38,8 +39,18 @@ class ImportController extends AbstractController
 
         $session->set('import', $import->getId());
         $macros = $user->getMacros();
-        $importContent = $loadFileManager->showTable($import, 'content');
-        $importColumns = $loadFileManager->showTable($import, 'columns');
+
+        // Affiche un message sur la page du contexte si l'import ne peut pas être affiché
+        try {
+            $importContent = $loadFileManager->showTable($import, 'content');
+            $importColumns = $loadFileManager->showTable($import, 'columns');
+        } catch (\Exception $e) {
+            // Message d'erreur quand l'utilisateur essaye d'ouvrir un fichier dont l'upload a été réalisé
+            // mais dont les données n'ont pas pu être chargées. Notamment lors de l'import de plusieurs fichiers dont un qui génère un souci.
+            $this->addFlash('error',
+                'Le fichier ' . $import->getFileName() . ' n\'a pas été chargé correctement et a été mis en attente. ');
+            return $this->redirectToRoute('context_show', ['id' => $import->getContext()->getId()]);
+        }
 
         $macro = new MacroApplyManager();
         $form = $this->createForm(MacroApplyType::class, $macro, ['macros' => $user->getMacros()]);
@@ -68,6 +79,25 @@ class ImportController extends AbstractController
             'macros' => $macros,
             'macroForm' => $form->createView(),
         ]);
+    }
+
+    /**
+     * Recharge un fichier dont le état est 'En attente' depuis la page show
+     * d'un contexte de travail
+     *
+     * @Route("/{id}/upload", name="import_reload")
+     */
+    public function reloadFile(Request $request, Import $import, UploadManager $uploadManager)
+    {
+        try {
+            $uploadManager->readFile($import->getContext());
+            $this->addFlash('success', 'Le fichier a bien été chargé.');
+        } catch (\Exception $e) {
+            $this->addFlash(
+                'error', $e->getMessage());
+        }
+
+        return $this->redirectToRoute('context_show', ['id' => $import->getContext()->getId()]);
     }
 
     /**

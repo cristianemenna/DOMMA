@@ -8,6 +8,7 @@ use App\Repository\ImportRepository;
 use Doctrine\Bundle\DoctrineBundle\Command\Proxy\ImportDoctrineCommand;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Reader\Exception;
 
 
 class UploadManager
@@ -22,7 +23,12 @@ class UploadManager
         $this->loadFileManager = $loadFileManager;
     }
 
-    // Upload des fichiers et liaison avec leur contexte
+    /**
+     * Upload des fichiers et liaison avec leur contexte
+     *
+     * @param $form
+     * @param $context
+     */
     public function uploadFile($form, $context)
     {
         $importedFile = $form->get('file')->getData();
@@ -52,13 +58,23 @@ class UploadManager
         }
     }
 
-    // Recupère le dossier où les fichiers sont enregistrés
+    /**
+     * Recupère le dossier où les fichiers sont enregistrés
+     *
+     * @return mixed
+     */
     public function getUploadsDirectory()
     {
         return $this->uploadsDirectory;
     }
 
-    // Lecture des fichiers
+    /**
+     * Lecture des fichiers et ajout de leur contenu en BDD
+     *
+     * @param Context $context
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \Exception
+     */
     public function readFile(Context $context)
     {
         $imports = $context->getImports();
@@ -89,8 +105,8 @@ class UploadManager
                         $this->entityManager->remove($import);
                         $this->entityManager->flush();
                     }
-                    throw new \Exception();
-                // Dans tous les cas, supprime le fichier du serveur
+                    throw new \Exception('Le fichier ' . $import->getfilename() . ' n\'as pas pu être chargé.');
+                    // Dans tous les cas, supprime le fichier du serveur
                 } finally {
                     if (file_exists($filePath)) {
                         unlink($filePath);
@@ -100,3 +116,4 @@ class UploadManager
         }
     }
 }
+
