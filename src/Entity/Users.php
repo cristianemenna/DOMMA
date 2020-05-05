@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -14,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass="App\Repository\UsersRepository")
  * @UniqueEntity("username", message="Veuillez choisir un nom d'utilisateur différent")
  */
-class Users implements UserInterface
+class Users implements UserInterface, EquatableInterface
 {
     /**
      * @ORM\Id()
@@ -256,6 +257,22 @@ class Users implements UserInterface
     }
 
     /**
+     * Permet de déconnecter l'utilisateur en cas de blockage de compte par l'administrateur
+     * 
+     * @param UserInterface $user
+     * @return bool
+     */
+    public function isEqualTo(UserInterface $user)
+    {
+        if ($user instanceof Users) {
+            if (($user->getAttempts() !== $this->getAttempts())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * @return Collection|Context[]
      */
     public function getContexts(): Collection
@@ -313,6 +330,10 @@ class Users implements UserInterface
         return $this;
     }
 
+    /**
+     * @param Macro $macro
+     * @return $this
+     */
     public function removeMacro(Macro $macro): self
     {
         if ($this->macros->contains($macro)) {
