@@ -23,7 +23,7 @@ class MacroFixtures extends Fixture implements OrderedFixtureInterface
         $macroTwo->setTitle('Recherche des doublons sur CODE ONE et LANGUE');
         $macroTwo->setDescription('Afficher le nombre d\'ocurrences identiques sur les deux colonnes');
         $macroTwo->setCode('count("Code ONE") over (partition by "Code ONE") as nb_dubble_code_one, count("Langue") over (partition by "Langue") as nb_dubble_langue');
-        $macroTwo->setType('select');
+        $macroTwo->setType('select-add-columns');
 
         // Exemple de filtre sur lignes avec doublons
         $macroThree = new Macro();
@@ -37,7 +37,7 @@ class MacroFixtures extends Fixture implements OrderedFixtureInterface
         $macroFour->setTitle('Création de clé d\'authentication unique');
         $macroFour->setDescription('Création de clé unique à partir de la concaténation de champs : 3 premiers caractères de l\entité + 4 premiers caractères du igg');
         $macroFour->setCode('SUBSTR("Entité actuelle", 1, 3) || SUBSTR("Identifiant Global Groupe (IGG)", 1, 4) as cle_authentication');
-        $macroFour->setType('select');
+        $macroFour->setType('select-add-columns');
 
         // Exemple d'affichage des champs selon critère
         $macroFive = new Macro();

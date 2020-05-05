@@ -101,6 +101,7 @@ class ImportController extends AbstractController
         return $this->render('import/show.html.twig', [
             'avatar' => $gravatar->getAvatar($user),
             'import' => $import,
+            'context'=> $import->getContext(),
             'importContent' => $importContent,
             'importColumns' => $importColumns,
             'macros' => $macros,
