@@ -83,6 +83,7 @@ class UsersController extends AbstractController
                     $user->getPassword()
                 )
             );
+            $this->addFlash('success', 'Votre mot de passe a bien été modifié.');
             $entityManager->persist($user);
             $entityManager->flush();
 

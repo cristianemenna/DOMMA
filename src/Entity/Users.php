@@ -258,7 +258,7 @@ class Users implements UserInterface, EquatableInterface
 
     /**
      * Permet de déconnecter l'utilisateur en cas de blockage de compte par l'administrateur
-     * 
+     *
      * @param UserInterface $user
      * @return bool
      */
