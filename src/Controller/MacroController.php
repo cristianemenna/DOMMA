@@ -40,8 +40,7 @@ class MacroController extends AbstractController
     public function new(Request $request, GravatarManager $gravatar, SessionInterface $session, ImportRepository $importRepository): Response
     {
         // Recupère l'id de l'import de la page d'origine
-        $import = $session->get('import');
-        $context = $importRepository->find($import)->getContext()->getId();
+        $import = $importRepository->find($session->get('import'));
         $macro = new Macro();
         $form = $this->createForm(MacroType::class, $macro);
         $form->handleRequest($request);
@@ -52,7 +51,7 @@ class MacroController extends AbstractController
             $entityManager->persist($macro);
             $entityManager->flush();
 
-            return $this->redirectToRoute('import_show', ['context' => $context, 'id' => $import]);
+            return $this->redirectToRoute('import_show', ['context' => $import->getContext()->getId(), 'id' => $import]);
         }
 
         return $this->render('macro/new.html.twig', [
@@ -67,17 +66,20 @@ class MacroController extends AbstractController
     /**
      * @Route("/{id}", name="macro_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Macro $macro, GravatarManager $gravatar): Response
+    public function edit(Request $request, Macro $macro, GravatarManager $gravatar, SessionInterface $session, ImportRepository $importRepository): Response
     {
         // Si l'utilisateur actif n'as pas droit d'accès à la macro, on affiche page 403'
         $this->denyAccessUnlessGranted('edit', $macro);
         $form = $this->createForm(MacroType::class, $macro);
         $form->handleRequest($request);
+        $import = $importRepository->find($session->get('import'));
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('context_index');
+            return $this->redirectToRoute('import_show',
+                                            ['context' => $import->getContext()->getId(),
+                                                'id' => $session->get('import')]);
         }
 
         return $this->render('macro/edit.html.twig', [

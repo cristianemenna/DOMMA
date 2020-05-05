@@ -181,29 +181,3 @@ label {
     font-size: 1.4em;
 }
 
-/************************************************* TOOLTIP ***********************************************/
-
-.hover-message-container {
-    position: relative;
-    display: inline-block;
-}
-
-.hover-message-container .hover-message-text {
-    visibility: hidden;
-    width: 150px;
-    background-color: #FFFFFF;
-    color: #757575;
-    text-align: center;
-    font-size: 0.9em;
-    border-radius: 2px;
-    padding: 10px 0;
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    z-index: 1;
-}
-
-.hover-message-container:hover .hover-message-text {
-    visibility: visible;
-}
-

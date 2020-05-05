@@ -12,8 +12,14 @@
 
 {% block body %}
     <main>
-        <div class="separator">
+        <div class="separator import-title">
             <h1>{{ import.fileName }}</h1>
+            <div class="hover-message-container">
+                <a href="{{ path('context_show', {'id': context.id}) }}">
+                    <i class="fas fa-backward icon-back"></i>
+                </a>
+                <span class="hover-message-text">Revenir à la page des contextes</span>
+            </div>
         </div>
 
         {% for label, messages in app.flashes %}
