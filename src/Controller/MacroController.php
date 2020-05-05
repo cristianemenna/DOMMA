@@ -51,12 +51,12 @@ class MacroController extends AbstractController
             $entityManager->persist($macro);
             $entityManager->flush();
 
-            return $this->redirectToRoute('import_show', ['context' => $import->getContext()->getId(), 'id' => $import]);
+            return $this->redirectToRoute('import_show', ['context' => $import->getContext()->getId(), 'id' => $import->getId()]);
         }
 
         return $this->render('macro/new.html.twig', [
             'macro' => $macro,
-            'context' => $context,
+            'context' => $import->getContext(),
             'form' => $form->createView(),
             'import' => $import,
             'avatar' => $gravatar->getAvatar($this->getUser()),
