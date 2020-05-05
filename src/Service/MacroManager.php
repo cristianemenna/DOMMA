@@ -85,7 +85,7 @@ class MacroManager
     }
 
     /** Boucle sur le résultat de la requête de select pour ajouter modifier la table
-     *  et ajouter les colonnes en BDD, s'ils elles n'existent pas encore.
+     *  et ajouter les colonnes en BDD, si elles n'existent pas encore.
      *
      * @param MacroApplyManager $macro
      * @param Import $import
@@ -108,9 +108,9 @@ class MacroManager
             // N'ajoute pas la colonne qui contient les id
             if ($columnName !== 'query_id') {
                 if ($columnName !== end($columnsKeys)) {
-                    $requestSQL .= ' ADD COLUMN IF NOT EXISTS ' . $columnName . ' TEXT,';
+                    $requestSQL .= ' ADD COLUMN IF NOT EXISTS ' . $dataBase->quoteIdentifier($columnName) . ' TEXT,';
                 } else {
-                    $requestSQL .= ' ADD COLUMN IF NOT EXISTS ' . $columnName . ' TEXT';
+                    $requestSQL .= ' ADD COLUMN IF NOT EXISTS ' . $dataBase->quoteIdentifier($columnName) . ' TEXT';
                 }
             }
         }
@@ -157,9 +157,9 @@ class MacroManager
                 if ($column !== 'query_id') {
                     // Actualise chaque colonne avec la valeur correspondante dans le résultat du select
                     if ($column !== end($lineKeys)) {
-                        $requestSQL .= $column . ' ' . '=' . ' ' . "'" . $contentValue . "', ";
+                        $requestSQL .= $dataBase->quoteIdentifier($column) . ' ' . '=' . ' ' . $dataBase->quote($contentValue) . ', ';
                     } else {
-                        $requestSQL .= $column . ' ' . '=' . ' ' . "'" . $contentValue . "'";
+                        $requestSQL .= $dataBase->quoteIdentifier($column) . ' ' . '=' . ' ' . $dataBase->quote($contentValue);
                     }
                 // Recupère l'id de chaque ligne pour l'utiliser ensuite
                 } else {
@@ -285,7 +285,6 @@ class MacroManager
         }
     }
 
-
     /**
      * Recherche une chaîne de caractères entre deux mots
      * Utilisée pour l'affichage des messages d'erreur
@@ -295,7 +294,7 @@ class MacroManager
      * @param $endString
      * @return false|string
      */
-    public function getSubstringBetween($stringToModify, $startString, $endString)
+    private function getSubstringBetween($stringToModify, $startString, $endString)
     {
         $substr = substr($stringToModify, strlen($startString)+strpos($stringToModify, $startString), (strlen($stringToModify) - strpos($stringToModify, $endString))*(-1));
         return trim($substr);
