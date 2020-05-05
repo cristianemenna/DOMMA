@@ -166,6 +166,22 @@ tr:nth-child(even) {
     background-color: #fdfcfc;
 }
 
+.icon-back {
+    font-size: 25px;
+    margin-left: 20px;
+    color: #757575;
+}
+
+.icon-back:hover {
+    color: #4f4f4f;
+}
+
+.import-title {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
 /******************************************* DATATABLES *******************************************************/
 
 #file-table_wrapper {
