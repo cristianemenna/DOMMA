@@ -19,6 +19,7 @@ class MacroApplyType extends AbstractType
                 'class' => Macro::class,
                 'choices' => $options['macros'],
                 'choice_label' => 'title',
+                'placeholder' => 'Choisir macro',
             ])
         ;
         ;

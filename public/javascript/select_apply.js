@@ -15,6 +15,16 @@ $(document).ready(function() {
 $(document).ready(function() {
     $('#macro_apply_macro').select2({
         allowClear: false,
-        placeholder: "Appliquer macro"
+    });
+});
+
+$(document).ready(function() {
+    $('#macro_columns_columns').select2({
+        allowClear: true,
+        placeholder: "Choisir colonnes"
+    });
+
+    $('#export_fileType').select2({
+        allowClear: false,
     });
 });

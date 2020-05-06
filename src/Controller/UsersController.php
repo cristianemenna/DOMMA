@@ -7,7 +7,7 @@ use App\Form\UsersEditType;
 use App\Form\UsersPasswordType;
 use App\Form\UsersType;
 use App\Repository\UsersRepository;
-use App\Service\ContextService;
+use App\Service\ContextManager;
 use App\Service\GravatarManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,7 +50,7 @@ class UsersController extends AbstractController
     /**
      * @Route("/{id}", name="users_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Users $user, ContextService $contextService): Response
+    public function delete(Request $request, Users $user, ContextManager $contextService): Response
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();

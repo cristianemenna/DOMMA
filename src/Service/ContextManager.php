@@ -7,7 +7,7 @@ namespace App\Service;
 use App\Entity\Context;
 use Doctrine\ORM\EntityManagerInterface;
 
-class ContextService
+class ContextManager
 {
     private $entityManager;
 

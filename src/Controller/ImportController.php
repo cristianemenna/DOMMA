@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Export;
 use App\Entity\Import;
+use App\Form\ExportType;
 use App\Form\MacroApplyType;
 use App\Form\MacroColumnsType;
 use App\Repository\ImportRepository;
@@ -12,8 +14,8 @@ use App\Service\MacroApplyManager;
 use App\Service\MacroManager;
 use App\Service\UploadManager;
 use Doctrine\ORM\EntityManagerInterface;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
+//use PhpOffice\PhpSpreadsheet\IOFactory;
+//use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -98,6 +100,17 @@ class ImportController extends AbstractController
             }
         }
 
+        $exportForm = $this->createForm(ExportType::class);
+        $exportForm->handleRequest($request);
+        
+        // Traitement lors de l'envoie du formulaire de téléchargement de fichier
+        if ($exportForm->isSubmitted() && $exportForm->isValid()) {
+            $response = $this->forward('App\Controller\ExportController::exportFile', [
+                'exportForm' => $exportForm->getData(),
+            ]);
+            return $response;
+        }
+
         return $this->render('import/show.html.twig', [
             'avatar' => $gravatar->getAvatar($user),
             'import' => $import,
@@ -106,6 +119,7 @@ class ImportController extends AbstractController
             'importColumns' => $importColumns,
             'macros' => $macros,
             'macroForm' => $macrosForm->createView(),
+            'exportForm' => $exportForm->createView(),
             'columnsForm' => $columnsForm->createView(),
         ]);
     }
