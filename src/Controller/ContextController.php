@@ -9,7 +9,7 @@ use App\Form\ImportType;
 use App\Repository\ContextRepository;
 use App\Repository\ImportRepository;
 use App\Service\ContexteHelper;
-use App\Service\ContextService;
+use App\Service\ContextManager;
 use App\Service\GravatarManager;
 use App\Service\UploadManager;
 use Doctrine\ORM\EntityManager;
@@ -155,7 +155,7 @@ class ContextController extends AbstractController
     /**
      * @Route("/{id}", name="context_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Context $context, ContextService $contextService): Response
+    public function delete(Request $request, Context $context, ContextManager $contextService): Response
     {
         if ($this->isCsrfTokenValid('delete'.$context->getId(), $request->request->get('_token'))) {
             $contextService->removeContext($context);
