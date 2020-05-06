@@ -166,20 +166,54 @@ tr:nth-child(even) {
     background-color: #fdfcfc;
 }
 
-.icon-back {
+.icons-main {
     font-size: 25px;
     margin-left: 20px;
     color: #757575;
 }
 
-.icon-back:hover {
-    color: #4f4f4f;
+.icon-download {
+    font-size: 2.8em;
+    margin: 0 0 0 5px;
 }
 
 .import-title {
     display: flex;
     flex-direction: row;
     align-items: baseline;
+}
+
+.title-container {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+button {
+    background: transparent;
+    border: none;
+}
+
+button > i:hover {
+    cursor: pointer;
+    color: #4f4f4f;
+}
+
+.export-file-container {
+    margin-right: 5%;
+
+}
+
+#export_fileType {
+    width: 100%;
+}
+
+.macros-select-container > .export-file-container > form {
+    display: flex;
+}
+
+#export > div > span {
+    width: 100px;
 }
 
 /******************************************* DATATABLES *******************************************************/
@@ -257,4 +291,8 @@ tr:nth-child(even) {
 .column-delete {
     padding: 8px 20px;
     font-size: 0.8em;
+}
+
+input.select2-search__field {
+    font-family: 'Dosis', sans-serif;
 }

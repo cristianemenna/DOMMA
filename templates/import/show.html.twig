@@ -12,23 +12,21 @@
 
 {% block body %}
     <main>
-        <div class="separator import-title">
-            <h1>{{ import.fileName }}</h1>
-            <div class="hover-message-container">
-                <a href="{{ path('context_show', {'id': context.id}) }}">
-                    <i class="fas fa-backward icon-back"></i>
-                </a>
-                <span class="hover-message-text">Revenir à la page des contextes</span>
+            <div class="separator import-title">
+                <h1>{{ import.fileName }}</h1>
+                <div class="hover-message-container">
+                    <a href="{{ path('context_show', {'id': context.id}) }}">
+                        <i class="fas fa-backward icons-main"></i>
+                    </a>
+                    <span class="hover-message-text">Revenir à la page des contextes</span>
+                </div>
             </div>
-        </div>
 
         {% for label, messages in app.flashes %}
             {% for message in messages %}
                 <div class="alert-{{ label }} alert-margin-left">{{ message }}</div>
             {% endfor %}
         {% endfor %}
-
-        <div class="import-container"></div>
 
         <div class="macros-select-container">
             <div>
@@ -45,8 +43,16 @@
             <div>
                 {{ form_start(columnsForm) }}
                     {{ form_widget(columnsForm) }}
-                    <input type="submit" name="apply" class="macros-select-submit column-delete" value="Supprimer colonnes">
+                    <input type="submit" name="delete-columns" class="macros-select-submit column-delete" value="Supprimer colonnes">
                 {{ form_end(columnsForm) }}
+            </div>
+            <div class="export-file-container">
+                {{ form_start(exportForm) }}
+                    {{ form_widget(exportForm) }}
+                    <button>
+                        <i class="fas fa-file-download icons-main icon-download"></i>
+                    </button>
+                {{ form_end(exportForm) }}
             </div>
         </div>
 
