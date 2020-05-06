@@ -3,7 +3,12 @@
 
 namespace App\Entity;
 
-
+/**
+ * Entité qui récupère le type de fichier à être utilisé pour l'export des données
+ * d'un import depuis la BDD
+ *
+ * @package App\Entity
+ */
 class Export
 {
     private $fileType;
