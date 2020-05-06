@@ -83,9 +83,9 @@ class MacroManager
         } catch (\Exception $e) {
             $errorMessage = $this->getSubstringBetween($e->getMessage(), 'ERREUR:', 'LINE');
             if ($errorMessage) {
-                return new \Exception($errorMessage);
+                throw new \Exception($errorMessage);
             } else {
-                return new \Exception('Une erreur est survenue lors de l\'application de la macro.');
+                throw new \Exception('Une erreur est survenue lors de l\'application de la macro.');
             }
         }
     }
@@ -341,6 +341,14 @@ class MacroManager
         }
     }
 
+    /**
+     * Supprime toutes les lignes de la table et les ajoute à nouveau
+     * selon tri de la macro (nom de colonne et ordre souhaité)
+     *
+     * @param MacroApplyManager $macro
+     * @param Import $import
+     * @throws \Exception
+     */
     private function sort(MacroApplyManager $macro, Import $import)
     {
         $dataBase = $this->entityManager->getConnection();
