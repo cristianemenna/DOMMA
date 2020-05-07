@@ -9,6 +9,7 @@ use App\Entity\Import;
 use App\Entity\Log;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Boolean;
 use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Worksheet\RowIterator;
 
@@ -158,7 +159,7 @@ class LoadFileManager
 
         try {
             $selectAll = $this->importManager->selectAll($import);
-            if ($content === 'columns' && $selectAll === true) {
+            if ($content === 'columns' && $selectAll->fetch() !== false) {
                 $firstLigne = $selectAll->fetch();
                 return $this->showColumnsValue($firstLigne);
             } else {
