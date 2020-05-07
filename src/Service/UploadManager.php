@@ -94,24 +94,27 @@ class UploadManager
 
                 $sheetColumns = $spreadSheet->getSheet(0)->getRowIterator();
 
-                // Essai de créer une table en BDD et d'ajouter le contenu du fichier
+                // Essaie de créer une table en BDD
                 try {
                     $this->loadFileManager->createTable($import, $import->getContext(), $sheetColumns);
-                    $this->loadFileManager->addRows($import, $import->getContext(), $sheetColumns);
-                    // En cas d'erreur lors de la création de la table :
                 } catch (\Exception $e) {
-                    if ($e->getMessage() === 'La table ne peut pas être créé') {
                         $context->removeImport($import);
                         $this->entityManager->remove($import);
                         $this->entityManager->flush();
-                    }
-                    throw new \Exception('Le fichier ' . $import->getfilename() . ' n\'as pas pu être chargé.');
+                    throw new \Exception($e->getMessage());
                     // Dans tous les cas, supprime le fichier du serveur
                 } finally {
                     if (file_exists($filePath)) {
                         unlink($filePath);
                     }
                 }
+                // Essaie d'ajouter les lignes du fichier (contenu) en BDD
+                try {
+                    $this->loadFileManager->addRows($import, $import->getContext(), $sheetColumns);
+                } catch (\Exception $e) {
+                    throw new \Exception('Le fichier ' . $import->getfilename() . ' n\'as pas pu être chargé.');
+                }
+
             }
         }
     }
