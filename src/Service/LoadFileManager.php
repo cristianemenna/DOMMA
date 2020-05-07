@@ -41,7 +41,8 @@ class LoadFileManager
         foreach ($sheetRows as $row) {
             foreach ($row->getCellIterator() as $cell) {
                 // Ajoute les colonnes en BDD seulement pour la première ligne du fichier excel
-                if ($row->getRowIndex() === 1) {
+                // et si le contenu des colonnes n'est pas vide
+                if ($row->getRowIndex() === 1 && $cell->getValue() !== null) {
                     $columnName = $dataBase->quoteIdentifier($cell->getValue());
                     $requestSQL .= ', ' . $columnName . ' TEXT';
                 }
@@ -73,6 +74,21 @@ class LoadFileManager
     public function addRows(Import $import, Context $context, RowIterator $sheetRows)
     {
         $dataBase = $this->entityManager->getConnection();
+        $schemaName = $dataBase->quote($context->getTitle() . '_' . $context->getId());
+        $tableName = $dataBase->quote('import_'. strval($import->getId()));
+
+        // Récupère le nombre de colonnes de la table créé en BDD
+        try {
+            $nbColumns = $dataBase->executeQuery('SELECT count(*)
+                                                    FROM information_schema.COLUMNS
+                                                    WHERE table_schema =' . $schemaName . ' 
+                                                    AND table_name=' . $tableName)
+                ->fetchColumn();
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+
+        // TODO refactor pour utiliser quote et non pas quoteIdentifier sur nom de schema et tables
         $schemaName = $dataBase->quoteIdentifier($context->getTitle() . '_' . $context->getId());
         $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
 
@@ -82,18 +98,21 @@ class LoadFileManager
                 // Décremente l'index pour qu'il corresponde au numéro de la ligne en BDD
                 $index -= 1;
                 // Crée un début de requête pour chaque ligne
-                $requestSQL = 'INSERT INTO ' . $schemaName . '.' . $tableName . ' ' . ' VALUES (' . $index . ', ';
-                // Itère entre les colonnes pour concaténer la valeur à la requête
-                foreach ($row->getCellIterator() as $key => $cell) {
-                    $cellContent = $cell->getCalculatedValue(false);
-                    // N'ajoute pas de virgule à la première valeur
-                    if ($key === 'A') {
-                        $requestSQL .= $dataBase->quote($cellContent);
-                    } else {
-                        $requestSQL .= ', ' . $dataBase->quote($cellContent);
-                    }
-                }
+                $requestSQL = 'INSERT INTO ' . $schemaName . '.' . $tableName . ' ' . ' VALUES (' . $dataBase->quote($index) . ', ';
 
+                    $i = 0;
+                    // Itère entre les colonnes pour concaténer la valeur à la requête
+                    foreach ($row->getCellIterator() as $key => $cell) {
+                        // Ajoute juste le contenu des colonnes qui correspondent à une colonne de la BDD
+                        if ($i < $nbColumns - 1) {
+                            $cellContent = $cell->getCalculatedValue(false);
+                            $requestSQL .= $dataBase->quote($cellContent) . ', ';
+                        }
+                        $i++;
+                    }
+
+                // Supprime la virgule et le espace de la fin de la requête
+                $requestSQL = substr($requestSQL,0, -2);
                 $requestSQL .= ')';
 
                 // D'abord essai d'exécuter la requête SQL pour ajouter toutes les colonnes d'une ligne en BDD
