@@ -9,16 +9,19 @@ use App\Entity\Import;
 use App\Entity\Log;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Boolean;
 use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Worksheet\RowIterator;
 
 class LoadFileManager
 {
     private $entityManager;
+    private $importManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, ImportManager $importManager)
     {
         $this->entityManager = $entityManager;
+        $this->importManager = $importManager;
     }
 
     /**
@@ -33,15 +36,15 @@ class LoadFileManager
     public function createTable(Import $import, Context $context, RowIterator $sheetRows)
     {
        $dataBase = $this->entityManager->getConnection();
-       $schemaName = $dataBase->quoteIdentifier($context->getTitle() . '_' . $context->getId());
-       $tableName = $dataBase->quoteIdentifier('import_' . strval($import->getId()));
+       $schemaAndTableName = $this->importManager->getSchemaAndTableNames($import);
 
-       $requestSQL = 'CREATE TABLE ' . $schemaName . '.' . $tableName . ' ' . '(id serial primary key';
+       $requestSQL = 'CREATE TABLE ' . $schemaAndTableName . ' ' . '(id serial primary key';
 
         foreach ($sheetRows as $row) {
             foreach ($row->getCellIterator() as $cell) {
                 // Ajoute les colonnes en BDD seulement pour la première ligne du fichier excel
-                if ($row->getRowIndex() === 1) {
+                // et si le contenu des colonnes n'est pas vide
+                if ($row->getRowIndex() === 1 && $cell->getValue() !== null) {
                     $columnName = $dataBase->quoteIdentifier($cell->getValue());
                     $requestSQL .= ', ' . $columnName . ' TEXT';
                 }
@@ -73,8 +76,20 @@ class LoadFileManager
     public function addRows(Import $import, Context $context, RowIterator $sheetRows)
     {
         $dataBase = $this->entityManager->getConnection();
-        $schemaName = $dataBase->quoteIdentifier($context->getTitle() . '_' . $context->getId());
-        $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
+        $schemaName = $dataBase->quote($context->getTitle() . '_' . $context->getId());
+        $tableName = $dataBase->quote('import_'. strval($import->getId()));
+        $schemaAndTableName = $this->importManager->getSchemaAndTableNames($import);
+
+        // Récupère le nombre de colonnes de la table créé en BDD
+        try {
+            $nbColumns = $dataBase->executeQuery('SELECT count(*)
+                                                    FROM information_schema.COLUMNS
+                                                    WHERE table_schema =' . $schemaName . ' 
+                                                    AND table_name=' . $tableName)
+                ->fetchColumn();
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
 
         foreach ($sheetRows as $index => $row)
         {
@@ -82,18 +97,21 @@ class LoadFileManager
                 // Décremente l'index pour qu'il corresponde au numéro de la ligne en BDD
                 $index -= 1;
                 // Crée un début de requête pour chaque ligne
-                $requestSQL = 'INSERT INTO ' . $schemaName . '.' . $tableName . ' ' . ' VALUES (' . $index . ', ';
-                // Itère entre les colonnes pour concaténer la valeur à la requête
-                foreach ($row->getCellIterator() as $key => $cell) {
-                    $cellContent = $cell->getCalculatedValue(false);
-                    // N'ajoute pas de virgule à la première valeur
-                    if ($key === 'A') {
-                        $requestSQL .= $dataBase->quote($cellContent);
-                    } else {
-                        $requestSQL .= ', ' . $dataBase->quote($cellContent);
-                    }
-                }
+                $requestSQL = 'INSERT INTO ' . $schemaAndTableName . ' ' . ' VALUES (' . $dataBase->quote($index) . ', ';
 
+                    $i = 0;
+                    // Itère entre les colonnes pour concaténer la valeur à la requête
+                    foreach ($row->getCellIterator() as $key => $cell) {
+                        // Ajoute juste le contenu des colonnes qui correspondent à une colonne de la BDD
+                        if ($i < $nbColumns - 1) {
+                            $cellContent = $cell->getCalculatedValue(false);
+                            $requestSQL .= $dataBase->quote($cellContent) . ', ';
+                        }
+                        $i++;
+                    }
+
+                // Supprime la virgule et le espace de la fin de la requête
+                $requestSQL = substr($requestSQL,0, -2);
                 $requestSQL .= ')';
 
                 // D'abord essai d'exécuter la requête SQL pour ajouter toutes les colonnes d'une ligne en BDD
@@ -137,18 +155,15 @@ class LoadFileManager
     public function showTable(Import $import, string $content)
     {
         $dataBase = $this->entityManager->getConnection();
-        $schemaName = $dataBase->quoteIdentifier($import->getContext()->getTitle() . '_' . $import->getContext()->getId());
-        $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
-
-        $statement = $dataBase->prepare('SELECT * FROM ' . $schemaName . '.' . $tableName);
+        $schemaAndTableName = $this->importManager->getSchemaAndTableNames($import);
 
         try {
-            $statement->execute();
-            if ($content === 'columns') {
-                $firstLigne = $statement->fetch();
+            $selectAll = $this->importManager->selectAll($import);
+            if ($content === 'columns' && $selectAll->fetch() !== false) {
+                $firstLigne = $selectAll->fetch();
                 return $this->showColumnsValue($firstLigne);
             } else {
-                return $statement;
+                return $selectAll->fetchAll();
             }
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());

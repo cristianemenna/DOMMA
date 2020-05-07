@@ -11,10 +11,12 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 class ExportManager
 {
     private $entityManager;
+    private $importManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, ImportManager $importManager)
     {
         $this->entityManager = $entityManager;
+        $this->importManager = $importManager;
     }
 
     /**
@@ -28,7 +30,7 @@ class ExportManager
     public function createSpreadSheet(Import $import)
     {
         try {
-            $importContent =$this->selectAllFromImport($import);
+            $importContent =$this->importManager->selectAll($import)->fetchAll();
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
@@ -55,30 +57,5 @@ class ExportManager
         }
 
         return $spreadSheet;
-    }
-
-    /**
-     * Requête pour récupérer tout le contenu d'une table associé à un import
-     *
-     * @param Import $import
-     * @return mixed[]
-     * @throws \Exception
-     */
-    private function selectAllFromImport(Import $import)
-    {
-        $dataBase = $this->entityManager->getConnection();
-
-        // Recupère le nom du contexte pour identifier le nom du schema de l'import
-        $schemaName = $dataBase->quoteIdentifier($import->getContext()->getTitle() . '_' . $import->getContext()->getId());
-        // Recupère le nom de la table de l'import
-        $tableName = $dataBase->quoteIdentifier('import_' . strval($import->getId()));
-
-        $requestSQL = 'SELECT * FROM ' . $schemaName . '.' . $tableName;
-
-        try {
-            return $dataBase->executeQuery($requestSQL)->fetchAll();
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
     }
 }
