@@ -28,5 +28,16 @@ class ImportManager
         return $schemaName . '.' . $tableName;
     }
 
+    public function selectAll(Import $import)
+    {
+        $dataBase = $this->entityManager->getConnection();
+        $schemaAndTable = $this->getSchemaAndTableNames($import);
+
+        try {
+            return $dataBase->executeQuery('SELECT * FROM ' . $schemaAndTable);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
 
 }

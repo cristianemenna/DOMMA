@@ -156,15 +156,13 @@ class LoadFileManager
         $dataBase = $this->entityManager->getConnection();
         $schemaAndTableName = $this->importManager->getSchemaAndTableNames($import);
 
-        $statement = $dataBase->prepare('SELECT * FROM ' . $schemaAndTableName);
-
         try {
-            $statement->execute();
-            if ($content === 'columns') {
-                $firstLigne = $statement->fetch();
+            $selectAll = $this->importManager->selectAll($import);
+            if ($content === 'columns' && $selectAll === true) {
+                $firstLigne = $selectAll->fetch();
                 return $this->showColumnsValue($firstLigne);
             } else {
-                return $statement;
+                return $selectAll->fetchAll();
             }
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());

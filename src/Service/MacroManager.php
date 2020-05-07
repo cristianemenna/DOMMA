@@ -103,7 +103,7 @@ class MacroManager
         $columnsToRemove = $this->selectColumns($macro, $import)[0];
 
         try {
-            $allColumns = $dataBase->executeQuery('SELECT * FROM ' . $schemaAndTableName)->fetch();
+            $allColumns = $this->importManager->selectAll($import)->fetch();
         } catch (\Exception $e) {
             $errorMessage = $this->getSubstringBetween($e->getMessage(), 'ERREUR:', 'LINE');
             if ($errorMessage) {
