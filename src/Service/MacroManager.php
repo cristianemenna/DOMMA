@@ -13,11 +13,13 @@ class MacroManager
 {
     private $entityManager;
     private $loadFileManager;
+    private $importManager;
 
-    public function __construct(EntityManagerInterface $entityManager, LoadFileManager $loadFileManager)
+    public function __construct(EntityManagerInterface $entityManager, LoadFileManager $loadFileManager, ImportManager $importManager)
     {
         $this->entityManager = $entityManager;
         $this->loadFileManager = $loadFileManager;
+        $this->importManager = $importManager;
     }
 
     /** Vérifie le type de la macro appliquée et exécute la fonction correspondante
@@ -63,17 +65,14 @@ class MacroManager
     private function selectColumns(MacroApplyManager $macro, Import $import)
     {
         $dataBase = $this->entityManager->getConnection();
+        $schemaAndTableName = $this->importManager->getSchemaAndTableNames($import);
+
         // Recupère le code de la macro
         $macroCode = $macro->getMacro()->getCode();
 
-        // Recupère le nom du contexte pour identifier le nom du schema de l'import
-        $schemaName = $dataBase->quoteIdentifier($import->getContext()->getTitle() . '_' . $import->getContext()->getId());
-        // Recupère le nom de la table de l'import
-        $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
-
         // Création de la requête avec le code de la macro
         $requestSQL = 'SELECT id AS query_id, ' . $macroCode .
-                        ' FROM ' . $schemaName . '.' . $tableName;
+                        ' FROM ' . $schemaAndTableName;
 
         try {
             $statement = $dataBase->executeQuery($requestSQL);
@@ -100,16 +99,11 @@ class MacroManager
     private function select(MacroApplyManager $macro, Import $import)
     {
         $dataBase = $this->entityManager->getConnection();
+        $schemaAndTableName = $this->importManager->getSchemaAndTableNames($import);
         $columnsToRemove = $this->selectColumns($macro, $import)[0];
 
-        // Recupère le nom du contexte pour identifier le nom du schema de l'import
-        $schemaName = $dataBase->quoteIdentifier($import->getContext()->getTitle() . '_' . $import->getContext()->getId());
-        // Recupère le nom de la table de l'import
-        $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
-        // Recupère la première ligne de la table de la BDD
-
         try {
-            $allColumns = $dataBase->executeQuery('SELECT * FROM ' . $schemaName . '.' . $tableName)->fetch();
+            $allColumns = $dataBase->executeQuery('SELECT * FROM ' . $schemaAndTableName)->fetch();
         } catch (\Exception $e) {
             $errorMessage = $this->getSubstringBetween($e->getMessage(), 'ERREUR:', 'LINE');
             if ($errorMessage) {
@@ -119,7 +113,7 @@ class MacroManager
             }
         }
 
-        $requestSQL = 'ALTER TABLE ' . $schemaName . '.' . $tableName;
+        $requestSQL = 'ALTER TABLE ' . $schemaAndTableName;
 
         // Crée un tableau avec les colonnes en commun entre la table en BDD
         // et les colonnes à être supprimées
@@ -158,14 +152,10 @@ class MacroManager
     private function addQueryColumnsToTable(MacroApplyManager $macro, Import $import)
     {
         $dataBase = $this->entityManager->getConnection();
+        $schemaAndTableName = $this->importManager->getSchemaAndTableNames($import);
         $columns = $this->selectColumns($macro, $import)[0];
 
-        // Recupère le nom du contexte pour identifier le nom du schema de l'import
-        $schemaName = $dataBase->quoteIdentifier($import->getContext()->getTitle() . '_' . $import->getContext()->getId());
-        // Recupère le nom de la table de l'import
-        $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
-
-        $requestSQL = 'ALTER TABLE ' . $schemaName . '.' . $tableName;
+        $requestSQL = 'ALTER TABLE ' . $schemaAndTableName;
 
         foreach ($columns as $columnName => $value) {
             // N'ajoute pas la colonne qui contient les id
@@ -199,16 +189,13 @@ class MacroManager
     private function addQueryToTable(MacroApplyManager $macro, Import $import)
     {
         $dataBase = $this->entityManager->getConnection();
-        $content = $this->selectColumns($macro, $import);
+        $schemaAndTableName = $this->importManager->getSchemaAndTableNames($import);
 
-        // Recupère le nom du contexte pour identifier le nom du schema de l'import
-        $schemaName = $dataBase->quoteIdentifier($import->getContext()->getTitle() . '_' . $import->getContext()->getId());
-        // Recupère le nom de la table de l'import
-        $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
+        $content = $this->selectColumns($macro, $import);
 
         // Boucle sur chaque ligne du résultat de la requête
         foreach ($content as $key => $line) {
-            $requestSQL = 'UPDATE ' . $schemaName . '.' . $tableName . ' SET ';
+            $requestSQL = 'UPDATE ' . $schemaAndTableName . ' SET ';
 
             // Ajoute les noms des colonnes à modifier sur chaque ligne
             $id = null;
@@ -252,16 +239,13 @@ class MacroManager
     private function insert(MacroApplyManager $macro, Import $import)
     {
         $dataBase = $this->entityManager->getConnection();
+        $schemaAndTableName = $this->importManager->getSchemaAndTableNames($import);
+
         // Recupère le code de la macro
         $macroCode = $macro->getMacro()->getCode();
 
-        // Recupère le nom du contexte pour identifier le nom du schema de l'import
-        $schemaName = $dataBase->quoteIdentifier($import->getContext()->getTitle() . '_' . $import->getContext()->getId());
-        // Recupère le nom de la table de l'import
-        $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
-
         // Création de la requête avec le code de la macro
-        $requestSQL = 'INSERT INTO ' . $schemaName . '.' . $tableName .
+        $requestSQL = 'INSERT INTO ' . $schemaAndTableName .
                         ' VALUES ( ' . $macroCode . ')';
 
         try {
@@ -282,16 +266,13 @@ class MacroManager
     private function update(MacroApplyManager $macro, Import $import)
     {
         $dataBase = $this->entityManager->getConnection();
+        $schemaAndTableName = $this->importManager->getSchemaAndTableNames($import);
+
         // Recupère le code de la macro
         $macroCode = $macro->getMacro()->getCode();
 
-        // Recupère le nom du contexte pour identifier le nom du schema de l'import
-        $schemaName = $dataBase->quoteIdentifier($import->getContext()->getTitle() . '_' . $import->getContext()->getId());
-        // Recupère le nom de la table de l'import
-        $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
-
         // Création de la requête avec le code de la macro
-        $requestSQL = 'UPDATE ' . $schemaName . '.' . $tableName .
+        $requestSQL = 'UPDATE ' . $schemaAndTableName .
                         ' SET ' . $macroCode;
 
         try {
@@ -317,16 +298,13 @@ class MacroManager
     private function delete(MacroApplyManager $macro, Import $import)
     {
         $dataBase = $this->entityManager->getConnection();
+        $schemaAndTableName = $this->importManager->getSchemaAndTableNames($import);
+
         // Recupère le code de la macro
         $macroCode = $macro->getMacro()->getCode();
 
-        // Recupère le nom du contexte pour identifier le nom du schema de l'import
-        $schemaName = $dataBase->quoteIdentifier($import->getContext()->getTitle() . '_' . $import->getContext()->getId());
-        // Recupère le nom de la table de l'import
-        $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
-
         // Création de la requête avec le code de la macro
-        $requestSQL = 'DELETE FROM ' . $schemaName . '.' . $tableName .
+        $requestSQL = 'DELETE FROM ' . $schemaAndTableName .
                         ' WHERE ' . $macroCode;
 
         try {
@@ -352,16 +330,13 @@ class MacroManager
     private function sort(MacroApplyManager $macro, Import $import)
     {
         $dataBase = $this->entityManager->getConnection();
+        $schemaAndTableName = $this->importManager->getSchemaAndTableNames($import);
+
         // Recupère le code de la macro
         $macroCode = $macro->getMacro()->getCode();
 
-        // Recupère le nom du contexte pour identifier le nom du schema de l'import
-        $schemaName = $dataBase->quoteIdentifier($import->getContext()->getTitle() . '_' . $import->getContext()->getId());
-        // Recupère le nom de la table de l'import
-        $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
-        // Recupère la première ligne de la table de la BDD
         try {
-            $allContent = $dataBase->executeQuery('SELECT * FROM ' . $schemaName . '.' . $tableName . ' ORDER BY ' . $macroCode);
+            $allContent = $dataBase->executeQuery('SELECT * FROM ' . $schemaAndTableName . ' ORDER BY ' . $macroCode);
             $dataBase->executeQuery('DELETE FROM ' . $schemaName . '.' . $tableName . ' WHERE id >= 1');
         } catch (\Exception $e) {
             $errorMessage = $this->getSubstringBetween($e->getMessage(), 'ERREUR:', 'LINE');
@@ -373,7 +348,7 @@ class MacroManager
         }
 
         foreach ($allContent as $line) {
-            $requestSQL = 'INSERT INTO ' . $schemaName . '.' . $tableName . ' ' . ' VALUES (';
+            $requestSQL = 'INSERT INTO ' . $schemaAndTableName . ' ' . ' VALUES (';
 
             foreach ($line as $content) {
                 $requestSQL .= $dataBase->quote($content) . ', ';

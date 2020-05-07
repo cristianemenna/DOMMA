@@ -11,10 +11,12 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 class ExportManager
 {
     private $entityManager;
+    private $importManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, ImportManager $importManager)
     {
         $this->entityManager = $entityManager;
+        $this->importManager = $importManager;
     }
 
     /**
@@ -67,13 +69,9 @@ class ExportManager
     private function selectAllFromImport(Import $import)
     {
         $dataBase = $this->entityManager->getConnection();
+        $schemaAndTableName = $this->importManager->getSchemaAndTableNames($import);
 
-        // Recupère le nom du contexte pour identifier le nom du schema de l'import
-        $schemaName = $dataBase->quoteIdentifier($import->getContext()->getTitle() . '_' . $import->getContext()->getId());
-        // Recupère le nom de la table de l'import
-        $tableName = $dataBase->quoteIdentifier('import_' . strval($import->getId()));
-
-        $requestSQL = 'SELECT * FROM ' . $schemaName . '.' . $tableName;
+        $requestSQL = 'SELECT * FROM ' . $schemaAndTableName;
 
         try {
             return $dataBase->executeQuery($requestSQL)->fetchAll();

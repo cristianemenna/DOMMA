@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Import;
+use App\Service\ImportManager;
 use App\Service\MacroApplyManager;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -33,13 +34,10 @@ class ImportRepository extends ServiceEntityRepository
     public function removeColumns(Import $import, MacroApplyManager $columns)
     {
         $dataBase = $this->getEntityManager()->getConnection();
+        $importManager = new ImportManager($this->getEntityManager());
+        $schemaAndTableName = $importManager->getSchemaAndTableNames($import);
 
-        // Recupère le nom du contexte pour identifier le nom du schema de l'import
-        $schemaName = $dataBase->quoteIdentifier($import->getContext()->getTitle() . '_' . $import->getContext()->getId());
-        // Recupère le nom de la table de l'import
-        $tableName = $dataBase->quoteIdentifier('import_'. strval($import->getId()));
-
-        $requestSQL = 'ALTER TABLE ' . $schemaName . '.' . $tableName;
+        $requestSQL = 'ALTER TABLE ' . $schemaAndTableName;
 
         $columnsToRemove = $columns->getColumns();
         $columnsToRemoveKeys = array_keys($columnsToRemove);
