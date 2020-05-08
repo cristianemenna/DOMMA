@@ -14,14 +14,14 @@
         <div class="upload-files">
             <h2>Importer un fichier</h2>
             {{ form_start(form) }}
-                <div class="select-files-container">
-                        {{ form_widget(form) }}
-                        <button class="btn-file" id="send-file">{{ button_label|default('Envoyer') }}</button>
-                    <div class="file-errors-container">
-                        <p id="file-messages"></p>
-                        {{ form_errors(form.file) }}
-                    </div>
+            <div class="select-files-container">
+                {{ form_widget(form) }}
+                <button class="btn-file" id="send-file">{{ button_label|default('Envoyer') }}</button>
+                <div class="file-errors-container">
+                    <p id="file-messages"></p>
+                    {{ form_errors(form.file) }}
                 </div>
+            </div>
             {{ form_end(form) }}
 
             {% for label, messages in app.flashes %}
@@ -51,12 +51,12 @@
                                 <span class="hover-message-text">En attente</span>
                             </div>
                             <a href="{{ path('import_show', {'context': context.id, 'id': import.id}) }}">{{ import.fileName }}</a>
-                                <div class="hover-message-container">
-                                    <a href="{{ path('import_reload', {'context': context.id, 'id': import.id}) }}">
-                                        <i class="fa fa-redo-alt icon-reload"></i>
-                                    </a>
-                                    <span class="hover-message-text">Charger maintenant</span>
-                                </div>
+                            <div class="hover-message-container">
+                                <a href="{{ path('import_reload', {'context': context.id, 'id': import.id}) }}">
+                                    <i class="fa fa-redo-alt icon-reload"></i>
+                                </a>
+                                <span class="hover-message-text">Charger maintenant</span>
+                            </div>
                         </div>
                         {{ include('import/_delete_form.html.twig') }}
                     {% elseif import.status == 'En cours' %}

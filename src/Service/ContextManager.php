@@ -5,6 +5,7 @@ namespace App\Service;
 
 
 use App\Entity\Context;
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ContextManager
@@ -14,7 +15,6 @@ class ContextManager
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
-
     }
 
     /**
@@ -23,7 +23,7 @@ class ContextManager
      * s'il est le seul à avoir accès les supprime aussi, ainsi que le schema correspondant.
      *
      * @param array $contexts
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function removeContextsFromUser($contexts)
     {
@@ -38,11 +38,11 @@ class ContextManager
      * Supprime un contexte de travail, son schema et imports associés
      *
      * @param Context $context
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function removeContext(Context $context)
     {
-        $this->removeSchema($context->getTitle());
+        $this->removeSchema($context);
         $this->entityManager->remove($context);
         $this->entityManager->flush();
     }
@@ -51,16 +51,13 @@ class ContextManager
      * Supprime un schema et ses imports associés
      *
      * @param string $contextName
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
-    private function removeSchema(string $contextName)
+    private function removeSchema(Context $context)
     {
         $dataBase = $this->entityManager->getConnection();
-        $schema = $dataBase->quoteIdentifier(mb_strtolower($contextName));
-
-        $dataBase->prepare('DROP SCHEMA ' . $schema . ' CASCADE')
-            ->execute()
-            ;
+        $schemaName = $dataBase->quoteIdentifier($context->getTitle() . '_' . $context->getId());
+        $dataBase->executeQuery('DROP SCHEMA ' . $schemaName . ' CASCADE');
     }
 
 }

@@ -156,9 +156,13 @@ class ContextController extends AbstractController
     public function delete(Request $request, Context $context, ContextManager $contextService): Response
     {
         if ($this->isCsrfTokenValid('delete'.$context->getId(), $request->request->get('_token'))) {
-            $contextService->removeContext($context);
+            try {
+                $contextService->removeContext($context);
+                $this->addFlash('success', 'Le contexte a bien été supprimé.');
+            } catch (\Exception $e) {
+                $this->addFlash('error', $e->getMessage());
+            }
         }
-
         return $this->redirectToRoute('context_index');
     }
 }
