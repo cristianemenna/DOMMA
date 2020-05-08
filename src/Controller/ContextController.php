@@ -27,13 +27,12 @@ class ContextController extends AbstractController
     /**
      * @Route("/", name="context_index", methods={"GET"})
      */
-    public function index(ContextRepository $contextRepository, Gravatar $gravatar): Response
+    public function index(Gravatar $gravatar): Response
     {
-        $user = $this->getUser();
         return $this->render('context/index.html.twig', [
-            'user' => $user,
-            'avatar' => $gravatar->avatar($user->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true),
-            'contextes'=>$user->getContexts(),
+            'user' => $this->getUser(),
+            'avatar' => $gravatar->avatar($this->getUser()->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true),
+            'contextes'=> $this->getUser()->getContexts(),
         ]);
     }
 
@@ -69,7 +68,7 @@ class ContextController extends AbstractController
         return $this->render('context/new.html.twig', [
             'context' => $context,
             'form' => $form->createView(),
-            'avatar' => $gravatar->avatar($user->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true),
+            'avatar' => $gravatar->avatar($this->getUser()->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true),
         ]);
     }
 
