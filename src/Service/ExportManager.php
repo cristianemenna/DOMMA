@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Entity\Import;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class ExportManager
@@ -25,7 +26,7 @@ class ExportManager
      *
      * @param Import $import
      * @return Spreadsheet
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws Exception
      */
     public function createSpreadSheet(Import $import)
     {

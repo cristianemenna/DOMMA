@@ -29,7 +29,7 @@ class LoadFileManager
      * Structure de la table selon les données de l'import
      *
      * @param Import $import
-     * @param string $contextName
+     * @param Context $context
      * @param RowIterator $sheetRows
      * @throws \Exception
      */
@@ -68,8 +68,8 @@ class LoadFileManager
      * Itère sur chaque ligne du fichier
      * Crée une requête pour ajouter toutes les valeurs de chaque ligne
      *
-     * @param int $importId
-     * @param string $contextName
+     * @param Import $import
+     * @param Context $context
      * @param RowIterator $sheetRows
      * @throws Exception
      */
@@ -150,7 +150,7 @@ class LoadFileManager
      * @param Import $import
      * @param string $content
      * @return \Doctrine\DBAL\Driver\Statement|mixed
-     * @throws DBALException
+     * @throws \Exception
      */
     public function showTable(Import $import, string $content)
     {
