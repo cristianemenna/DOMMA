@@ -7,22 +7,6 @@ body {
     font-family: Dosis, Geneva, sans-serif;
 }
 
-.alert-error {
-    color: #C82829;
-    font-weight: bolder;
-    margin-left: 35px;
-}
-
-.alert-success {
-    color: #009A00;
-    font-weight: bolder;
-    margin-left: 35px;
-}
-
-.alert-margin-left {
-    margin: 10px 0 0 100px;
-}
-
 /***************************************** TOOLTIP *************************************************/
 
 .hover-message-container {
@@ -49,4 +33,90 @@ body {
     visibility: visible;
 }
 
+/******************************************** ALERTES *************************************************/
 
+.alert {
+    color: #FFFFFF;
+    width: 600px;
+    position: absolute;
+    right: 5%;
+    top: 10%;
+    height: 50px;
+    box-shadow: 5px 5px 3px 1px rgba(0, 0, 0, 0.3), 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.alert-error {
+    background-color: rgba(193,16,7, 0.7);
+}
+
+.alert-success {
+    background-color: #65C36E;
+}
+
+.alert p {
+    margin-left: 10px;
+}
+
+.alert .fa-times {
+    color: #EBEBEB;
+    margin-right: 20px;
+    font-weight: bolder;
+}
+
+.alert .fa-times:hover {
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.alert .fa-check-circle, .alert .fa-exclamation-circle {
+    margin-left: 20px;
+    font-size: 2em;
+}
+
+.fa-check-circle {
+    color: #ACDEB0;
+}
+
+.fa-exclamation-circle {
+    color: #E19A8C;
+}
+
+.alert-message {
+    display: flex;
+    align-items: baseline;
+}
+
+#alerts-container {
+    -webkit-animation: fadein 2s;
+    -moz-animation: fadein 2s;
+    -ms-animation: fadein 2s;
+    -o-animation: fadein 2s;
+    animation: fadein 2s;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}

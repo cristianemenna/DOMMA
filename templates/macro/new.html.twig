@@ -13,6 +13,8 @@
             <h1>Créer une macro</h1>
         </div>
 
+        {{ include('_alerts.html.twig') }}
+
         <div class="form">
             {{ form_start(form) }}
                 {{ form_widget(form.title,  {'attr': {'class': 'form-input', 'placeholder': 'Titre'}} ) }}

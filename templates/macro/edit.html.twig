@@ -15,6 +15,8 @@
             {{ include('macro/_delete_form.html.twig') }}
         </div>
 
+        {{ include('_alerts.html.twig') }}
+
         <div class="edit-container">
             {{ form_start(form) }}
                 {{ form_widget(form.title,  {'attr': {'class': 'form-input', 'placeholder': 'Titre'}} ) }}
