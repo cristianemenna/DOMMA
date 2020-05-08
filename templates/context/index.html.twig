@@ -12,11 +12,7 @@
             <h1>Mes contextes de travail</h1>
         </div>
 
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="alert-{{ label }} alert-margin-left">{{ message }}</div>
-            {% endfor %}
-        {% endfor %}
+        {{ include('_alerts.html.twig') }}
 
         <div class="contexts-container">
             {% for context in contextes %}

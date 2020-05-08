@@ -10,6 +10,7 @@
             <h1>{{ context.title }}<a href="{{ path('context_edit', {'id': context.id}) }}"><i class="fa fa-pen icon-pen"></i></a></h1>
         </div>
 
+        {{ include('_alerts.html.twig') }}
 
         <div class="upload-files">
             <h2>Importer un fichier</h2>
@@ -24,11 +25,6 @@
             </div>
             {{ form_end(form) }}
 
-            {% for label, messages in app.flashes %}
-                {% for message in messages %}
-                    <div class="alert-{{ label }} alert-import">{{ message }}</div>
-                {% endfor %}
-            {% endfor %}
         </div>
 
         <div class="imported-files">

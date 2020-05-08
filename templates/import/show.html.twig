@@ -22,11 +22,7 @@
                 </div>
             </div>
 
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="alert-{{ label }} alert-margin-left">{{ message }}</div>
-            {% endfor %}
-        {% endfor %}
+        {{ include('_alerts.html.twig') }}
 
         <div class="macros-select-container">
             <div>

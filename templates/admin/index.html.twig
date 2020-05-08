@@ -14,11 +14,7 @@
             <a href="{{ path('admin_new') }}" id="button-new-user"><i class="fa fa-user-plus icon-new-user"></i>Créer un compte</a>
         </div>
 
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="alert-{{ label }} alert-margin-left">{{ message }}</div>
-            {% endfor %}
-        {% endfor %}
+        {{ include('_alerts.html.twig') }}
 
         <table class="table">
             <tbody>
