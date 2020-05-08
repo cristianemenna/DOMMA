@@ -2,10 +2,13 @@
 
 namespace App\Service;
 
-use App\Repository\UsersRepository;
-
 class PasswordManager
 {
+    /**
+     * Retourne un mot de passe créé de façon aleatoire
+     *
+     * @return string
+     */
     public function randomPassword()
     {
         $password = "";
@@ -21,5 +24,4 @@ class PasswordManager
 
         return $password;
     }
-
 }
