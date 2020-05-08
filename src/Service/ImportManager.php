@@ -5,6 +5,7 @@ namespace App\Service;
 
 
 use App\Entity\Import;
+use Doctrine\DBAL\Driver\ResultStatement;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ImportManager
@@ -16,6 +17,13 @@ class ImportManager
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * Retourne le nom de la table correspondante à l'import
+     * en format : "nom_du_schéma"."nom_de_la_table"
+     *
+     * @param Import $import
+     * @return string
+     */
     public function getSchemaAndTableNames(Import $import): string
     {
         $dataBase = $this->entityManager->getConnection();
@@ -28,6 +36,13 @@ class ImportManager
         return $schemaName . '.' . $tableName;
     }
 
+    /**
+     * Exécute un SELECT * sur l'import en BDD
+     *
+     * @param Import $import
+     * @return ResultStatement
+     * @throws \Exception
+     */
     public function selectAll(Import $import)
     {
         $dataBase = $this->entityManager->getConnection();

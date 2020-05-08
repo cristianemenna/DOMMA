@@ -8,12 +8,11 @@ use App\Form\ContextType;
 use App\Form\ImportType;
 use App\Repository\ContextRepository;
 use App\Repository\ImportRepository;
-use App\Service\ContexteHelper;
 use App\Service\ContextManager;
-use App\Service\GravatarManager;
 use App\Service\UploadManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Gravatar\Gravatar;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,20 +27,19 @@ class ContextController extends AbstractController
     /**
      * @Route("/", name="context_index", methods={"GET"})
      */
-    public function index(ContextRepository $contextRepository, GravatarManager $gravatar): Response
+    public function index(Gravatar $gravatar): Response
     {
-        $user = $this->getUser();
         return $this->render('context/index.html.twig', [
-            'user' => $user,
-            'avatar' => $gravatar->getAvatar($user),
-            'contextes'=>$user->getContexts(),
+            'user' => $this->getUser(),
+            'avatar' => $gravatar->avatar($this->getUser()->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true),
+            'contextes'=> $this->getUser()->getContexts(),
         ]);
     }
 
     /**
      * @Route("/new", name="context_new", methods={"GET","POST"})
      */
-    public function new(Request $request, GravatarManager $gravatar, ContextRepository $contextRepository): Response
+    public function new(Request $request, Gravatar $gravatar, ContextRepository $contextRepository): Response
     {
         $context = new Context();
         $form = $this->createForm(ContextType::class, $context);
@@ -70,14 +68,14 @@ class ContextController extends AbstractController
         return $this->render('context/new.html.twig', [
             'context' => $context,
             'form' => $form->createView(),
-            'avatar' => $gravatar->getAvatar($this->getUser()),
+            'avatar' => $gravatar->avatar($this->getUser()->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true),
         ]);
     }
 
     /**
      * @Route("/{id}", name="context_show", methods={"GET", "POST"})
      */
-    public function show(Context $context, GravatarManager $gravatar, Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager, ImportRepository $importRepository): Response
+    public function show(Context $context, Gravatar $gravatar, Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager, ImportRepository $importRepository): Response
     {
         // Récupere l'utilisateur actif
         $user = $this->getUser();
@@ -107,7 +105,7 @@ class ContextController extends AbstractController
         return $this->render('context/show.html.twig', [
             'context' => $context,
             'imports' => $context->getImports(),
-            'avatar' => $gravatar->getAvatar($user),
+            'avatar' => $gravatar->avatar($user->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true),
             'form' => $form->createView(),
         ]);
     }
@@ -115,7 +113,7 @@ class ContextController extends AbstractController
     /**
      * @Route("/{id}/edit", name="context_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Context $context, GravatarManager $gravatar, ContextRepository $contextRepository): Response
+    public function edit(Request $request, Context $context, Gravatar $gravatar, ContextRepository $contextRepository): Response
     {
         // Récupere l'utilisateur actif
         $user = $this->getUser();
@@ -146,7 +144,7 @@ class ContextController extends AbstractController
         }
 
         return $this->render('context/edit.html.twig', [
-            'avatar' => $gravatar->getAvatar($user),
+            'avatar' => $gravatar->avatar($user->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true),
             'context' => $context,
             'form' => $form->createView(),
         ]);
