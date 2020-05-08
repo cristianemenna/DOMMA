@@ -1,0 +1,16 @@
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/exceptions/errors.css') }}">
+{% endblock %}
+
+{% block title %}<title>DOMMA - Accès interdit</title>{% endblock %}
+
+{% block body %}
+    <main>
+        <a href="{{ path('app_login') }}"><img src="{{ asset('/img/logo.png') }}" alt="Logo"></a>
+        <div>
+            <h1>403</h1>
+            <p>Accès interdit.</p>
+            <a href="{{ path('app_login') }}">Revenir à l'accueil</a>
+        </div>
+    </main>
+{% endblock %}
