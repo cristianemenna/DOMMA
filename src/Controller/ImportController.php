@@ -2,20 +2,17 @@
 
 namespace App\Controller;
 
-use App\Entity\Export;
 use App\Entity\Import;
 use App\Form\ExportType;
 use App\Form\MacroApplyType;
 use App\Form\MacroColumnsType;
 use App\Repository\ImportRepository;
-use App\Service\GravatarManager;
 use App\Service\LoadFileManager;
 use App\Service\MacroApplyManager;
 use App\Service\MacroManager;
 use App\Service\UploadManager;
 use Doctrine\ORM\EntityManagerInterface;
-//use PhpOffice\PhpSpreadsheet\IOFactory;
-//use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use Gravatar\Gravatar;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,7 +30,7 @@ class ImportController extends AbstractController
      */
     public function show(Request $request,
                          Import $import,
-                         GravatarManager $gravatar,
+                         Gravatar $gravatar,
                          LoadFileManager $loadFileManager,
                          MacroManager $macroManager,
                          ImportRepository $importRepository,
@@ -112,7 +109,7 @@ class ImportController extends AbstractController
         }
 
         return $this->render('import/show.html.twig', [
-            'avatar' => $gravatar->getAvatar($user),
+            'avatar' => $gravatar->avatar($user->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true),
             'import' => $import,
             'context'=> $import->getContext(),
             'importContent' => $importContent,

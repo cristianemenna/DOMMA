@@ -8,7 +8,6 @@ use App\Form\UsersPasswordType;
 use App\Form\UsersType;
 use App\Repository\UsersRepository;
 use App\Service\ContextManager;
-use App\Service\GravatarManager;
 use App\Service\PasswordManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Gravatar\Gravatar;
@@ -29,18 +28,18 @@ class AdminController extends AbstractController
     /**
      * @Route("/", name="admin_index")
      */
-    public function index(UsersRepository $usersRepository, GravatarManager $gravatar)
+    public function index(UsersRepository $usersRepository, Gravatar $gravatar)
     {
         return $this->render('admin/index.html.twig', [
             'users' => $usersRepository->orderByUsername(),
-            'avatar' => $gravatar->getAvatar($this->getUser()),
+            'avatar' => $gravatar->avatar($this->getUser()->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true),
         ]);
     }
 
     /**
      * @Route("/new", name="admin_new", methods={"GET","POST"})
      */
-    public function new(Request $request, UserPasswordEncoderInterface $encoder, GravatarManager $gravatar): Response
+    public function new(Request $request, UserPasswordEncoderInterface $encoder, Gravatar $gravatar): Response
     {
         $user = new Users();
         $form = $this->createForm(UsersType::class, $user);
@@ -78,14 +77,14 @@ class AdminController extends AbstractController
         return $this->render('admin/new.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
-            'avatar' => $gravatar->getAvatar($this->getUser()),
+            'avatar' => $gravatar->avatar($this->getUser()->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true),
         ]);
     }
 
     /**
      * @Route("/{id}/edit", name="admin_edit", methods={"GET","POST"})
      */
-   public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder, GravatarManager $gravatar): Response
+   public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Gravatar $gravatar): Response
     {
         $this->denyAccessUnlessGranted('view', $user);
 
@@ -111,7 +110,7 @@ class AdminController extends AbstractController
         return $this->render('users/edit.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
-            'avatar' => $gravatar->getAvatar($this->getUser()),
+            'avatar' => $gravatar->avatar($this->getUser()->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true),
         ]);
     }
 
@@ -141,7 +140,7 @@ class AdminController extends AbstractController
      * @Route("/{id}/changement-mot-de-passe", name="admin_password", methods={"GET","POST"})
      * Permet le changement de mot de passe par un administrateur
      */
-    public function changePassword(Request $request, Users $user, UserPasswordEncoderInterface $encoder, GravatarManager $gravatar)
+    public function changePassword(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Gravatar $gravatar)
     {
         $this->denyAccessUnlessGranted('view', $user);
 
@@ -171,7 +170,7 @@ class AdminController extends AbstractController
         return $this->render('users/change_password.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
-            'avatar' => $gravatar->getAvatar($this->getUser()),
+            'avatar' => $gravatar->avatar($this->getUser()->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true),
         ]);
     }
 

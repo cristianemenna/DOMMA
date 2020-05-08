@@ -5,10 +5,8 @@ namespace App\Controller;
 use App\Entity\Users;
 use App\Form\UsersEditType;
 use App\Form\UsersPasswordType;
-use App\Form\UsersType;
 use App\Repository\UsersRepository;
 use App\Service\ContextManager;
-use App\Service\GravatarManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,7 +23,7 @@ class UsersController extends AbstractController
     /**
      * @Route("/{id}", name="users_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder, GravatarManager $gravatar): Response
+    public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Gravatar $gravatar): Response
     {
         $this->denyAccessUnlessGranted('view', $user);
 
@@ -43,7 +41,7 @@ class UsersController extends AbstractController
         return $this->render('users/edit.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
-            'avatar' => $gravatar->getAvatar($this->getUser()),
+            'avatar' => $gravatar->avatar($user->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true),
         ]);
     }
 
@@ -68,7 +66,7 @@ class UsersController extends AbstractController
      * @Route("/{id}/changement-mot-de-passe", name="users_password", methods={"GET","POST"})
      * Permet le changement de mot de passe par un utilisateur
      */
-    public function changePassword(Request $request, Users $user, UserPasswordEncoderInterface $encoder, GravatarManager $gravatar)
+    public function changePassword(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Gravatar $gravatar)
     {
         $this->denyAccessUnlessGranted('view', $user);
 
@@ -91,9 +89,9 @@ class UsersController extends AbstractController
         }
 
         return $this->render('users/change_password.html.twig', [
-            'user' => $user,
+            'avatar' => $gravatar->avatar($user->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true),
+            'user' => $this->getUser(),
             'form' => $form->createView(),
-            'avatar' => $gravatar->getAvatar($this->getUser()),
         ]);
     }
 }
