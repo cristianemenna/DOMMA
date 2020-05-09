@@ -24,7 +24,7 @@
 
         <div class="macros-select-container">
             <div>
-                {{ form_start(macroForm) }}
+                {{ form_start(macroForm, {'attr': {'id': 'macro-edit-form'}}) }}
                     {{ form_widget(macroForm) }}
                     <input type="submit" name="details" id="macro-details" class="macros-select-submit" value="Voir en détail">
                     <input type="submit" name="apply" id="macro-apply" class="macros-select-submit" value="Appliquer macro">
@@ -49,24 +49,23 @@
                 {{ form_end(exportForm) }}
             </div>
         </div>
+
         <div id="overlay" class="overlay">
-            <div id="popup" class="popup">
+            <div id="modal" class="modal">
                 <form action="POST" id="modal-edit">
                     <h1>Edition de macro</h1>
-                    <input type="text" id="macro-title" value="titre">
-                    <input type="text" id="macro-description" value="description">
-                    <input type="text" id="macro-code" value="code">
-                    <input type="text" id="macro-type" value="type">
+                    <input type="text" name="macro-id" id="macro-id" value="id" hidden>
+                    <input type="text" name="macro-title" id="macro-title" value="titre">
+                    <input type="text" name="macro-description" id="macro-description" value="description">
+                    <input type="text" name="macro-code" id="macro-code" value="code">
+                    <input type="text" name="macro-type" id="macro-type" value="type">
                     <div class="modal-buttons">
-                        <input type="submit" value="Sendiiiti">
+                        <input type="submit" id="modal-send" value="Modifier Macro">
                         <input type="text" id="modal-cancel" value="Annuler">
                     </div>
                 </form>
             </div>
         </div>
-        <table class = "table">
-            <tbody id = "student"></tbody>
-        </table>
 
         <div class="file-container">
             {% if (import.status == 'En attente') or (import.status == 'En cours') %}
