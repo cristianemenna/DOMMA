@@ -9,6 +9,7 @@ use App\Repository\ImportRepository;
 use App\Repository\MacroRepository;
 use Gravatar\Gravatar;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -108,5 +109,36 @@ class MacroController extends AbstractController
         }
 
         return $this->redirectToRoute('macro_index');
+    }
+
+
+    /**
+     * @Route("/{id}/ajax", name="macro_edit_ajax")
+     */
+    public function ajaxEditMacro(Request $request, Macro $macro)
+    {
+        if ($request->isXmlHttpRequest()) {
+            $jsonData = [
+                'title' => $macro->getTitle(),
+                'description' => $macro->getDescription(),
+                'code' => $macro->getCode(),
+                'type' => $macro->getType()
+            ];
+//            $jsonData = array();
+//            $idx = 0;
+//            foreach($macros as $macro) {
+//                $temp = array(
+//                    'name' => 'hello',
+//                    'address' => 'hello',
+//                );
+//                $jsonData[$idx++] = $temp;
+//            $serializer = $this->get('serializer');
+//            $response = $serializer->serialize('test ok', 'json');
+
+            return new JsonResponse($jsonData);
+//            return $this->render('macro/_edit.html.twig');
+        } else {
+            return $this->render('import/ajax.html.twig');
+        }
     }
 }
