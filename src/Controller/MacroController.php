@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("/macro")
@@ -115,9 +116,11 @@ class MacroController extends AbstractController
     /**
      * @Route("/{id}/ajax", name="macro_edit_ajax")
      */
-    public function ajaxEditMacro(Request $request, Macro $macro)
+    public function ajaxEditMacro(Request $request, Macro $macro, SerializerInterface $serializer)
     {
-        if ($request->isXmlHttpRequest()) {
+        // Si la requête est en ajax et la méthode GET
+        if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
+            // Envoie les informations de la macro pour affichage sur le form d'édition
             $jsonData = [
                 'id' => $macro->getId(),
                 'title' => $macro->getTitle(),
@@ -125,21 +128,22 @@ class MacroController extends AbstractController
                 'code' => $macro->getCode(),
                 'type' => $macro->getType()
             ];
-//            $jsonData = array();
-//            $idx = 0;
-//            foreach($macros as $macro) {
-//                $temp = array(
-//                    'name' => 'hello',
-//                    'address' => 'hello',
-//                );
-//                $jsonData[$idx++] = $temp;
-//            $serializer = $this->get('serializer');
-//            $response = $serializer->serialize('test ok', 'json');
-
             return new JsonResponse($jsonData);
-//            return $this->render('macro/_edit.html.twig');
-        } else {
-            return $this->render('import/ajax.html.twig');
+
+        // Si la requête est en ajax et la méthode en POST
+        } elseif ($request->isXmlHttpRequest() && $request->isMethod('POST')) {
+            // Reçoie le contenu modifié en format JSON
+            $reponse = $request->getContent();
+            $json = json_decode($reponse);
+
+            // Update les informations de la macro
+            $macro->setTitle($json->title);
+            $macro->setDescription($json->description);
+            $macro->setCode($json->code);
+            $macro->setType($json->type);
+            $this->getDoctrine()->getManager()->flush();
+
+            return new JsonResponse($json);
         }
     }
 }

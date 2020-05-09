@@ -1,7 +1,6 @@
-console.log('ready');
-
 $(document).ready(function () {
-    $('#macro-edit-form input').click(function(e) {
+
+    $('#macro-edit-form input').click(function() {
         var buttonName = $(this).attr("id");
         $('#macro-edit-form').submit(function (e) {
             if (buttonName == "macro-details") {
@@ -17,17 +16,30 @@ $(document).ready(function () {
 
             buttonName = null;
         });
+    });
 
-        $('#modal-edit').submit(function () {
-            e.preventDefault();
-            sendMacroChanges();
-        })
+    $('#modal-edit').submit(function (e) {
+        e.preventDefault();
+        json =
+            {
+                id: $('#macro-id').val(),
+                title: $('#macro-title').val(),
+                description: $('#macro-description').val(),
+                code: $('#macro-code').val(),
+                type: $('#macro-type').val(),
+            };
+        jsonStringified = JSON.stringify(json, null, '\t');
+
+        sendMacroChanges(
+            jsonStringified,
+            $('#macro-id').val(),
+        );
     })
 });
 
 function sendMacroId(macroId) {
     $.ajax({
-        type: 'POST',
+        type: 'GET',
         url: '/macro/' + macroId + '/ajax',
         headers: {
             'Content-Type': 'application/json',
@@ -36,7 +48,6 @@ function sendMacroId(macroId) {
         async: true,
 
         success: function (data) {
-            console.log(data);
             for (i = 0; i < 4; i++) {
                 macro = data;
 
@@ -48,16 +59,17 @@ function sendMacroId(macroId) {
             }
         },
 
-        error: function (xhr, textStatus, errorThrown) {
-            console.log(xhr);
+        error: function (xhr) {
         }
     });
 }
 
-function sendMacroChanges(macroId) {
+function sendMacroChanges(formData, macroId) {
     $.ajax({
         type: 'POST',
         url: '/macro/' + macroId + '/ajax',
+        data: formData,
+        dataType: 'json',
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json'
@@ -65,19 +77,32 @@ function sendMacroChanges(macroId) {
         async: true,
 
         success: function (data) {
-            console.log(data);
-            for (i = 0; i < 4; i++) {
-                macro = data;
+            var modalContainer = $('#overlay');
+            var modal = $('#modal');
+            var textContent = $("<p></p>").text("La macro a bien été modifiée.");
 
-                $('#macro-title').val(macro['title']);
-                $('#macro-description').val(macro['description']);
-                $('#macro-code').val(macro['code']);
-                $('#macro-type').val(macro['type']);
-            }
+            $('#modal-edit').css("display", "none");
+            modal.css("width", "20%");
+            modal.css("height", "20%");
+            modal.append(textContent);
+            modal.append($("<i class='fas fa-check'></i>"));
+            modal.delay(1000).fadeOut();
+            modalContainer.delay(1000).fadeOut();
+
         },
 
-        error: function (xhr, textStatus, errorThrown) {
-            console.log(xhr);
+        error: function (xhr) {
+            var modalContainer = $('#overlay');
+            var modal = $('#modal');
+            var textContent = $("<p></p>").text("La macro n'a pas pu être modifiée.");
+
+            $('#modal-edit').css("display", "none");
+            modal.css("width", "20%");
+            modal.css("height", "20%");
+            modal.append(textContent);
+            modal.append($("<i class='fas fa-exclamation-circle'></i>"));
+            modal.delay(1000).fadeOut();
+            modalContainer.delay(1000).fadeOut();
         }
     });
 
