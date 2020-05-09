@@ -50,7 +50,7 @@ class MacroFixtures extends Fixture implements OrderedFixtureInterface
         $macroSix = new Macro();
         $macroSix->setTitle('Remplace tiret par espace vide sur LANGUE');
         $macroSix->setDescription('Remplace tous les tirets par des espaces vides sur la colonne langue');
-        $code = '"Langue" = REPLACE("Langue", ' . '-' . ', ' . ' '. ' )';
+        $code = '"Langue" = REPLACE("Langue", ' . "'-'" . ', ' . "' '" . ' )';
         $macroSix->setCode($code);
         $macroSix->setType('update');
 
