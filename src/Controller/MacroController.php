@@ -119,6 +119,7 @@ class MacroController extends AbstractController
     {
         if ($request->isXmlHttpRequest()) {
             $jsonData = [
+                'id' => $macro->getId(),
                 'title' => $macro->getTitle(),
                 'description' => $macro->getDescription(),
                 'code' => $macro->getCode(),
