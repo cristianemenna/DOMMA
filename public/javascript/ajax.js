@@ -1,3 +1,8 @@
+var modalContainer = $('#overlay');
+var modal = $('#modal');
+var modalMessage = $('#modal-message');
+var modalForm = $('#modal-edit');
+
 $(document).ready(function () {
 
     $('#macro-edit-form input').click(function() {
@@ -6,9 +11,12 @@ $(document).ready(function () {
             if (buttonName == "macro-details") {
                 e.preventDefault();
 
-                $('#overlay').css("display", "block");
+                modalMessage.empty();
+                modalContainer.toggle();
+                modal.toggle();
+                modalForm.toggle();
                 $('#modal-cancel').on('click', function () {
-                    $('#overlay').css("display", "none");
+                    modalContainer.toggle();
                 });
 
                 sendMacroId($('#macro_apply_macro').val())
@@ -77,32 +85,25 @@ function sendMacroChanges(formData, macroId) {
         async: true,
 
         success: function (data) {
-            var modalContainer = $('#overlay');
-            var modal = $('#modal');
             var textContent = $("<p></p>").text("La macro a bien été modifiée.");
 
-            $('#modal-edit').css("display", "none");
-            modal.css("width", "20%");
-            modal.css("height", "20%");
-            modal.append(textContent);
-            modal.append($("<i class='fas fa-check'></i>"));
-            modal.delay(1000).fadeOut();
-            modalContainer.delay(1000).fadeOut();
-
+            modal.toggle(500);
+            modalForm.toggle();
+            modalMessage.append(textContent);
+            modalMessage.append($("<i class='fas fa-check'></i>"));
+            modalMessage.toggle();
+            modalContainer.delay(1500).fadeOut();
         },
 
         error: function (xhr) {
-            var modalContainer = $('#overlay');
-            var modal = $('#modal');
             var textContent = $("<p></p>").text("La macro n'a pas pu être modifiée.");
 
-            $('#modal-edit').css("display", "none");
-            modal.css("width", "20%");
-            modal.css("height", "20%");
-            modal.append(textContent);
+            modal.toggle(500);
+            modalForm.toggle();
+            modalMessage.append(textContent);
             modal.append($("<i class='fas fa-exclamation-circle'></i>"));
-            modal.delay(1000).fadeOut();
-            modalContainer.delay(1000).fadeOut();
+            modalMessage.toggle();
+            modalContainer.delay(1500).fadeOut();
         }
     });
 
