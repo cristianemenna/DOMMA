@@ -72,23 +72,10 @@ class MacroController extends AbstractController
         $form = $this->createForm(MacroType::class, $macro);
         $form->handleRequest($request);
 
-        if ($session->get('import')) {
-            $import = $importRepository->find($session->get('import'));
-        }
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            // Une fois la macro modifiée :
-            // Redirection sur la page de l'import s'il y a une variable 'import' stockée en session
-            if ($session->get('import')) {
-                return $this->redirectToRoute('import_show',
-                    ['context' => $import->getContext()->getId(),
-                        'id' => $session->get('import')]);
-            // Sinon redirection sur la page de toutes les macros
-            } else {
-                return $this->redirectToRoute('macro_index');
-            }
+            return $this->redirectToRoute('macro_index');
         }
 
         return $this->render('macro/edit.html.twig', [
@@ -140,7 +127,6 @@ class MacroController extends AbstractController
             $macro->setTitle($json->title);
             $macro->setDescription($json->description);
             $macro->setCode($json->code);
-            $macro->setType($json->type);
             $this->getDoctrine()->getManager()->flush();
 
             return new JsonResponse($json);

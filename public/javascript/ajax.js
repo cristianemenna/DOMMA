@@ -17,7 +17,7 @@ $(document).ready(function () {
                 modalContainer.toggle();
                 modal.toggle();
                 modalForm.toggle();
-                
+
                 sendMacroId($('#macro_apply_macro').val())
             }
 
