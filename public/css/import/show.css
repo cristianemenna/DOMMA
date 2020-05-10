@@ -319,47 +319,87 @@ input.select2-search__field {
     padding: 1em;
     box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
     border-radius: 5px;
+    display:none;
 }
 
 #modal-edit {
+    display:none;
+}
+
+#modal h2 {
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+}
+
+#modal-form-fields {
     display: flex;
     flex-direction: column;
-    margin: 5% 0;
+    margin: 3% 0;
     text-align: center;
 }
 
-#modal-edit input {
-    width: 50%;
+.modal-group-fields{
+    width: 80%;
     margin: 5px auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 
+.modal-group-fields > input {
+    width: 90%;
 }
 
 .modal-buttons {
     display: flex;
     align-items: baseline;
-    width: 50%;
+    align-content: space-between;
+    width: 40%;
     margin: 0 auto;
 }
 
 .modal-buttons input {
     background-color: #4f4f4f;
     color: #F7F6F6;
+    margin: 20px 0 0 20px;
+    text-align: center;
 }
 
-#modal > p {
+#modal-message > p {
     text-align: center;
     font-size: 1.2em;
     margin-top: 10%;
 }
 
-#modal i.fa-check {
+#modal-message i.fa-check {
     color: #65C36E;
     font-size: 2.5em;
     margin-left: 45%;
 }
 
-#modal i.fa-exclamation-circle {
+#modal-message i.fa-exclamation-circle {
     color: rgba(193,16,7, 0.7);
     font-size: 2.5em;
     margin-left: 45%;
+}
+
+#modal-message {
+    margin: 10% auto;
+    width : 20%;
+    height: 20%;
+    background-color: rgb(243, 243, 243);
+    padding: 1em;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    display: none;
+}
+
+.modal-group-fields > input {
+    height: 30px;
+    padding-left: 15px;
+    outline: none;
+}
+
+input#modal-cancel {
+    padding: 13px 25px;
 }
