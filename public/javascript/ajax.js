@@ -6,9 +6,12 @@ var modalFormCancel = $('#modal-cancel');
 
 $(document).ready(function () {
 
+    // Si l'un des boutons du formulaire de choix de macros est séléctionné
     $('#macro-edit-form input').click(function() {
+        // Récupère l'attribut id du input choisi
         var buttonName = $(this).attr("id");
         $('#macro-edit-form').submit(function (e) {
+            // Si le choix était pour "voir en détail" : empêche l'envoie du formulaire
             if (buttonName == "macro-details") {
                 e.preventDefault();
 
@@ -18,6 +21,7 @@ $(document).ready(function () {
                 modal.toggle();
                 modalForm.toggle();
 
+                // Requête en AJAX pour récupèrer les informations de la macro choisie
                 sendMacroId($('#macro_apply_macro').val())
             }
 
@@ -25,6 +29,7 @@ $(document).ready(function () {
         });
     });
 
+   // Toggle du modal et messages lors d'un clic sur bouton "annuler" ou icon de fermeture
    modalFormCancel.click(function () {
        modalMessage.empty();
        modalContainer.toggle();
@@ -39,6 +44,7 @@ $(document).ready(function () {
         modalForm.toggle();
     });
 
+    // Crée un JSON avec les valeus du formulaire lors de son envoie
     $('#modal-edit').submit(function (e) {
         e.preventDefault();
         json =
@@ -58,6 +64,7 @@ $(document).ready(function () {
     })
 });
 
+// Requête pour récupèrer les informations de la macro choisie sur la page show d'un import
 function sendMacroId(macroId) {
     $.ajax({
         type: 'GET',
@@ -69,6 +76,7 @@ function sendMacroId(macroId) {
         async: true,
 
         success: function (data) {
+            // Ajout des informations de l'objet macro sur le formulaire d'édition en modal
             for (i = 0; i < 4; i++) {
                 macro = data;
 
@@ -85,6 +93,7 @@ function sendMacroId(macroId) {
     });
 }
 
+// Envoi les modifications du formulaire d'édition de Macro ouvert en modal
 function sendMacroChanges(formData, macroId) {
     $.ajax({
         type: 'POST',
@@ -98,6 +107,7 @@ function sendMacroChanges(formData, macroId) {
         async: true,
 
         success: function (data) {
+            // Ajout d'un message de confirmation si la macro a pu être modifiée.
             var textContent = $("<p></p>").text("La macro a bien été modifiée.");
 
             modal.toggle(500);
@@ -109,6 +119,7 @@ function sendMacroChanges(formData, macroId) {
         },
 
         error: function (xhr) {
+            // Ajout d'un message d'erreur si la macro n'a pas pu être modifiée.
             var textContent = $("<p></p>").text("La macro n'a pas pu être modifiée.");
 
             modal.toggle(500);
