@@ -4,7 +4,7 @@
 
 {% for label, messages in app.flashes %}
     {% for message in messages %}
-        <div class="alert alert-{{ label }} alert-margin-left" id="alerts-container">
+        <div class="alert alert-{{ label }}" id="alerts-container">
             <div class="alert-message">
                 {% if label == 'error' %}
                     <i class="fas fa-exclamation-circle"></i>

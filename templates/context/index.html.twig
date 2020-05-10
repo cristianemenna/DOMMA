@@ -18,16 +18,22 @@
         <!-- Affichage de tous les contextes appartenants à l'utilisateur -->
         <div class="contexts-container">
             {% for context in contextes %}
+                {% if context.getDaysToExpire > 0 %}
                 <div class="context-space">
                     <a href="{{ path('context_show', {'id': context.id }) }}" class="contexts-link context-text">
                         <p class="context-title">{{ context.title }}</p>
                         <p class="context-description">{{ context.description }}</p>
                     </a>
                     <div class="days-edit-icon">
-                        <p class="context-days">Jours restants : {{ context.daysLeft }}</p>
+                        {% if context.getDaysToExpire > 5 %}
+                            <p class="context-days">Jours restants : {{ context.getDaysToExpire }}</p>
+                        {% else %}
+                            <p class="context-days">Jours restants : <span class="bolder">{{ context.getDaysToExpire }}</span></p>
+                        {% endif %}
                         <a href="{{ path('context_edit', {'id': context.id }) }}"><i class="fas fa-cog icon-context"></i></a>
                     </div>
                 </div>
+                {% endif %}
             {% endfor %}
             <a href="{{ path('context_new') }}" class="context-space contexts-link"><span class="context-plus">+</span></a>
         </div>

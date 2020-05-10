@@ -183,13 +183,14 @@ class Context
 
     /**
      * Calcule la date final du contexte de travail, à partir de la date de création +
-     * la durée définie par l'utilisateur. Retourne le nombre de jours restants avant la fin.
+     * la durée définie par l'utilisateur. Retourne le nombre de jours restants avant la fin de la durée de vie.
+     *
      * @return int
      * @throws \Exception
      */
-    public function daysLeft(): int
+    public function getDaysToExpire(): int
     {
-        $creationDate = $this->created_at;
+        $creationDate = clone $this->created_at;
         $duration = $this->duration;
         $finalDate = $creationDate->modify('+' . $duration . ' days');
         $currentDate = new \DateTime();

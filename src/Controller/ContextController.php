@@ -3,15 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Context;
-use App\Entity\Import;
 use App\Form\ContextType;
 use App\Form\ImportType;
 use App\Repository\ContextRepository;
-use App\Repository\ImportRepository;
 use App\Service\ContextManager;
 use App\Service\UploadManager;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Gravatar\Gravatar;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,8 +24,11 @@ class ContextController extends AbstractController
     /**
      * @Route("/", name="context_index", methods={"GET"})
      */
-    public function index(Gravatar $gravatar): Response
+    public function index(Gravatar $gravatar, SessionInterface $session): Response
     {
+        // Réinitialise la variable de session Context,
+        // pour la gestion des redirections suite à une édition de contexte
+        $session->set('context', null);
         return $this->render('context/index.html.twig', [
             'user' => $this->getUser(),
             'avatar' => $gravatar->avatar($this->getUser()->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true),
@@ -79,9 +78,7 @@ class ContextController extends AbstractController
     public function show(Context $context,
                          Gravatar $gravatar,
                          Request $request,
-                         EntityManagerInterface $entityManager,
                          UploadManager $uploadManager,
-                         ImportRepository $importRepository,
                          SessionInterface $session): Response
     {
         // Récupere l'utilisateur actif
@@ -122,7 +119,11 @@ class ContextController extends AbstractController
     /**
      * @Route("/{id}/edit", name="context_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Context $context, Gravatar $gravatar, ContextRepository $contextRepository, SessionInterface $session): Response
+    public function edit(Request $request,
+                         Context $context,
+                         Gravatar $gravatar,
+                         ContextRepository $contextRepository,
+                         SessionInterface $session): Response
     {
         // Récupere l'utilisateur actif
         $user = $this->getUser();
@@ -171,11 +172,11 @@ class ContextController extends AbstractController
     /**
      * @Route("/{id}", name="context_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Context $context, ContextManager $contextService): Response
+    public function delete(Request $request, Context $context, ContextManager $contextManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$context->getId(), $request->request->get('_token'))) {
             try {
-                $contextService->removeContext($context);
+                $contextManager->removeContext($context);
                 $this->addFlash('success', 'Le contexte a bien été supprimé.');
             } catch (\Exception $e) {
                 $this->addFlash('error', $e->getMessage());

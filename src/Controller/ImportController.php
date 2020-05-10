@@ -7,7 +7,6 @@ use App\Form\ExportType;
 use App\Form\MacroApplyType;
 use App\Form\MacroColumnsType;
 use App\Repository\ImportRepository;
-use App\Repository\MacroRepository;
 use App\Service\LoadFileManager;
 use App\Service\MacroApplyManager;
 use App\Service\MacroManager;
