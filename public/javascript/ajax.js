@@ -2,6 +2,7 @@ var modalContainer = $('#overlay');
 var modal = $('#modal');
 var modalMessage = $('#modal-message');
 var modalForm = $('#modal-edit');
+var modalFormCancel = $('#modal-cancel');
 
 $(document).ready(function () {
 
@@ -12,18 +13,30 @@ $(document).ready(function () {
                 e.preventDefault();
 
                 modalMessage.empty();
+                modalMessage.toggle();
                 modalContainer.toggle();
                 modal.toggle();
                 modalForm.toggle();
-                $('#modal-cancel').on('click', function () {
-                    modalContainer.toggle();
-                });
-
+                
                 sendMacroId($('#macro_apply_macro').val())
             }
 
             buttonName = null;
         });
+    });
+
+   modalFormCancel.click(function () {
+       modalMessage.empty();
+       modalContainer.toggle();
+       modal.toggle();
+       modalForm.toggle();
+   });
+
+    $('#icon-close-modal').click(function () {
+        modalMessage.empty();
+        modalContainer.toggle();
+        modal.toggle();
+        modalForm.toggle();
     });
 
     $('#modal-edit').submit(function (e) {
