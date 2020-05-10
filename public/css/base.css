@@ -7,6 +7,11 @@ body {
     font-family: Dosis, Geneva, sans-serif;
 }
 
+.bolder {
+    font-weight: bolder;
+    color: #C82829;
+}
+
 /***************************************** TOOLTIP *************************************************/
 
 .hover-message-container {
@@ -41,7 +46,7 @@ body {
     position: absolute;
     right: 5%;
     top: 10%;
-    height: 50px;
+    height: 80px;
     box-shadow: 5px 5px 3px 1px rgba(0, 0, 0, 0.3), 0 5px 10px 0 rgba(0, 0, 0, 0.1);
     border-radius: 20px;
     display: flex;
@@ -58,7 +63,7 @@ body {
 }
 
 .alert p {
-    margin-left: 10px;
+    margin-left: 20px;
 }
 
 .alert .fa-times, #icon-close-modal {
