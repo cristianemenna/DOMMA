@@ -42,9 +42,11 @@ class LoadFileManager
 
         foreach ($sheetRows as $row) {
             foreach ($row->getCellIterator() as $cell) {
-                // Ajoute les colonnes en BDD seulement pour la première ligne du fichier excel
-                // et si le contenu des colonnes n'est pas vide
-                if ($row->getRowIndex() === 1 && $cell->getValue() !== null) {
+                // Ajoute les colonnes en BDD :
+                // 1. Seulement pour la première ligne du fichier excel
+                // 2. Si le contenu des colonnes n'est pas vide
+                // 3. Si le nom de la colonne n'est pas 'id'
+                if ($row->getRowIndex() === 1 && $cell->getValue() !== null && $cell->getValue() !== 'id') {
                     $columnName = $dataBase->quoteIdentifier($cell->getValue());
                     $requestSQL .= ', ' . $columnName . ' TEXT';
                 }
