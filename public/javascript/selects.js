@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    // User :
+    // User : select rôle
     $('#users_role').select2({
         allowClear: true,
         placeholder: "Rôle"

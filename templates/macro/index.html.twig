@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/macro/new.css') }}">{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/macro/new.css') }}">
+{% endblock %}
 
 {% block title %}DOMMA - Mes macros{% endblock %}
 
@@ -10,6 +12,10 @@
             <h1>Mes macros</h1>
         </div>
 
+        <!-- Affichage des flashs --->
+        {{ include('_alerts.html.twig') }}
+
+        <!-- Affichage de toutes les macros appartenants à l'utilisateur connecté -->
         <div class="container-macros">
             <div class="title-macros">
                 <h2>Titre</h2>
@@ -33,6 +39,7 @@
                 {% endfor %}
             </div>
         </div>
+        <!-- Div qui donne style à la partie inférieur du site, avec separateur -->
         <div class="separator-bottom"></div>
     </main>
 {% endblock %}

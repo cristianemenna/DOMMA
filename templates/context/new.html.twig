@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/context/edit.css') }}">{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/context/edit.css') }}">
+{% endblock %}
 
 {% block title %}DOMMA - Création de contexte de travail{% endblock %}
 
@@ -10,8 +12,10 @@
             <h1>Création de contexte de travail</h1>
         </div>
 
+        <!-- Affichage des flashs --->
         {{ include('_alerts.html.twig') }}
 
+        <!-- Formulaire de création d'un contexte de travail -->
         <div class="edit-container">
             {{ form_start(form) }}
                 {{ form_widget(form) }}
@@ -24,6 +28,8 @@
             </div>
             {{ form_end(form) }}
         </div>
+
+        <!-- Div qui donne style à la partie inférieur du site, avec separateur -->
         <div class="separator-bottom"></div>
     </main>
 {% endblock %}

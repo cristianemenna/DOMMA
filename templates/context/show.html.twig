@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/context/show.css') }}">{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/context/show.css') }}">
+{% endblock %}
 
 {% block title %}DOMMA - Contexte de travail{% endblock %}
 
@@ -10,8 +12,10 @@
             <h1>{{ context.title }}<a href="{{ path('context_edit', {'id': context.id}) }}"><i class="fa fa-pen icon-pen"></i></a></h1>
         </div>
 
+        <!-- Affichage des flashs --->
         {{ include('_alerts.html.twig') }}
 
+        <!-- Select fichier pour upload sur l'application -->
         <div class="upload-files">
             <h2>Importer un fichier</h2>
             {{ form_start(form) }}
@@ -27,6 +31,7 @@
 
         </div>
 
+        <!-- Affichage des fichiers téléchargés -->
         <div class="imported-files">
             <h3>Vos contextes de travail</h3>
             {% for import in imports %}
@@ -77,6 +82,7 @@
                 </div>
             {% endfor %}
         </div>
+        <!-- Div qui donne style à la partie inférieur du site, avec separateur -->
         <div class="separator-bottom"></div>
     </main>
 {% endblock %}
