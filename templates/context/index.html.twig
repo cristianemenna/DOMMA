@@ -12,8 +12,10 @@
             <h1>Mes contextes de travail</h1>
         </div>
 
+        <!-- Affichage des flashs --->
         {{ include('_alerts.html.twig') }}
 
+        <!-- Affichage de tous les contextes appartenants à l'utilisateur -->
         <div class="contexts-container">
             {% for context in contextes %}
                 <div class="context-space">
@@ -29,6 +31,8 @@
             {% endfor %}
             <a href="{{ path('context_new') }}" class="context-space contexts-link"><span class="context-plus">+</span></a>
         </div>
+
+        <!-- Div qui donne style à la partie inférieur du site, avec separateur -->
         <div class="separator-bottom"></div>
     </main>
 {% endblock %}

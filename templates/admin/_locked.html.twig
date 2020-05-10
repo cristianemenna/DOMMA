@@ -1,7 +1,10 @@
+<!-- Si le nombre d'essais de connexion (attemps) de l'utilisateur est égal ou supérieur à 3 le compte est bloquée
+     Si l'administrateur choisi cette option : déblocage du compte et mise de l'attribut attemps à 0 -->
 {% if user.attempts >= 3 %}
     <form method="post" action="{{ path('admin_locked', {'id': user.id}) }}" onsubmit="return confirm('Êtes vous sûr de vouloir débloquer le compte ?');">
         <button class="user-delete">Débloquer</button>
     </form>
+    <!-- Sinon, blocage du compte et mise de l'attribut à 3 -->
 {% else %}
     <form method="post" action="{{ path('admin_locked', {'id': user.id}) }}" onsubmit="return confirm('Êtes vous sûr de vouloir bloquer le compte ?');">
         <button class="user-lock">Bloquer</button>

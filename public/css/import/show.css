@@ -175,7 +175,7 @@ tr:nth-child(even) {
 .icon-download {
     font-size: 2.8em;
     margin: 0 0 0 5px;
-    color: #008A00;
+    color: #8A998C;
 }
 
 .import-title {
@@ -391,7 +391,6 @@ input.select2-search__field {
     padding: 1em;
     box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
     border-radius: 5px;
-    display: none;
 }
 
 .modal-group-fields > input {
@@ -401,5 +400,5 @@ input.select2-search__field {
 }
 
 input#modal-cancel {
-    padding: 13px 25px;
+    padding: 13px 0;
 }

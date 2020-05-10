@@ -165,3 +165,8 @@ body {
     cursor: pointer;
 }
 
+/**************************************************** ERROR MESSAGES ***********************************************/
+
+#macro_columns > div > ul {
+    display: none;
+}

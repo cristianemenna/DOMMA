@@ -16,6 +16,7 @@ use Gravatar\Gravatar;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
@@ -61,7 +62,7 @@ class ContextController extends AbstractController
                 $this->addFlash('error', $e->getMessage());
                 return $this->redirectToRoute('context_new');
             }
-
+            
             return $this->redirectToRoute('context_index');
         }
 
@@ -75,7 +76,13 @@ class ContextController extends AbstractController
     /**
      * @Route("/{id}", name="context_show", methods={"GET", "POST"})
      */
-    public function show(Context $context, Gravatar $gravatar, Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager, ImportRepository $importRepository): Response
+    public function show(Context $context,
+                         Gravatar $gravatar,
+                         Request $request,
+                         EntityManagerInterface $entityManager,
+                         UploadManager $uploadManager,
+                         ImportRepository $importRepository,
+                         SessionInterface $session): Response
     {
         // Récupere l'utilisateur actif
         $user = $this->getUser();
@@ -83,6 +90,8 @@ class ContextController extends AbstractController
         if (!$user->getContexts()->contains($context)) {
             throw $this->createNotFoundException();
         }
+
+        $session->set('context', $context->getId());
 
         $form = $this->createForm(ImportType::class);
         $form->handleRequest($request);
@@ -113,7 +122,7 @@ class ContextController extends AbstractController
     /**
      * @Route("/{id}/edit", name="context_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Context $context, Gravatar $gravatar, ContextRepository $contextRepository): Response
+    public function edit(Request $request, Context $context, Gravatar $gravatar, ContextRepository $contextRepository, SessionInterface $session): Response
     {
         // Récupere l'utilisateur actif
         $user = $this->getUser();
@@ -140,7 +149,16 @@ class ContextController extends AbstractController
 
             $this->addFlash('success', 'Le contexte a bien été modifié.');
             $this->getDoctrine()->getManager()->flush();
-            return $this->redirectToRoute('context_index');
+
+            // Une fois le context modifié :
+            // Redirection sur la page du context s'il y a une variable 'context' stockée en session
+            if ($session->get('context')) {
+                return $this->redirectToRoute('context_show',
+                    ['id' => $session->get('context')]);
+                // Sinon redirection sur la page d'accueil
+            } else {
+                return $this->redirectToRoute('context_index');
+            }
         }
 
         return $this->render('context/edit.html.twig', [

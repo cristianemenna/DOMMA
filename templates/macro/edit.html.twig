@@ -15,8 +15,10 @@
             {{ include('macro/_delete_form.html.twig') }}
         </div>
 
+        <!-- Affichage des flashs --->
         {{ include('_alerts.html.twig') }}
 
+        <!-- Formulaire d'édition d'une macro -->
         <div class="edit-container">
             {{ form_start(form) }}
                 {{ form_widget(form.title,  {'attr': {'class': 'form-input', 'placeholder': 'Titre'}} ) }}
@@ -31,14 +33,16 @@
             </div>
             {{ form_end(form) }}
         </div>
+
+        <!-- Div qui donne style à la partie inférieur du site, avec separateur -->
         <div class="separator-bottom"></div>
     </main>
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
-    <script src="{{ asset('javascript/selects.js') }}"></script>
-    <script src="{{ asset('select/js/select2.js') }}"></script>
-    <script src="{{ asset('select/js/fr.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/selects.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('select/js/select2.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('select/js/fr.js') }}"></script>
 {% endblock %}
 

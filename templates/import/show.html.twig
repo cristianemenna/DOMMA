@@ -20,8 +20,10 @@
                 </div>
             </div>
 
+        <!-- Affichage des flashs --->
         {{ include('_alerts.html.twig') }}
 
+        <!-- Formulaire de choix de macro pour "Voir en détail" ou "Appliquer macro" -->
         <div class="macros-select-container">
             <div>
                 {{ form_start(macroForm, {'attr': {'id': 'macro-edit-form'}}) }}
@@ -34,12 +36,15 @@
         </div>
 
         <div class="macros-select-container">
+            <!-- Formulaire pour suppression des colonnes de la table en BDD --->
             <div>
-                {{ form_start(columnsForm) }}
+                {{ form_start(columnsForm, {'attr': {'id': 'macro-columns-form'}}) }}
                     {{ form_widget(columnsForm) }}
                     <input type="submit" name="delete-columns" class="macros-select-submit column-delete" value="Supprimer colonnes">
                 {{ form_end(columnsForm) }}
             </div>
+
+            <!-- Formulaire pour export des données en format CSV, XLS ou XLSV -->
             <div class="export-file-container">
                 {{ form_start(exportForm) }}
                     {{ form_widget(exportForm) }}
@@ -50,6 +55,7 @@
             </div>
         </div>
 
+        <!-- Modal pour affichage du formulaire d'édition de macro -->
         <div id="overlay" class="overlay">
             <div id="modal" class="modal">
                 <i class="fas fa-times" id="icon-close-modal"></i>
@@ -83,6 +89,7 @@
             <div id="modal-message"></div>
         </div>
 
+        <!-- Affichage des données de la BDD en format d'une table avec DataTable -->
         <div class="file-container">
             {% if (import.status == 'En attente') or (import.status == 'En cours') %}
                 <p><i class="fas fa-spinner fa-2x icon-loading"></i>En cours de chargement...</p>
@@ -107,17 +114,18 @@
                 </table>
             {% endif %}
         </div>
-        </div>
+        <!-- Div qui donne style à la partie inférieur du site, avec separateur -->
+        <div class="separator-bottom"></div>
     </main>
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
-    <script src="{{ asset('javascript/selects.js') }}"></script>
-    <script src="{{ asset('select/js/select2.js') }}"></script>
-    <script src="{{ asset('select/js/fr.js') }}"></script>
-    <script src="{{ asset('javascript/ajax.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/selects.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('select/js/select2.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('select/js/fr.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/ajax.js') }}"></script>
     <script type="text/javascript" charset="utf8" src="{{ asset('DataTables/datatables.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/importTable.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/import.js') }}"></script>
 {% endblock %}
 

@@ -1,29 +1,29 @@
 $(document).ready(function() {
+
+    // User : select rôle
     $('#users_role').select2({
         allowClear: true,
         placeholder: "Rôle"
     });
-});
 
-$(document).ready(function() {
+    // Macro : création/édition, choix de type
     $('#macro_type').select2({
         placeholder: "Type",
         allowClear: true
     });
-});
 
-$(document).ready(function() {
+    // Macro : application
     $('#macro_apply_macro').select2({
         allowClear: false,
     });
-});
 
-$(document).ready(function() {
+    // Import : suppression de colonnes
     $('#macro_columns_columns').select2({
         allowClear: true,
         placeholder: "Choisir colonnes"
     });
 
+    // Import : export de fichier
     $('#export_fileType').select2({
         allowClear: false,
     });

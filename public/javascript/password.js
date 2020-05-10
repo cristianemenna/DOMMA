@@ -1,6 +1,7 @@
 const submitButton = document.getElementById('submit-button');
 submitButton.addEventListener('click', validatePassword);
 
+// Validate si les deux champs du nouveau de passe correspondent
 function validatePassword() {
     const form = document.getElementsByTagName('form')[0];
     form.addEventListener('submit', function (event) {
@@ -15,6 +16,4 @@ function validatePassword() {
     } else {
         form.submit();
     }
-
-
 }
