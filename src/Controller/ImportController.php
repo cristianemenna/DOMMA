@@ -7,6 +7,7 @@ use App\Form\ExportType;
 use App\Form\MacroApplyType;
 use App\Form\MacroColumnsType;
 use App\Repository\ImportRepository;
+use App\Repository\MacroRepository;
 use App\Service\LoadFileManager;
 use App\Service\MacroApplyManager;
 use App\Service\MacroManager;
@@ -57,20 +58,14 @@ class ImportController extends AbstractController
             return $this->redirectToRoute('context_show', ['id' => $import->getContext()->getId()]);
         }
 
-        $macro = new MacroApplyManager();
-        $columns = new MacroApplyManager();
+            $macro = new MacroApplyManager();
+            $columns = new MacroApplyManager();
 
         $macrosForm = $this->createForm(MacroApplyType::class, $macro, ['macros' => $user->getMacros()]);
         $macrosForm->handleRequest($request);
 
-        // Traitements lors de l'envoie des formulaires des Macros
+        // Traitements lors de l'envoi du formulaire d'application d'une macro
         if ($macrosForm->isSubmitted() && $macrosForm->isValid()) {
-            // Si le choix est 'Voir macro en détail', redirige à la route d'édition de macro
-            if (isset($_POST['details'])) {
-                return $this->redirectToRoute('macro_edit', ['id' => $macro->getMacro()->getId()]);
-            // Sinon, exécute le code d'application de macro
-            } else {
-                // Exécute la requête en BDD de la macro séléctionnée
                 try {
                     $macroManager->applyMacro($macro, $import);
                     $importContent = $loadFileManager->showTable($import, 'content');
@@ -79,13 +74,12 @@ class ImportController extends AbstractController
                 } catch (\Exception $e) {
                     $this->addFlash('error', $e->getMessage());
                 }
-            }
         }
 
         $columnsForm = $this->createForm(MacroColumnsType::class, $columns, ['columns' => $importColumns]);
         $columnsForm->handleRequest($request);
 
-        // Traitement lors de l'envoie du formulaire de suppression de colonnes
+        // Traitement lors de l'envoi du formulaire de suppression de colonnes
         if ($columnsForm->isSubmitted() && $columnsForm->isValid()) {
             try {
                 $importRepository->removeColumns($import, $columns);
@@ -100,7 +94,7 @@ class ImportController extends AbstractController
         $exportForm = $this->createForm(ExportType::class);
         $exportForm->handleRequest($request);
         
-        // Traitement lors de l'envoie du formulaire de téléchargement de fichier
+        // Traitement lors de l'envoi du formulaire de téléchargement de fichier
         if ($exportForm->isSubmitted() && $exportForm->isValid()) {
             $response = $this->forward('App\Controller\ExportController::exportFile', [
                 'exportForm' => $exportForm->getData(),
@@ -153,4 +147,5 @@ class ImportController extends AbstractController
 
         return $this->redirectToRoute('context_show', ['id' => $context->getId()]);
     }
+
 }

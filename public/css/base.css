@@ -61,15 +61,21 @@ body {
     margin-left: 10px;
 }
 
-.alert .fa-times {
+.alert .fa-times, #icon-close-modal {
     color: #EBEBEB;
     margin-right: 20px;
     font-weight: bolder;
 }
 
-.alert .fa-times:hover {
+.alert .fa-times:hover, #icon-close-modal:hover {
     font-size: 1.5em;
     cursor: pointer;
+}
+
+#icon-close-modal {
+    color: #4f4f4f;
+    position: absolute;
+    right: 15%;
 }
 
 .alert .fa-check-circle, .alert .fa-exclamation-circle {
@@ -120,3 +126,42 @@ body {
     from { opacity: 0; }
     to   { opacity: 1; }
 }
+
+/************************************************ FORM BUTTONS ***************************************************/
+
+.form-cancel, #modal-cancel{
+    color: #646464;
+    background-color: #EBEBEB;
+    text-decoration: none;
+    padding: 13px 50px;
+    margin-left: 10px;
+    font-size: 1em;
+    border: none;
+    outline: none;
+    box-shadow: 3px 5px 5px 0 rgba(0, 0, 0, 0.2), 0 3px 20px 0 rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+
+}
+
+#btn-create-macro, #modal-send {
+    color: #EBEBEB;
+    background-color: #7f7f7f;
+    width: 200px;
+    height: 45px;
+    font-size: 1em;
+    border: none;
+    outline: none;
+    box-shadow: 3px 5px 5px 0 rgba(0, 0, 0, 0.2), 0 3px 20px 0 rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+}
+
+.form-cancel:hover, #modal-cancel:hover {
+    background-color: #F8F8F8;
+    cursor: pointer;
+}
+
+#btn-create-macro:hover, #modal-send:hover {
+    background-color: #6B6B6B;
+    cursor: pointer;
+}
+

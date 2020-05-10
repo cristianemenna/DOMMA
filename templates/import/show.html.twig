@@ -6,8 +6,6 @@
     <link rel="stylesheet" href="{{ asset('select/css/select2.css') }}">
 {% endblock %}
 
-
-
 {% block title %}DOMMA - Import{% endblock %}
 
 {% block body %}
@@ -26,7 +24,7 @@
 
         <div class="macros-select-container">
             <div>
-                {{ form_start(macroForm) }}
+                {{ form_start(macroForm, {'attr': {'id': 'macro-edit-form'}}) }}
                     {{ form_widget(macroForm) }}
                     <input type="submit" name="details" id="macro-details" class="macros-select-submit" value="Voir en détail">
                     <input type="submit" name="apply" id="macro-apply" class="macros-select-submit" value="Appliquer macro">
@@ -50,6 +48,39 @@
                     </button>
                 {{ form_end(exportForm) }}
             </div>
+        </div>
+
+        <div id="overlay" class="overlay">
+            <div id="modal" class="modal">
+                <i class="fas fa-times" id="icon-close-modal"></i>
+                <form action="POST" id="modal-edit">
+                    <div id="modal-form-fields">
+                        <h2>Edition de macro</h2>
+                        <input type="text" name="macro-id" id="macro-id" value="id" hidden>
+                        <div class="modal-group-fields">
+                            <label for="macro-title">Titre</label>
+                            <input type="text" name="macro-title" id="macro-title" value="titre">
+                        </div>
+                        <div class="modal-group-fields">
+                            <label for="macro-description">Description</label>
+                            <input type="text" name="macro-description" id="macro-description" value="description">
+                        </div>
+                        <div class="modal-group-fields">
+                            <label for="macro-code">Code</label>
+                            <input type="text" name="macro-code" id="macro-code" value="code">
+                        </div>
+                        <div class="modal-group-fields">
+                            <label for="macro-type">Type</label>
+                            <input type="text" name="macro-type" id="macro-type" value="type" disabled>
+                        </div>
+                        <div class="modal-buttons">
+                            <input type="submit" id="modal-send" value="Modifier Macro">
+                            <input type="text" id="modal-cancel" value="Annuler">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="modal-message"></div>
         </div>
 
         <div class="file-container">
@@ -82,10 +113,11 @@
 
 {% block javascripts %}
     <script src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
-    <script src="{{ asset('javascript/select_apply.js') }}"></script>
+    <script src="{{ asset('javascript/selects.js') }}"></script>
     <script src="{{ asset('select/js/select2.js') }}"></script>
     <script src="{{ asset('select/js/fr.js') }}"></script>
+    <script src="{{ asset('javascript/ajax.js') }}"></script>
     <script type="text/javascript" charset="utf8" src="{{ asset('DataTables/datatables.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/show_import.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/importTable.js') }}"></script>
 {% endblock %}
 

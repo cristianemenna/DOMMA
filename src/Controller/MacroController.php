@@ -9,11 +9,13 @@ use App\Repository\ImportRepository;
 use App\Repository\MacroRepository;
 use Gravatar\Gravatar;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("/macro")
@@ -70,23 +72,10 @@ class MacroController extends AbstractController
         $form = $this->createForm(MacroType::class, $macro);
         $form->handleRequest($request);
 
-        if ($session->get('import')) {
-            $import = $importRepository->find($session->get('import'));
-        }
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            // Une fois la macro modifiée :
-            // Redirection sur la page de l'import s'il y a une variable 'import' stockée en session
-            if ($session->get('import')) {
-                return $this->redirectToRoute('import_show',
-                    ['context' => $import->getContext()->getId(),
-                        'id' => $session->get('import')]);
-            // Sinon redirection sur la page de toutes les macros
-            } else {
-                return $this->redirectToRoute('macro_index');
-            }
+            return $this->redirectToRoute('macro_index');
         }
 
         return $this->render('macro/edit.html.twig', [
@@ -108,5 +97,39 @@ class MacroController extends AbstractController
         }
 
         return $this->redirectToRoute('macro_index');
+    }
+
+
+    /**
+     * @Route("/{id}/ajax", name="macro_edit_ajax")
+     */
+    public function ajaxEditMacro(Request $request, Macro $macro, SerializerInterface $serializer)
+    {
+        // Si la requête est en ajax et la méthode GET
+        if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
+            // Envoie les informations de la macro pour affichage sur le form d'édition
+            $jsonData = [
+                'id' => $macro->getId(),
+                'title' => $macro->getTitle(),
+                'description' => $macro->getDescription(),
+                'code' => $macro->getCode(),
+                'type' => $macro->getType()
+            ];
+            return new JsonResponse($jsonData);
+
+        // Si la requête est en ajax et la méthode en POST
+        } elseif ($request->isXmlHttpRequest() && $request->isMethod('POST')) {
+            // Reçoie le contenu modifié en format JSON
+            $reponse = $request->getContent();
+            $json = json_decode($reponse);
+
+            // Update les informations de la macro
+            $macro->setTitle($json->title);
+            $macro->setDescription($json->description);
+            $macro->setCode($json->code);
+            $this->getDoctrine()->getManager()->flush();
+
+            return new JsonResponse($json);
+        }
     }
 }
