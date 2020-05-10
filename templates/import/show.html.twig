@@ -35,7 +35,7 @@
 
         <div class="macros-select-container">
             <div>
-                {{ form_start(columnsForm) }}
+                {{ form_start(columnsForm, {'attr': {'id': 'macro-columns-form'}}) }}
                     {{ form_widget(columnsForm) }}
                     <input type="submit" name="delete-columns" class="macros-select-submit column-delete" value="Supprimer colonnes">
                 {{ form_end(columnsForm) }}
@@ -112,12 +112,12 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
-    <script src="{{ asset('javascript/selects.js') }}"></script>
-    <script src="{{ asset('select/js/select2.js') }}"></script>
-    <script src="{{ asset('select/js/fr.js') }}"></script>
-    <script src="{{ asset('javascript/ajax.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/selects.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('select/js/select2.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('select/js/fr.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/ajax.js') }}"></script>
     <script type="text/javascript" charset="utf8" src="{{ asset('DataTables/datatables.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/importTable.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/import.js') }}"></script>
 {% endblock %}
 

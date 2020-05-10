@@ -1,4 +1,9 @@
 $(document).ready( function () {
+
+    // N'affiche pas les colonnes supprimées en tant qu'item séléctionné lors du rechargement de la page
+    $('.select2-selection__choice').remove();
+
+    // Affiche l'import selon données de la BDD
     $('#file-table').DataTable( {
             "scrollX": true,
             "language": {
