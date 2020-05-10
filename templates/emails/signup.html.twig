@@ -1,11 +1,20 @@
 {% block html %}
-    <h1>Bonjour, {{ user }}</h1>
-    <p>Vous venez de recevoir une invitation pour rejoindre DOMMA - Traitement de données de masse.</p>
-    <p>Voici : </p>
-    <p>Votre identifiant : {{ identifiant }}</p>
-    <p>Votre mot de passe : {{ password }}</p>
+    <body>
+        <div style="width: 600px; margin: 0 auto; font-family: Verdana, sans-serif">
+            <img src="{{ email.image('@images/logo.png') }}" alt="Logo" style="width: 250px; margin: 8% 20%;">
+            <h1 style="color: #585858; text-align: center; text-transform: uppercase; margin-bottom: 5%;">Invitation pour rejoindre DOMMA</h1>
+            <p>Bonjour {{ user }},</p>
+            <p>Vous venez de recevoir une invitation pour rejoindre l'équipe de DOMMA - Traitement de données de masse, en tant que {{ role }}.</p>
+            <p>Voici vos informations de connexion : </p>
+            <div style="width: 300px; margin: 5% auto;">
+                <p><span style="font-weight: bolder">Identifiant : </span>{{ identifiant }}</p>
+                <p><span style="font-weight: bolder">Mot de passe : </span>{{ password }}</p>
+            </div>
+            <p>Vous pouvez vous connecter ici : <a href="http://127.0.0.1:8000/">Login sur DOMMA</a></p>
+            <p>À très biêntot sur votre espace de travail !</p>
+        </div>
+    </body>
 {% endblock %}
 
-{% block text %}{% endblock %}
-
 {% block subject %}{% endblock %}
+

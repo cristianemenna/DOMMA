@@ -48,10 +48,7 @@ class AdminController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $this->forward('App\Controller\MailerController::newUser', [
-                'userEmail' => $user->getEmail(),
-                'userPassword' => $user->getPassword(),
-                'userName' => $user->getFirstName(),
-                'userUserName' => $user->getUsername(),
+                'user' => $user,
                 ]);
 
             $user->setPassword(
@@ -175,13 +172,14 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/locked/{id}", name="admin_locked", methods={"GET","POST"})
      * Fonction qui prend en paramètre l'ID de l'utilisateur et vérifie s'il est bloqué (attempts >= 3) ou pas.
      *
-     * S'il est bloqué, après cet action ses attempts reviennent à 0, un nouveau mot de passe aleatoire est généré
+     * S'il est bloqué, ses attempts reviennent à 0, un nouveau mot de passe aleatoire est généré
      * et envoyé à l'utilisateur par mail, et le compte est débloqué.
      *
      * S'il est actif, les attempts deviennent 3 et le compte sera bloqué.
+     *
+     * @Route("/admin/locked/{id}", name="admin_locked", methods={"GET","POST"})
      */
 
     public function locked(Request $request, Users $user, PasswordManager $passwordHelper, UserPasswordEncoderInterface $encoder, EntityManagerInterface $entityManager): Response
@@ -191,10 +189,8 @@ class AdminController extends AbstractController
 
             $newPassword = $passwordHelper->randomPassword();
             $this->forward('App\Controller\MailerController::unblockedUser', [
-                'userEmail' => $user->getEmail(),
-                'userPassword' => $newPassword,
-                'userName' => $user->getFirstName(),
-                'userUserName' => $user->getUsername(),
+                'user' => $user,
+                'userRandomPassword' => $newPassword,
             ]);
 
             $user->setPassword(
