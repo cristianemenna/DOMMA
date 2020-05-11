@@ -88,9 +88,9 @@ class Context
         if ($this->users === null || !$this->users->contains($user)) {
             $this->users[] = $user;
             return true;
+        } else {
+            return $this;
         }
-
-        return $this;
     }
 
     /**
