@@ -77,7 +77,15 @@
                         </div>
                         <div class="modal-group-fields">
                             <label for="macro-type">Type</label>
-                            <input type="text" name="macro-type" id="macro-type" value="type" disabled>
+                            <select name="macro-type" id="macro-type">
+                                <option value=""></option>
+                                <option value="select-columns">Select (sélectionne colonnes)</option>
+                                <option value="select-add-columns">Select (ajout de nouvelles colonnes)</option>
+                                <option value="insert">Insert</option>
+                                <option value="update">Update</option>
+                                <option value="delete">Delete</option>
+                                <option value="tri">Trier les lignes</option>
+                            </select>
                         </div>
                         <div class="modal-buttons">
                             <input type="submit" id="modal-send" value="Modifier Macro">

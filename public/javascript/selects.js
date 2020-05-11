@@ -28,8 +28,15 @@ $(document).ready(function() {
         allowClear: false,
     });
 
+    // Context : modal de partage de contexte avec d'autres utilisateurs
     $('#share_context_users').select2({
         allowClear: false,
         placeholder: "Partager contexte"
+    });
+
+    //  Macro : édition de macro sur modal, choix de type
+    $('#macro-type').select2({
+        placeholder: "Type",
+        allowClear: true
     });
 });

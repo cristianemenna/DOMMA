@@ -298,6 +298,10 @@ input.select2-search__field {
     font-family: 'Dosis', sans-serif;
 }
 
+.modal-group-fields .select2-container {
+    width: 92% !important;
+}
+
 /*************************************************** POP-IN *****************************************************/
 
 .overlay {

@@ -73,15 +73,16 @@ function sendMacroId(macroId) {
 
         success: function (data) {
             // Ajout des informations de l'objet macro sur le formulaire d'édition en modal
-            for (i = 0; i < 4; i++) {
                 macro = data;
+                macroType = macro['type'];
 
                 $('#macro-id').val(macro['id']);
                 $('#macro-title').val(macro['title']);
                 $('#macro-description').val(macro['description']);
                 $('#macro-code').val(macro['code']);
-                $('#macro-type').val(macro['type']);
-            }
+                $('#macro-type').val(macroType);
+                //     option[value="1"]').attr("selected",true);
+                // val(macro['type']);
         },
 
         error: function (xhr) {
