@@ -197,6 +197,10 @@ class ContextController extends AbstractController
     public function share(Request $request, Context $context, UsersRepository $usersRepository)
     {
         $users = $usersRepository->findAll();
+        // Supprime l'utilisateur du tableau du contexte envoyé à la vue
+        $userPosition = array_search($this->getUser(), $users, true);
+        unset($users[$userPosition]);
+
         $form = $this->createForm(ShareContextType::class, $context, ['users' => $users]);
 
         // Envoie du formulaire de partage de contexte en ajax
@@ -228,6 +232,7 @@ class ContextController extends AbstractController
                     $context->removeUser($user);
                 }
             }
+            $context->addUser($this->getUser());
             $this->getDoctrine()->getManager()->flush();
 
             return new JsonResponse(['success' => 'Ok']);

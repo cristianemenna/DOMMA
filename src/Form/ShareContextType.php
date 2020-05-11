@@ -20,6 +20,7 @@ class ShareContextType extends AbstractType
                 'choice_label' => 'firstName',
                 'multiple' => true,
                 'label' => false,
+                'required' => false,
             ])
         ;
     }
