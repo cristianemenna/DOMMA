@@ -1,7 +1,10 @@
 {% extends 'base.html.twig' %}
+{% set contextId = app.session.get('context') %}
+
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/context/show.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('select/css/select2.css') }}">
 {% endblock %}
 
 {% block title %}DOMMA - Contexte de travail{% endblock %}
@@ -9,8 +12,17 @@
 {% block body %}
     <main>
         <div class="separator">
-            <h1>{{ context.title }}<a href="{{ path('context_edit', {'id': context.id}) }}"><i class="fa fa-pen icon-pen"></i></a></h1>
+            <div id="title-context-container">
+                <h1>{{ context.title }}<a href="{{ path('context_edit', {'id': context.id}) }}"><i class="fa fa-pen icon-pen"></i></a></h1>
+                <div class="hover-message-container">
+                    <a href="{{ path('context_share', {'id': context.id}) }}" id="share-context">Partager contexte</a>
+                    <span class="hover-message-text">Partage avec un autre utilisateur</span>
+                </div>
+                <input id="context-id" type="hidden" value="{{ contextId }}">
+            </div>
         </div>
+
+        <div id="share-context-container"></div>
 
         <!-- Affichage des flashs --->
         {{ include('_alerts.html.twig') }}
@@ -89,4 +101,7 @@
 
 {% block javascripts %}
     <script type="text/javascript" charset="utf8" src="{{ asset('javascript/context.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/context-share.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/selects.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('select/js/select2.js') }}"></script>
 {% endblock %}

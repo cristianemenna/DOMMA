@@ -72,7 +72,7 @@ body {
     font-weight: bolder;
 }
 
-.alert .fa-times:hover, #icon-close-modal:hover {
+.alert .fa-times:hover, #icon-close-modal:hover, #icon-share-context-modal:hover {
     font-size: 1.5em;
     cursor: pointer;
 }
@@ -81,6 +81,12 @@ body {
     color: #4f4f4f;
     position: absolute;
     right: 15%;
+}
+
+#icon-share-context-modal {
+    color: #4f4f4f;
+    position: absolute;
+    right: 35%;
 }
 
 .alert .fa-check-circle, .alert .fa-exclamation-circle {
@@ -134,7 +140,7 @@ body {
 
 /************************************************ FORM BUTTONS ***************************************************/
 
-.form-cancel, #modal-cancel{
+.form-cancel, #modal-cancel, #cancel-share-context {
     color: #646464;
     background-color: #EBEBEB;
     text-decoration: none;
@@ -148,7 +154,7 @@ body {
 
 }
 
-#btn-create-macro, #modal-send {
+#btn-create-macro, #modal-send, #btn-share-context {
     color: #EBEBEB;
     background-color: #7f7f7f;
     width: 200px;
@@ -160,14 +166,18 @@ body {
     border-radius: 5px;
 }
 
-.form-cancel:hover, #modal-cancel:hover {
+.form-cancel:hover, #modal-cancel:hover, #cancel-share-context:hover {
     background-color: #F8F8F8;
     cursor: pointer;
 }
 
-#btn-create-macro:hover, #modal-send:hover {
+#btn-create-macro:hover, #modal-send:hover, #btn-share-context:hover {
     background-color: #6B6B6B;
     cursor: pointer;
+}
+
+.share-context-buttons {
+    margin: 10% 10%;
 }
 
 /**************************************************** ERROR MESSAGES ***********************************************/
@@ -175,3 +185,66 @@ body {
 #macro_columns > div > ul {
     display: none;
 }
+
+/*************************************************** POP-IN *********************************************************/
+
+.overlay {
+    position: fixed;
+    left: 0px;
+    top:0px;
+    background-color: rgba(0,0 ,0 , 0.5);
+    width: 100%;
+    height: 100%;
+    z-index:1;
+    display: none;
+}
+
+.modal-small {
+    margin: 10% auto;
+    width : 30%;
+    height: 30%;
+    background-color: rgb(243, 243, 243);
+    padding: 1em;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    display: none;
+}
+
+#modal-message > p, #share-context-modal-message > p {
+    text-align: center;
+    font-size: 1.2em;
+    margin-top: 10%;
+}
+
+#modal-message i.fa-check, #share-context-modal-message i.fa-check {
+    color: #65C36E;
+    font-size: 2.5em;
+    margin-left: 45%;
+}
+
+#modal-message i.fa-exclamation-circle, #share-context-modal-message i.fa-exclamation-circle {
+    color: rgba(193,16,7, 0.7);
+    font-size: 2.5em;
+    margin-left: 45%;
+}
+
+#modal-message, #share-context-modal-message {
+    margin: 10% auto;
+    width : 20%;
+    height: 20%;
+    background-color: rgb(243, 243, 243);
+    padding: 1em;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+}
+
+/************************************************ SELECT **********************************************************/
+
+#share_context_users {
+    width: 500px;
+}
+
+#share-context-form {
+    margin-top: 10%;
+}
+
