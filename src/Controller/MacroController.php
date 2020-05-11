@@ -103,7 +103,7 @@ class MacroController extends AbstractController
     /**
      * @Route("/{id}/ajax", name="macro_edit_ajax")
      */
-    public function ajaxEditMacro(Request $request, Macro $macro, SerializerInterface $serializer)
+    public function ajaxEditMacro(Request $request, Macro $macro)
     {
         // Si la requête est en ajax et la méthode GET
         if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {

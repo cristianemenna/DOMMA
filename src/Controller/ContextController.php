@@ -5,16 +5,20 @@ namespace App\Controller;
 use App\Entity\Context;
 use App\Form\ContextType;
 use App\Form\ImportType;
+use App\Form\ShareContextType;
 use App\Repository\ContextRepository;
+use App\Repository\UsersRepository;
 use App\Service\ContextManager;
 use App\Service\UploadManager;
 use Gravatar\Gravatar;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("/contextes")
@@ -183,5 +187,50 @@ class ContextController extends AbstractController
             }
         }
         return $this->redirectToRoute('context_index');
+    }
+
+    /**
+     * Partage d'un contexte de travail en AJAX
+     *
+     * @Route("/{id}/share", name="context_share")
+     */
+    public function share(Request $request, Context $context, UsersRepository $usersRepository)
+    {
+        $users = $usersRepository->findAll();
+        $form = $this->createForm(ShareContextType::class, $context, ['users' => $users]);
+
+        // Envoie du formulaire de partage de contexte en ajax
+        if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
+            $template = $this->render('context/share.html.twig', [
+                'form' => $form->createView(),
+            ])->getContent();
+            $json = json_encode($template);
+
+            return new JsonResponse($json);
+
+        // Requête post avec les id's des utilisateurs pour le partage de context
+        } elseif ($request->isXmlHttpRequest() && $request->isMethod('POST')) {
+            $reponse = $request->getContent();
+            $json = json_decode($reponse);
+            $formArray = [];
+
+            // Ajoute chaque utilisateur aux tableaux d'utilisateurs de ce contexte
+            foreach ($json as $userId) {
+                $user = $usersRepository->find($userId);
+                $context->addUser($user);
+                $formArray[] = $user;
+            }
+
+            // Si l'utilisateur n'est pas présent dans le tableaux de la requête
+            // alors supprime l'utilisateur du tableau du contexte
+            foreach ($context->getUsers() as $user) {
+                if (!in_array($user, $formArray, true)) {
+                    $context->removeUser($user);
+                }
+            }
+            $this->getDoctrine()->getManager()->flush();
+
+            return new JsonResponse(['success' => 'Ok']);
+        }
     }
 }

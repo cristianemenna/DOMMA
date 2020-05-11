@@ -50,7 +50,7 @@ class ContextManager
     /**
      * Supprime un schema et ses imports associés
      *
-     * @param string $contextName
+     * @param Context $context
      * @throws DBALException
      */
     private function removeSchema(Context $context)

@@ -27,4 +27,9 @@ $(document).ready(function() {
     $('#export_fileType').select2({
         allowClear: false,
     });
+
+    $('#share_context_users').select2({
+        allowClear: false,
+        placeholder: "Partager contexte"
+    });
 });

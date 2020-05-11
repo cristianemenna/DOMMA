@@ -181,3 +181,23 @@ label {
     font-size: 1.4em;
 }
 
+#title-context-container {
+    display: flex;
+    align-items: baseline;
+}
+
+#share-context {
+    text-decoration: none;
+    margin-left: 20px;
+    color: #757575;
+}
+
+#share-context:hover {
+    font-weight: bolder;
+}
+
+#cancel-share-context {
+    padding: 13px 0 !important;
+    text-align: center;
+}
+
