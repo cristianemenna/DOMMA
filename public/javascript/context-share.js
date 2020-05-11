@@ -85,44 +85,48 @@ function sendShareContext(formData, contextId) {
         async: true,
 
         success: function (data) {
-            // Ajout d'un message de confirmation
-            if ($('.overlay-message').length) {
-                $('.overlay-message').css('display', 'block');
-            } else {
-                var textContainer = $("<div></div>").addClass('overlay');
-                var textContent = $("<p></p>").text("Le contexte a bien été modifié.");
-                var messageContainer = $("<div></div>").addClass('share-context-modal-message');
-
-                $('main').append(textContainer);
-                textContainer.addClass('overlay-message');
-                textContainer.append(messageContainer);
-                messageContainer.append(textContent)
-                messageContainer.append($("<i class='fas fa-check'></i>"));
-
-                textContainer.fadeIn();
-                textContainer.delay(1500).fadeOut();
-                $('#share-context-container').empty();
-            }
+            receiveData('success');
         },
+
         error: function (xhr) {
-            // Ajout d'un message d'erreur
-            if ($('.overlay-message').length) {
-                $('.overlay-message').css('display', 'block');
-            } else {
-                var textContainer = $("<div></div>").addClass('overlay');
-                var textContent = $("<p></p>").text("Le contexte n'a pas pu être modifié.");
-                var messageContainer = $("<div></div>").addClass('share-context-modal-message');
-
-                $('main').append(textContainer);
-                textContainer.addClass('overlay-message');
-                textContainer.append(messageContainer);
-                messageContainer.append(textContent)
-                messageContainer.append($("<i class='fas fa-exclamation-circle'></i>"));
-
-                textContainer.fadeIn();
-                textContainer.delay(1500).fadeOut();
-                $('#share-context-container').empty();
-            }
+            receiveData('error');
         }
     });
 };
+
+// Gestion de l'affichage de modal suite à la réponse
+function receiveData(status) {
+
+    // Crée un message selon type de réponse
+    if (status === 'success') {
+        var textContent = $("<p></p>").text("Le contexte a bien été modifié.");
+    } else {
+        var textContent = $("<p></p>").text("Le contexte n'a pas pu être modifié.");
+    }
+
+    // Crée la div qui contiendra le message si elle n'existe pas encore
+    if ($('.overlay-message').length) {
+        $('.overlay-message').css('display', 'block');
+    } else {
+        var textContainer = $("<div></div>").addClass('overlay');
+        var textContent = $("<p></p>").text("Le contexte a bien été modifié.");
+        var messageContainer = $("<div></div>").addClass('share-context-modal-message');
+
+        $('main').append(textContainer);
+        textContainer.addClass('overlay-message');
+        textContainer.append(messageContainer);
+        messageContainer.append(textContent)
+
+        // Ajout d'icon selon type de message
+        if (status === 'success') {
+            messageContainer.append($("<i class='fas fa-check'></i>"));
+        } else {
+            messageContainer.append($("<i class='fas fa-exclamation-circle'></i>"));
+        }
+
+        textContainer.fadeIn();
+        textContainer.delay(1500).fadeOut();
+        $('#share-context-container').empty();
+    }
+}
+
