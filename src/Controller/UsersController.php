@@ -34,6 +34,7 @@ class UsersController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
+            $this->addFlash('success', 'Vos modifications ont bien été enregistrées.');
 
             return $this->redirectToRoute('context_index');
         }
@@ -81,11 +82,17 @@ class UsersController extends AbstractController
                     $user->getPassword()
                 )
             );
-            $this->addFlash('success', 'Votre mot de passe a bien été modifié.');
-            $entityManager->persist($user);
-            $entityManager->flush();
 
-            return $this->redirectToRoute('users_edit', ['id' => $user->getId()]);
+            try {
+                $entityManager->persist($user);
+                $entityManager->flush();
+                $this->addFlash('success', 'Votre mot de passe a bien été mis à jour.');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Un problème inconnu est survenu. Veuillez réessayer.');
+            } finally {
+                return $this->redirectToRoute('users_edit', ['id' => $user->getId()]);
+            }
+
         }
 
         return $this->render('users/change_password.html.twig', [
