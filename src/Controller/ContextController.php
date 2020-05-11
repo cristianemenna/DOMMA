@@ -197,9 +197,12 @@ class ContextController extends AbstractController
     public function share(Request $request, Context $context, UsersRepository $usersRepository)
     {
         $users = $usersRepository->findAll();
-        // Supprime l'utilisateur du tableau du contexte envoyé à la vue
-        $userPosition = array_search($this->getUser(), $users, true);
-        unset($users[$userPosition]);
+        // Supprime l'utilisateur actif et les administrateurs du tableau du contexte envoyé à la vue
+        foreach ($users as $key => $user) {
+            if (!($user->getRole() === 'ROLE_USER') || $user === $this->getUser()) {
+                unset($users[$key]);
+            }
+        }
 
         $form = $this->createForm(ShareContextType::class, $context, ['users' => $users]);
 
