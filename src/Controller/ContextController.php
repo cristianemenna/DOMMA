@@ -221,7 +221,12 @@ class ContextController extends AbstractController
             // Ajoute chaque utilisateur aux tableaux d'utilisateurs de ce contexte
             foreach ($json as $userId) {
                 $user = $usersRepository->find($userId);
-                $context->addUser($user);
+                if ($context->addUser($user) === true) {
+                    $this->forward('App\Controller\MailerController::shareContext', [
+                        'user' => $user,
+                        'context' => $context,
+                    ]);
+                }
                 $formArray[] = $user;
             }
 

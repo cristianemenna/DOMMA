@@ -81,12 +81,13 @@ class Context
 
     /**
      * @param Users $user
-     * @return $this
+     * @return $this|bool
      */
-    public function addUser(Users $user): self
+    public function addUser(Users $user)
     {
         if ($this->users === null || !$this->users->contains($user)) {
             $this->users[] = $user;
+            return true;
         }
 
         return $this;
