@@ -20,9 +20,10 @@
             {% for context in contextes %}
                 {% if context.getDaysToExpire > 0 %}
                 <div class="context-space">
-                    <a href="{{ path('context_show', {'id': context.id }) }}" class="contexts-link context-text">
+                    <a href="{{ path('context_show', {'id': context.id }) }}" class="contexts-link context-text hover-message-container">
                         <p class="context-title">{{ context.title }}</p>
                         <p class="context-description">{{ context.description }}</p>
+                        <span class="hover-message-text">Accéder au contexte</span>
                     </a>
                     <div class="days-edit-icon">
                         {% if context.getDaysToExpire > 5 %}
@@ -30,12 +31,19 @@
                         {% else %}
                             <p class="context-days">Jours restants : <span class="bolder">{{ context.getDaysToExpire }}</span></p>
                         {% endif %}
-                        <a href="{{ path('context_edit', {'id': context.id }) }}"><i class="fas fa-cog icon-context"></i></a>
+                        <a href="{{ path('context_edit', {'id': context.id }) }}" class="hover-message-container"><i class="fas fa-cog icon-context"></i>
+                            <span class="hover-message-text">Modifier le contexte</span>
+                        </a>
                     </div>
                 </div>
                 {% endif %}
             {% endfor %}
-            <a href="{{ path('context_new') }}" class="context-space contexts-link"><span class="context-plus">+</span></a>
+            <div class="new-context hover-message-container">
+                <a href="{{ path('context_new') }}" class="context-space contexts-link">
+                    <span class="context-plus">+</span>
+                </a>
+                <span class="hover-message-text">Créer un nouveau contexte</span>
+            </div>
         </div>
 
         <!-- Div qui donne style à la partie inférieur du site, avec separateur -->

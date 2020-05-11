@@ -101,6 +101,9 @@ class MacroController extends AbstractController
 
 
     /**
+     * Route qui permet l'édition d'un macro en ajax
+     * directement sur la page show d'un Import
+     *
      * @Route("/{id}/ajax", name="macro_edit_ajax")
      */
     public function ajaxEditMacro(Request $request, Macro $macro)
@@ -127,6 +130,7 @@ class MacroController extends AbstractController
             $macro->setTitle($json->title);
             $macro->setDescription($json->description);
             $macro->setCode($json->code);
+            $macro->setType($json->type);
             $this->getDoctrine()->getManager()->flush();
 
             return new JsonResponse($json);

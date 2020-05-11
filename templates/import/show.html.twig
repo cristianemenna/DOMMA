@@ -77,7 +77,15 @@
                         </div>
                         <div class="modal-group-fields">
                             <label for="macro-type">Type</label>
-                            <input type="text" name="macro-type" id="macro-type" value="type" disabled>
+                            <select name="macro-type" id="macro-type">
+                                <option value=""></option>
+                                <option value="select-columns">Select (sélectionne colonnes)</option>
+                                <option value="select-add-columns">Select (ajout de nouvelles colonnes)</option>
+                                <option value="insert">Insert</option>
+                                <option value="update">Update</option>
+                                <option value="delete">Delete</option>
+                                <option value="tri">Trier les lignes</option>
+                            </select>
                         </div>
                         <div class="modal-buttons">
                             <input type="submit" id="modal-send" value="Modifier Macro">
@@ -86,7 +94,6 @@
                     </div>
                 </form>
             </div>
-            <div id="modal-message"></div>
         </div>
 
         <!-- Affichage des données de la BDD en format d'une table avec DataTable -->
@@ -124,7 +131,7 @@
     <script type="text/javascript" charset="utf8" src="{{ asset('javascript/selects.js') }}"></script>
     <script type="text/javascript" charset="utf8" src="{{ asset('select/js/select2.js') }}"></script>
     <script type="text/javascript" charset="utf8" src="{{ asset('select/js/fr.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/ajax.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/macro-edit.js') }}"></script>
     <script type="text/javascript" charset="utf8" src="{{ asset('DataTables/datatables.js') }}"></script>
     <script type="text/javascript" charset="utf8" src="{{ asset('javascript/import.js') }}"></script>
 {% endblock %}

@@ -1,9 +1,3 @@
-var modalContainer = $('#overlay');
-var modal = $('#modal');
-var modalMessage = $('#modal-message');
-var modalForm = $('#modal-edit');
-var modalFormCancel = $('#modal-cancel');
-
 $(document).ready(function () {
 
     // Si l'un des boutons du formulaire de choix de macros est séléctionné
@@ -15,11 +9,13 @@ $(document).ready(function () {
             if (buttonName == "macro-details") {
                 e.preventDefault();
 
-                modalMessage.empty();
-                modalMessage.toggle();
-                modalContainer.toggle();
-                modal.toggle();
-                modalForm.toggle();
+                if ($('#modal-message')) {
+                    $('#modal-message').empty();
+                    $('#modal-message').css('display', 'none');
+                }
+                $('#overlay').toggle();
+                $('#modal').toggle();
+                $('#modal-edit').toggle();
 
                 // Requête en AJAX pour récupèrer les informations de la macro choisie
                 sendMacroId($('#macro_apply_macro').val())
@@ -30,18 +26,18 @@ $(document).ready(function () {
     });
 
    // Toggle du modal et messages lors d'un clic sur bouton "annuler" ou icon de fermeture
-   modalFormCancel.click(function () {
-       modalMessage.empty();
-       modalContainer.toggle();
-       modal.toggle();
-       modalForm.toggle();
+    $('#modal-cancel').click(function () {
+       $('#modal-message').empty();
+       $('#overlay').toggle();
+       $('#modal').toggle();
+       $('#modal-edit').toggle();
    });
 
     $('#icon-close-modal').click(function () {
-        modalMessage.empty();
-        modalContainer.toggle();
-        modal.toggle();
-        modalForm.toggle();
+        $('#modal-message').empty();
+        $('#overlay').toggle();
+        $('#modal').toggle();
+        $('#modal-edit').toggle();
     });
 
     // Crée un JSON avec les valeus du formulaire lors de son envoie
@@ -77,15 +73,16 @@ function sendMacroId(macroId) {
 
         success: function (data) {
             // Ajout des informations de l'objet macro sur le formulaire d'édition en modal
-            for (i = 0; i < 4; i++) {
                 macro = data;
+                macroType = macro['type'];
 
                 $('#macro-id').val(macro['id']);
                 $('#macro-title').val(macro['title']);
                 $('#macro-description').val(macro['description']);
                 $('#macro-code').val(macro['code']);
-                $('#macro-type').val(macro['type']);
-            }
+                $('#macro-type').val(macroType);
+                //     option[value="1"]').attr("selected",true);
+                // val(macro['type']);
         },
 
         error: function (xhr) {
@@ -107,28 +104,43 @@ function sendMacroChanges(formData, macroId) {
         async: true,
 
         success: function (data) {
-            // Ajout d'un message de confirmation si la macro a pu être modifiée.
-            var textContent = $("<p></p>").text("La macro a bien été modifiée.");
-
-            modal.toggle(500);
-            modalForm.toggle();
-            modalMessage.append(textContent);
-            modalMessage.append($("<i class='fas fa-check'></i>"));
-            modalMessage.toggle();
-            modalContainer.delay(1500).fadeOut();
+            receiveData('success');
         },
 
         error: function (xhr) {
-            // Ajout d'un message d'erreur si la macro n'a pas pu être modifiée.
-            var textContent = $("<p></p>").text("La macro n'a pas pu être modifiée.");
-
-            modal.toggle(500);
-            modalForm.toggle();
-            modalMessage.append(textContent);
-            modal.append($("<i class='fas fa-exclamation-circle'></i>"));
-            modalMessage.toggle();
-            modalContainer.delay(1500).fadeOut();
+            receiveData('error');
         }
     });
+}
 
+// Gestion de l'affichage de modal suite à la réponse
+function receiveData(status) {
+
+    // Crée un message selon type de réponse
+    if (status === 'success') {
+        var textContent = $("<p></p>").text("La macro a bien été modifiée.");
+    } else {
+        var textContent = $("<p></p>").text("La macro n'a pas pu être modifiée.");
+    }
+
+    // Crée la div qui contiendra le message si elle n'existe pas encore
+    if (!$('#modal-message').length) {
+        var messageContainer = $("<div></div>").attr('id', 'modal-message');
+        $('#overlay').append(messageContainer);
+    } else {
+        $('#modal-message').toggle();
+    }
+
+    $('#modal-message').append(textContent);
+
+    // Ajout d'icon selon type de message
+    if (status === 'success') {
+        $('#modal-message').append($("<i class='fas fa-check'></i>"));
+    } else {
+        $('#modal-message').append($("<i class='fas fa-exclamation-circle'></i>"));
+    }
+
+    $('#modal').toggle(500);
+    $('#modal-edit').toggle();
+    $('#overlay').delay(1500).fadeOut();
 }
