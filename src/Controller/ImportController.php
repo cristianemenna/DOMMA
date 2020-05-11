@@ -57,8 +57,8 @@ class ImportController extends AbstractController
             return $this->redirectToRoute('context_show', ['id' => $import->getContext()->getId()]);
         }
 
-            $macro = new MacroApplyManager();
-            $columns = new MacroApplyManager();
+        $macro = new MacroApplyManager();
+        $columns = new MacroApplyManager();
 
         $macrosForm = $this->createForm(MacroApplyType::class, $macro, ['macros' => $user->getMacros()]);
         $macrosForm->handleRequest($request);
