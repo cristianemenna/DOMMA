@@ -157,10 +157,10 @@ class AdminController extends AbstractController
                 $entityManager->persist($user);
                 $entityManager->flush();
                 $this->addFlash('success', 'Votre mot de passe a bien été mis à jour.');
-                return $this->redirectToRoute('admin_edit', ['id' => $user->getId()]);
             } catch (\Exception $e) {
                 $this->addFlash('error', 'Un problème inconnu est survenu. Veuillez réessayer.');
-                return $this->redirectToRoute('admin_password');
+            } finally {
+                return $this->redirectToRoute('admin_edit', ['id' => $user->getId()]);
             }
         }
 

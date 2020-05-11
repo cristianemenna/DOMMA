@@ -21,7 +21,7 @@
                 </div>
             </div>
             <li>
-                <a href="{{ path('context_index') }}"><img src="{{ avatar }}" alt="avatar" id="nav-avatar" /></a>
+                <a href="{{ path('users_edit', {'id': app.user.id }) }}"><img src="{{ avatar }}" alt="avatar" id="nav-avatar" /></a>
             </li>
         {% else %}
             <li>

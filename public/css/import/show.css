@@ -36,7 +36,7 @@ h2, h3 {
 }
 
 .file-container {
-    margin: 80px 0 0 80px;
+    margin: 3% 1.5% 0 2%;
 }
 
 .icon-loading {
@@ -57,7 +57,7 @@ h2, h3 {
 }
 
 .macros-select-container {
-    margin: 20px 0 0 80px;
+    margin: 1% 0 0 2%;
     display: flex;
     align-items: baseline;
 
@@ -104,7 +104,7 @@ h2, h3 {
 }
 
 #button-new-macro {
-    margin-right: 5%;
+    margin-right: 2%;
     box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.3), 0 3px 20px 0 rgba(0, 0, 0, 0.15);
     padding: 12px 30px 15px 30px;
     border: none;
@@ -201,7 +201,7 @@ button > i:hover {
 }
 
 .export-file-container {
-    margin-right: 5%;
+    margin-right: 2%;
 
 }
 
@@ -237,10 +237,13 @@ button > i:hover {
     font-size: 15px;
 }
 
+#file-table_filter {
+    width: 50%;
+}
+
 #file-table_filter input {
-    width: 350px;
     height: 35px;
-    margin-right: 30px;
+    width: 35%;
 }
 
 #file-table_paginate {
