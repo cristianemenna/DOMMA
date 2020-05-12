@@ -14,7 +14,7 @@ $(document).ready( function () {
                     "sFirst":    "Premier",
                     "sLast":    "Dernier",
                     "sNext":    "Suivant",
-                    "sPrevious": "Antérieur"
+                    "sPrevious": "Précedent"
                 },
                 "sInfoFiltered":  "Filtré sur un total de _MAX_ registres",
                 "sInfo":          "_START_ à _END_ lignes sur un total de _TOTAL_ lignes",
