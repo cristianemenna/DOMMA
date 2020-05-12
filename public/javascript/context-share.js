@@ -22,7 +22,7 @@ $(document).ready(function () {
         $('#share-context-container').empty();
     });
 
-    $('#share-context-form').submit(function(e) {
+    $('#share-form').submit(function(e) {
         e.preventDefault();
         formData = $('#share_context_users').val();
         sendShareContext(formData, $('#context-id').val());
@@ -109,7 +109,6 @@ function receiveData(status) {
         $('.overlay-message').css('display', 'block');
     } else {
         var textContainer = $("<div></div>").addClass('overlay');
-        var textContent = $("<p></p>").text("Le contexte a bien été modifié.");
         var messageContainer = $("<div></div>").addClass('share-context-modal-message');
 
         $('main').append(textContainer);
