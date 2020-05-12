@@ -23,17 +23,21 @@
         <!-- Affichage des flashs --->
         {{ include('_alerts.html.twig') }}
 
+        <div id="share-container"></div>
+
         <!-- Formulaire de choix de macro pour "Voir en détail" ou "Appliquer macro" -->
         <div class="macros-select-container">
             <div>
                 {{ form_start(macroForm, {'attr': {'id': 'macro-edit-form'}}) }}
                     {{ form_widget(macroForm) }}
                     <input type="submit" name="details" id="macro-details" class="macros-select-submit" value="Voir en détail">
+                    <input type="submit" name="share" id="macro-share" class="macros-select-submit" value="Partager macro">
                     <input type="submit" name="apply" id="macro-apply" class="macros-select-submit" value="Appliquer macro">
                 {{ form_end(macroForm) }}
             </div>
             <a href="{{ path('macro_new') }}" id="button-new-macro">Macro <i class="fa fa-plus icon-plus-macro"></i></a>
         </div>
+
 
         <div class="macros-select-container">
             <!-- Formulaire pour suppression des colonnes de la table en BDD --->
@@ -132,6 +136,7 @@
     <script type="text/javascript" charset="utf8" src="{{ asset('select/js/select2.js') }}"></script>
     <script type="text/javascript" charset="utf8" src="{{ asset('select/js/fr.js') }}"></script>
     <script type="text/javascript" charset="utf8" src="{{ asset('javascript/macro-edit.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/macro-share.js') }}"></script>
     <script type="text/javascript" charset="utf8" src="{{ asset('DataTables/datatables.js') }}"></script>
     <script type="text/javascript" charset="utf8" src="{{ asset('javascript/import.js') }}"></script>
 {% endblock %}

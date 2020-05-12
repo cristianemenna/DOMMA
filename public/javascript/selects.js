@@ -31,7 +31,13 @@ $(document).ready(function() {
     // Context : modal de partage de contexte avec d'autres utilisateurs
     $('#share_context_users').select2({
         allowClear: false,
-        placeholder: "Partager contexte"
+        placeholder: "Choisir l'utilisateur"
+    });
+
+    // Macro : modal de partage de macro vec d'autres utilisateurs
+    $('#share_macro_users').select2({
+        allowClear: false,
+        placeholder: "Choisir l'utilisateur"
     });
 
     //  Macro : édition de macro sur modal, choix de type

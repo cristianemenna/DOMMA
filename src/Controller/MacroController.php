@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\Entity\Import;
 use App\Entity\Macro;
 use App\Form\MacroType;
+use App\Form\ShareMacroType;
 use App\Repository\ImportRepository;
 use App\Repository\MacroRepository;
+use App\Repository\UsersRepository;
 use Gravatar\Gravatar;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -15,7 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("/macro")
@@ -135,5 +136,59 @@ class MacroController extends AbstractController
 
             return new JsonResponse($json);
         }
+    }
+
+    /**
+     * Partage d'une Macro en AJAX
+     *
+     * @Route("/{id}/share", name="macro_share")
+     */
+    public function share(Request $request, Macro $macro, UsersRepository $usersRepository)
+    {
+        $users = $usersRepository->findAll();
+        // Supprime l'utilisateur actif et les administrateurs du tableau envoyé à la vue
+        foreach ($users as $key => $user) {
+            if ($user->getRole() !== 'ROLE_USER' || $user === $this->getUser()) {
+                unset($users[$key]);
+            }
+        }
+        $form = $this->createForm(ShareMacroType::class, $macro, ['users' => $users]);
+
+        // Envoi du formulaire de partage de macro en ajax
+        if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
+            $template = $this->render('users/share.html.twig', [
+                'form' => $form->createView(),
+            ])->getContent();
+            $json = json_encode($template);
+
+            return new JsonResponse($json);
+
+            // Requête post avec les id's des utilisateurs pour le partage des macros
+        } elseif ($request->isXmlHttpRequest() && $request->isMethod('POST')) {
+            $reponse = $request->getContent();
+            $json = json_decode($reponse);
+            $formArray = [];
+
+            // Ajoute chaque utilisateur aux tableaux d'utilisateurs de cette macro
+            foreach ($json as $userId) {
+                $user = $usersRepository->find($userId);
+                $macro->addUser($user);
+                $formArray[] = $user;
+            }
+
+            // Si l'utilisateur n'est pas présent dans le tableaux de la requête
+            // alors supprime l'utilisateur du tableau des macros
+            foreach ($macro->getUsers() as $user) {
+                if (!in_array($user, $formArray, true)) {
+                    $macro->removeUser($user);
+                }
+            }
+            $macro->addUser($this->getUser());
+            $this->getDoctrine()->getManager()->flush();
+
+            return new JsonResponse(['success' => 'OK']);
+        }
+        return $this->redirectToRoute('macro_index');
+
     }
 }

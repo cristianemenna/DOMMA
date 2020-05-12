@@ -246,13 +246,28 @@ body {
     border-radius: 5px;
 }
 
-/************************************************ SELECT **********************************************************/
+/************************************************ SELECT MODAL *******************************************************/
 
-#share_context_users {
+#share_context_users, #share_macro_users {
     width: 500px;
 }
 
 #share-context-form {
     margin-top: 10%;
+}
+
+#share-context {
+    text-decoration: none;
+    margin-left: 20px;
+    color: #757575;
+}
+
+#share-context:hover {
+    font-weight: bolder;
+}
+
+#cancel-share-context {
+    padding: 13px 0 !important;
+    text-align: center;
 }
 
