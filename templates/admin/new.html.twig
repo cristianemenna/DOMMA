@@ -20,9 +20,12 @@
         <!-- Formulaire de création d'utilisateur -->
         <div class="form">
             {{ form_start(form) }}
-                {{ form_widget(form.first_name,  {'attr': {'class': 'form-input', 'placeholder': 'Prénom'}} ) }}
+            {{ form_widget(form.first_name,  {'attr': {'class': 'form-input', 'placeholder': 'Prénom'}} ) }}
                 {{ form_widget(form.last_name,  {'attr': {'class': 'form-input', 'placeholder': 'Nom'}} ) }}
                 {{ form_widget(form.email,  {'attr': {'class': 'form-input', 'placeholder': 'Email'}} ) }}
+                <div class="form-errors-container">
+                    {{ form_errors(form.email) }}
+                </div>
                 {{ form_widget(form.username,  {'attr': {'class': 'form-input', 'placeholder': 'Identifiant'}} ) }}
                 {{ form_errors(form.username) }}
             <div class="select-style">

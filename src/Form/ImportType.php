@@ -22,6 +22,7 @@ class ImportType extends AbstractType
                 'constraints' => [
                     new All([
                         new File([
+                            // Typ de fichiers acceptés lors du téléchargement
                             'mimeTypes' => [
                                 'text/plain',
                                 'text/csv',
@@ -35,7 +36,8 @@ class ImportType extends AbstractType
                                 'application/x-dos_ms_excel',
                                 'application/xls',
                                 'application/x-xls',
-                                'application/vnd-xls'
+                                'application/vnd-xls',
+                                'application/vnd.oasis.opendocument.spreadsheet'
                             ],
                             'mimeTypesMessage' => 'Veuillez choisir un fichier en format XLS, XLSX ou CSV.'
                         ])
