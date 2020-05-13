@@ -184,6 +184,12 @@ input.select2-search__field::placeholder {
     color: #000000;
 }
 
-.macro-delete:hover {
+.separator-container {
+    display: flex;
+    justify-content: space-between;
+}
 
+.separator-container a {
+    height: 5%;
+    align-self: flex-end;
 }

@@ -26,8 +26,11 @@ class MacroController extends AbstractController
     /**
      * @Route("/", name="macro_index", methods={"GET"})
      */
-    public function index(MacroRepository $macroRepository, Gravatar $gravatar): Response
+    public function index(MacroRepository $macroRepository, Gravatar $gravatar, SessionInterface $session): Response
     {
+        // Réinitialise la variable de session Import,
+        // pour la gestion des redirections suite à une création de macro
+        $session->set('import', null);
         return $this->render('macro/index.html.twig', [
             'macros' => $this->getUser()->getMacros(),
             'avatar' => $gravatar->avatar($this->getUser()->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true),
@@ -39,8 +42,6 @@ class MacroController extends AbstractController
      */
     public function new(Request $request, Gravatar $gravatar, SessionInterface $session, ImportRepository $importRepository): Response
     {
-        // Recupère l'id de l'import de la page d'origine
-        $import = $importRepository->find($session->get('import'));
         $macro = new Macro();
         $form = $this->createForm(MacroType::class, $macro);
         $form->handleRequest($request);
@@ -51,14 +52,20 @@ class MacroController extends AbstractController
             $entityManager->persist($macro);
             $entityManager->flush();
 
-            return $this->redirectToRoute('import_show', ['context' => $import->getContext()->getId(), 'id' => $import->getId()]);
+            // Une fois la macro créé :
+            // Redirection sur la page de l'import s'il y a une variable 'import' stockée en session
+            if ($session->get('import')) {
+                $import = $importRepository->find($session->get('import'));
+                return $this->redirectToRoute('import_show', ['context' => $import->getContext()->getId(), 'id' => $import->getId()]);
+                // Sinon redirection sur la page index des macros
+            } else {
+                return $this->redirectToRoute('macro_index');
+            }
         }
 
         return $this->render('macro/new.html.twig', [
             'macro' => $macro,
-            'context' => $import->getContext(),
             'form' => $form->createView(),
-            'import' => $import,
             'avatar' => $gravatar->avatar($this->getUser()->getEmail(), ['d' => 'https://i.ibb.co/r5ZXsZj/avatar-user.png'], false, true),
         ]);
     }

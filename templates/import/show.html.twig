@@ -10,15 +10,15 @@
 
 {% block body %}
     <main>
-            <div class="separator import-title">
-                <h1>{{ import.fileName }}</h1>
-                <div class="hover-message-container">
-                    <a href="{{ path('context_show', {'id': context.id}) }}">
-                        <i class="fas fa-backward icons-main"></i>
-                    </a>
-                    <span class="hover-message-text">Revenir à la page des contextes</span>
-                </div>
+        <div class="separator import-title">
+            <h1>{{ import.fileName }}</h1>
+            <div class="hover-message-container">
+                <a href="{{ path('context_show', {'id': context.id}) }}">
+                    <i class="fas fa-backward icons-main"></i>
+                </a>
+                <span class="hover-message-text">Revenir à la page des contextes</span>
             </div>
+        </div>
 
         <!-- Affichage des flashs --->
         {{ include('_alerts.html.twig') }}
@@ -35,7 +35,7 @@
                     <input type="submit" name="apply" id="macro-apply" class="macros-select-submit" value="Appliquer macro">
                 {{ form_end(macroForm) }}
             </div>
-            <a href="{{ path('macro_new') }}" id="button-new-macro">Macro <i class="fa fa-plus icon-plus-macro"></i></a>
+            <a href="{{ path('macro_new') }}" class="button-new-macro">Macro <i class="fa fa-plus icon-plus-macro"></i></a>
         </div>
 
 
