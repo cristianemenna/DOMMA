@@ -11,8 +11,8 @@
     <body>
         {{ include('_navbar.html.twig') }}
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
         {{ include('_footer.html.twig') }}
+        {% block javascripts %}{% endblock %}
         <script type="text/javascript" charset="utf8" src="{{ asset('javascript/base.js') }}"></script>
     </body>
 </html>
