@@ -108,7 +108,7 @@ form {
     right: -50px;
 }
 
-.context-delete:hover, .macro-delete:hover {
+.context-delete:hover, .macro-delete:hover, .macro-delete-form:hover {
     cursor: pointer;
 }
 
@@ -118,7 +118,7 @@ form {
     padding: 10px;
 }
 
-#context-delete-form, #macro-delete-form {
+#context-delete-form, .macro-delete-form {
     margin: 0;
     padding: 0;
     width: 10px;

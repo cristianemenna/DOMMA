@@ -1,5 +1,12 @@
-<form method="post" action="{{ path('macro_delete', {'id': macro.id}) }}" id="macro-delete-form" onsubmit="return confirm('Êtes vous sûr de vouloir supprimer la macro ?');">
-    <input type="hidden" name="_method" value="DELETE">
-    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ macro.id) }}">
-    <button class="macro-delete"><i class="fas fa-trash-alt"></i></button>
-</form>
+{% if macro.users|length > 1 %}
+    <form method="post" action="{{ path('macro_delete', {'id': macro.id}) }}" class="form-delete hover-message-container macro-delete-form" onsubmit="return confirm('Cette macro est partagée avec d\'autres utilisateurs. En la supprimant, ils n\'y auront plus accès. Êtes vous sur de continuer ?');">
+{% else %}
+    <form method="post" action="{{ path('macro_delete', {'id': macro.id}) }}" class="form-delete hover-message-container macro-delete-form" onsubmit="return confirm('Êtes vous sûr de vouloir supprimer la macro ?');">
+{% endif %}
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ macro.id) }}">
+        <button class="macro-delete">
+            <i class="fas fa-trash-alt icon-delete-macro"></i>
+            <span class="hover-message-text">Supprimer macro</span>
+        </button>
+    </form>

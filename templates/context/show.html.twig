@@ -14,10 +14,18 @@
         <div class="separator">
             <div id="title-context-container">
                 <h1>{{ context.title }}<a href="{{ path('context_edit', {'id': context.id}) }}"><i class="fa fa-pen icon-pen"></i></a></h1>
-                <div class="hover-message-container">
-                    <a href="{{ path('context_share', {'id': context.id}) }}" id="share-context">Partager contexte</a>
-                    <span class="hover-message-text">Partage avec un autre utilisateur</span>
-                </div>
+                {% if context.users|length > 1 %}
+                    <div class="hover-message-container icon-shared-context" id="share-context">
+                        <i class="fas fa-user-friends share-context"></i>
+                        <p>Contexte partagé</p>
+                        <span class="hover-message-text">Voir en détail</span>
+                    </div>
+                {% else %}
+                    <div class="hover-message-container">
+                        <a href="{{ path('context_share', {'id': context.id}) }}" id="share-context">Partager contexte</a>
+                        <span class="hover-message-text">Partage avec un autre utilisateur</span>
+                    </div>
+                {% endif %}
                 <input id="context-id" type="hidden" value="{{ contextId }}">
             </div>
         </div>

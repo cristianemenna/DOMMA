@@ -123,6 +123,7 @@ input.select2-search__field::placeholder {
 .macro-line {
     display: flex;
     flex-direction: row;
+    align-items: baseline;
 }
 
 .macro-description {
@@ -131,10 +132,6 @@ input.select2-search__field::placeholder {
 
 .macro-title {
     width: 20%;
-}
-
-.macro-edit, .macro-share {
-    width: 5%;
 }
 
 .content-macros {
@@ -152,7 +149,7 @@ input.select2-search__field::placeholder {
     margin-right: 30px;
 }
 
-.icon-angle, .icon-pen-macros {
+.icon-angle, .icon-pen-macros, .icon-delete-macro {
     font-size: 22px;
     color: #676767;
 }
@@ -164,6 +161,7 @@ input.select2-search__field::placeholder {
 
 .icon-pen-macros {
     margin: 0 25px;
+
 }
 
 .title-macros > h2 {
@@ -178,4 +176,14 @@ input.select2-search__field::placeholder {
 
 .macro-share:hover {
     cursor: pointer;
+}
+
+.macro-delete {
+    background: none;
+    border: none;
+    color: #000000;
+}
+
+.macro-delete:hover {
+
 }

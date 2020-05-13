@@ -202,3 +202,8 @@ label {
     text-align: center;
 }
 
+
+.icon-shared-context i.share-context {
+    color: #009a00;
+    margin-right: 10px;
+}
