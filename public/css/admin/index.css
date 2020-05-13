@@ -28,12 +28,6 @@ td > a, #button-new-user {
     font-weight: bolder;
 }
 
-table {
-    margin: 50px auto;
-    color: #4d4d4d;
-    text-align: center;
-}
-
 th {
     background-color: #d9d9d9;
     width: 250px;
@@ -175,4 +169,10 @@ tr {
 
 i.icon-new-user {
     margin-right: 10px;
+}
+
+/******************************************** DATATABLES ******************************************************/
+
+.table-container {
+    margin-top: 5%;
 }
