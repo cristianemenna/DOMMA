@@ -22,6 +22,7 @@
                     {{ form_widget(form) }}
                     <div class="form-errors-container">
                         {{ form_errors(form.username) }}
+                        {{ form_errors(form.email) }}
                     </div>
             {% if is_granted('ROLE_USER') %}
                     <a id="edit-change-password" href="{{ path('users_password', {'id': user.id})  }}">Changer mot de passe</a>
