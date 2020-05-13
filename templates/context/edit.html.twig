@@ -26,7 +26,7 @@
                 </div>
             <div class="form-buttons">
                 <button class="edit-context">{{ button_label|default('Mettre à jour') }}</button>
-                <a href="{{ path('context_show', {'id': context.id}) }}" id="form-cancel">Annuler</a>
+                <a href="{{ app.request.headers.get('referer') }}" id="form-cancel">Annuler</a>
             </div>
             {{ form_end(form) }}
         </div>
