@@ -8,12 +8,13 @@ $(document).ready(function () {
             // Si le choix était pour "macro-share" : empêche l'envoi du formulaire
             if (buttonName == "macro-share") {
                 e.preventDefault();
-                sendMacroId($('#macro_apply_macro').val())
+                sendMacroId($('#macro_apply_macro').val());
             }
 
             buttonName = null;
         });
     });
+
 
     // Toggle du modal lors d'un clic sur bouton "annuler" ou icon de fermeture
     $('#cancel-share-context').click(function () {
@@ -33,9 +34,8 @@ $(document).ready(function () {
     $('#share-form').submit(function(e) {
         e.preventDefault();
         formData = $('#share_macro_users').val();
-        sendShareMacro(formData, $('#macro-id').val());
+        sendShareMacro(formData, $('.macro-id-hidden').text());
     })
-
 });
 
 // Récupère le template avec formulaire de partage de Macro
@@ -60,7 +60,14 @@ function sendMacroId(macroId) {
                 $('#share-context-modal-message').toggle();
                 $('#share-context-overlay').toggle();
                 $('#share-context-modal').toggle();
+
+                // Cache l'id de la Macro choisie dans le DOM
+                var macroIdInput = $("<input>").text(macroId);
+                macroIdInput.attr('type', 'hidden');
+                macroIdInput.addClass('macro-id-hidden');
+                $('#share-container').append(macroIdInput);
             }
+
 
             // Permet d'actualiser l'information des fichiers .js pour bien retrouver les nouveaux éléments
             function reload_js(src) {
@@ -71,12 +78,6 @@ function sendMacroId(macroId) {
             reload_js('/javascript/macro-share.js');
             reload_js('/javascript/selects.js');
             reload_js('/select/js/select2.js');
-
-            // Cache l'id de la Macro choisie dans le DOM
-            var macroIdInput = $("<input></input>").val(macroId);
-            macroIdInput.css('display', 'none');
-            macroIdInput.attr('id', 'macro-id')
-            $('#share-container').append(macroIdInput);
         },
 
         error: function (xhr) {
