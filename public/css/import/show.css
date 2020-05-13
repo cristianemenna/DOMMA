@@ -102,22 +102,6 @@ h2, h3 {
     width: 80%;
 }
 
-#button-new-macro {
-    margin-right: 2%;
-    box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.3), 0 3px 20px 0 rgba(0, 0, 0, 0.15);
-    padding: 12px 30px 15px 30px;
-    border: none;
-    background-color: #757575;
-    color: #e6e6e6;
-    font-weight: bolder;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-#button-new-macro:hover {
-    background-color: #6B6B6B;
-}
-
 i.icon-plus-macro {
     font-size: 20px;
     margin-left: 5px;
