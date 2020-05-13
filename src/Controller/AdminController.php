@@ -8,6 +8,7 @@ use App\Form\UsersPasswordType;
 use App\Form\UsersType;
 use App\Repository\UsersRepository;
 use App\Service\ContextManager;
+use App\Service\MacroManager;
 use App\Service\PasswordManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Gravatar\Gravatar;
@@ -114,14 +115,15 @@ class AdminController extends AbstractController
     /**
      * @Route("/{id}", name="admin_users_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Users $user, ContextManager $contextService): Response
+    public function delete(Request $request, Users $user, ContextManager $contextService, MacroManager $macroManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            // Itère sur le tableau de contextes de l'utilisateur, s'il est le seul à avoir accès à un contexte :
-            // supprime le contexte, ainsi que le schema et imports associés
+            // Itère sur le tableau de contextes et de macros de l'utilisateur, s'il est le seul à y avoir accès :
+            // supprime la macro/contexte, ainsi que le schema et imports associés
             try {
                 $contextService->removeContextsFromUser($user->getContexts());
+                $macroManager->removeMacrosFromUser($user->getMacros());
                 $entityManager->remove($user);
                 $entityManager->flush();
                 $this->addFlash('success', 'Le compte a bien été supprimé.');
@@ -199,6 +201,7 @@ class AdminController extends AbstractController
                     $newPassword
                 )
             );
+            $this->addFlash('success', 'L\'utilisateur recevra un mail avec ses nouveaux identifiants.');
         } else {
             $user->setAttempts(3);
         }

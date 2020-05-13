@@ -5,6 +5,7 @@ namespace App\Service;
 
 
 use App\Entity\Import;
+use App\Entity\Macro;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Exception\InvalidFieldNameException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -399,6 +400,21 @@ class MacroManager
             $transformedArray[$key] = $key;
         }
         return $transformedArray;
+    }
+
+    /**
+     * Lors de la suppression d'un utilisateur :
+     * Itère sur ses macros et les supprime aussi, si elles ne sont pas partagées avec d'autres utilisateurs
+     *
+     * @param Macro[] $macros
+     */
+    public function removeMacrosFromUser($macros)
+    {
+        foreach ($macros as $macro) {
+            if (count($macro->getUsers()) === 1) {
+                $this->entityManager->remove($macro);
+            }
+        }
     }
 
 }
