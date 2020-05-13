@@ -18,7 +18,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("/contextes")
@@ -199,16 +198,16 @@ class ContextController extends AbstractController
         $users = $usersRepository->findAll();
         // Supprime l'utilisateur actif et les administrateurs du tableau du contexte envoyé à la vue
         foreach ($users as $key => $user) {
-            if (!($user->getRole() === 'ROLE_USER') || $user === $this->getUser()) {
+            if ($user->getRole() !== 'ROLE_USER' || $user === $this->getUser()) {
                 unset($users[$key]);
             }
         }
 
         $form = $this->createForm(ShareContextType::class, $context, ['users' => $users]);
 
-        // Envoie du formulaire de partage de contexte en ajax
+        // Envoi du formulaire de partage de contexte en ajax
         if ($request->isXmlHttpRequest() && $request->isMethod('GET')) {
-            $template = $this->render('context/share.html.twig', [
+            $template = $this->render('users/share.html.twig', [
                 'form' => $form->createView(),
             ])->getContent();
             $json = json_encode($template);
@@ -245,5 +244,6 @@ class ContextController extends AbstractController
 
             return new JsonResponse(['success' => 'Ok']);
         }
+        return $this->redirectToRoute('context_show', ['id' => $context->getId()]);
     }
 }

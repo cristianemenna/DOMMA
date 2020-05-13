@@ -1,10 +1,25 @@
 $(document).ready(function () {
 
-    $('#share-context').click(function(e) {
-        e.preventDefault();
-        if ($('#context-id').val()) {
-            getTemplate($('#context-id').val());
-        }
+    // Si l'un des boutons du formulaire de choix de macros est séléctionné
+    $('#macro-edit-form input').click(function() {
+        // Récupère l'attribut id du input choisi
+        var inputId = $(this).attr("id");
+        $('#macro-edit-form').submit(function (e) {
+            // Si le choix était pour "macro-share" : empêche l'envoi du formulaire
+            if (inputId == "macro-share") {
+                e.preventDefault();
+                sendMacroIdToShare($('#macro_apply_macro').val());
+            }
+
+            inputId = null;
+        });
+    });
+
+    // Click depuis la page index des macros d'un utilisateur
+    $('.macro-share').click(function() {
+        // Récupère la valeur de l'input caché d'une macro, qui contient son id
+        var macroId = $(this).children("input").val();
+        sendMacroId(macroId);
     });
 
     // Toggle du modal lors d'un clic sur bouton "annuler" ou icon de fermeture
@@ -12,29 +27,28 @@ $(document).ready(function () {
         $('#share-context-modal-message').empty();
         $('#share-context-overlay').toggle();
         $('#share-context-modal').toggle();
-        $('#share-context-container').empty();
+        $('#share-container').empty();
     });
 
     $('#icon-share-context-modal').click(function () {
         $('#share-context-modal-message').empty();
         $('#share-context-overlay').toggle();
         $('#share-context-modal').toggle();
-        $('#share-context-container').empty();
+        $('#share-container').empty();
     });
 
     $('#share-form').submit(function(e) {
         e.preventDefault();
-        formData = $('#share_context_users').val();
-        sendShareContext(formData, $('#context-id').val());
+        formData = $('#share_macro_users').val();
+        receiveMacroForm(formData, $('.macro-id-hidden').text());
     })
-
 });
 
-// Récupère le template avec formulaire de partage de Context
-function getTemplate(contextId) {
+// Récupère le template avec formulaire de partage de Macro
+function sendMacroIdToShare(macroId) {
     $.ajax({
         type: 'GET',
-        url: '/contextes/' + contextId + '/share',
+        url: '/macro/' + macroId + '/share',
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json'
@@ -45,14 +59,21 @@ function getTemplate(contextId) {
             // Template twig en réponse
             decoded = JSON.parse(data);
 
-            if ($('#share-context-container').html().length === 0 ) {
+            if ($('#share-container').html().length === 0 ) {
                 $('.overlay-message').remove();
-                $('#share-context-container').append(decoded);
+                $('#share-container').append(decoded);
                 $('#share-context-modal-message').empty();
                 $('#share-context-modal-message').toggle();
                 $('#share-context-overlay').toggle();
                 $('#share-context-modal').toggle();
+
+                // Cache l'id de la Macro choisie dans le DOM
+                var macroIdInput = $("<input>").text(macroId);
+                macroIdInput.attr('type', 'hidden');
+                macroIdInput.addClass('macro-id-hidden');
+                $('#share-container').append(macroIdInput);
             }
+
 
             // Permet d'actualiser l'information des fichiers .js pour bien retrouver les nouveaux éléments
             function reload_js(src) {
@@ -60,10 +81,9 @@ function getTemplate(contextId) {
                 $('<script>').attr('src', src).appendTo('head');
             }
 
-            reload_js('/javascript/context-share.js');
+            reload_js('/javascript/macro-share.js');
             reload_js('/javascript/selects.js');
             reload_js('/select/js/select2.js');
-
         },
 
         error: function (xhr) {
@@ -72,11 +92,11 @@ function getTemplate(contextId) {
     });
 }
 
-// Envoi des informations choisies sur le formulaire de partage de Context
-function sendShareContext(formData, contextId) {
+// Envoi des informations choisies sur le formulaire de partage de Macro
+function receiveMacroForm(formData, macroId) {
     $.ajax({
         type: 'POST',
-        url: '/contextes/' + contextId + '/share',
+        url: '/macro/' + macroId + '/share',
         data: JSON.stringify(formData),
         headers: {
             'Content-Type': 'application/json',
@@ -99,9 +119,9 @@ function receiveData(status) {
 
     // Crée un message selon type de réponse
     if (status === 'success') {
-        var textContent = $("<p></p>").text("Le contexte a bien été modifié.");
+        var textContent = $("<p></p>").text("La macro a bien été partageé.");
     } else {
-        var textContent = $("<p></p>").text("Le contexte n'a pas pu être modifié.");
+        var textContent = $("<p></p>").text("La macro n'a pas pu être partageé.");
     }
 
     // Crée la div qui contiendra le message si elle n'existe pas encore
@@ -125,7 +145,7 @@ function receiveData(status) {
 
         textContainer.fadeIn();
         textContainer.delay(1500).fadeOut();
-        $('#share-context-container').empty();
+        $('#share-container').empty();
     }
 }
 

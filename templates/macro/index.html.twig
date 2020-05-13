@@ -2,6 +2,7 @@
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/macro/new.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('select/css/select2.css') }}">
 {% endblock %}
 
 {% block title %}DOMMA - Mes macros{% endblock %}
@@ -15,7 +16,9 @@
         <!-- Affichage des flashs --->
         {{ include('_alerts.html.twig') }}
 
-        <!-- Affichage de toutes les macros appartenants à l'utilisateur connecté -->
+        <div id="share-container"></div>
+
+        <!-- Affichage de toutes les macros appartenantes à l'utilisateur connecté -->
         <div class="container-macros">
             <div class="title-macros">
                 <h2>Titre</h2>
@@ -32,7 +35,17 @@
                            <i class="fa fa-angle-double-right icon-angle"></i>
                            {{ macro.description }}
                        </p>
-                       <p><a href="{{ path('macro_edit', {'id': macro.id}) }}"><i class="fa fa-pen icon-pen-macros"></i></a></p>
+                       <p class="hover-message-container">
+                           <a href="{{ path('macro_edit', {'id': macro.id}) }}">
+                               <i class="fa fa-pen icon-pen-macros"></i>
+                           </a>
+                           <span class="hover-message-text">Modifier macro</span>
+                       </p>
+                       <p class="macro-share hover-message-container">
+                           <input value="{{ macro.id }}" hidden>
+                           <i class="fas fa-user-friends icon-pen-macros"></i>
+                           <span class="hover-message-text">Partager macro</span>
+                       </p>
                     </div>
                 {% else %}
                     <p id="no-macro">Vous n'avez pas encore créé de macro.</p>
@@ -43,3 +56,11 @@
         <div class="separator-bottom"></div>
     </main>
 {% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/selects.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('select/js/select2.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/macro-share.js') }}"></script>
+{% endblock %}
+

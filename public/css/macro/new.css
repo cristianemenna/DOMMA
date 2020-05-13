@@ -23,12 +23,12 @@ h1 {
     border-bottom: 2px solid #e6e6e6;
 }
 
-.separator-bottom{
+.separator-bottom {
     margin: 100px 0 0 80px;
     border-bottom: 2px solid #e6e6e6;
 }
 
-form {
+.form > form {
     padding-top: 50px;
     margin-left: 150px;
     display: flex;
@@ -117,16 +117,28 @@ input.select2-search__field::placeholder {
     flex-direction: row;
     justify-content: space-around;
     padding-right: 400px;
+    margin-top: 2%;
 }
 
 .macro-line {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+}
+
+.macro-description {
+    width: 70%;
+}
+
+.macro-title {
+    width: 20%;
+}
+
+.macro-edit, .macro-share {
+    width: 5%;
 }
 
 .content-macros {
-    background-color: #FAFAFA;
+    background-color: #F5F5F5;
     padding: 50px 150px;
 }
 
@@ -134,9 +146,6 @@ input.select2-search__field::placeholder {
     text-decoration: none;
     text-transform: uppercase;
     color: #626262;
-}
-
-.macro-description {
 }
 
 .macro-title {
@@ -157,11 +166,16 @@ input.select2-search__field::placeholder {
     margin: 0 25px;
 }
 
-h2 {
+.title-macros > h2 {
     color: #000000;
     margin-bottom: 50px;
+    border: none;
 }
 
 #no-macro {
     text-align: center;
+}
+
+.macro-share:hover {
+    cursor: pointer;
 }
