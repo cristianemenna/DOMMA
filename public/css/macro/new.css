@@ -134,10 +134,6 @@ input.select2-search__field::placeholder {
     width: 20%;
 }
 
-.macro-edit, .macro-share {
-    width: 5%;
-}
-
 .content-macros {
     background-color: #F5F5F5;
     padding: 50px 150px;
@@ -165,6 +161,7 @@ input.select2-search__field::placeholder {
 
 .icon-pen-macros {
     margin: 0 25px;
+
 }
 
 .title-macros > h2 {

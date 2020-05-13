@@ -291,7 +291,7 @@ h2, h3 {
     width: 20%;
 }
 
-.macro-edit, .macro-share {
+.macro-edit, .macro-share, .div-macro-delete {
     width: 5%;
 }
 
@@ -334,6 +334,22 @@ h2 {
 }
 
 .macro-share:hover, .macro-delete:hover {
+    cursor: pointer;
+}
+
+div.icon-shared-context {
+    display: flex;
+    align-items: baseline;
+    color: #009a00 !important;
+}
+
+div.icon-shared-macros i {
+    color: #009a00 !important;
+    align-self: center;
+    font-size: 1.2em;
+}
+
+div.icon-shared-context:hover, div.icon-shared-macros {
     cursor: pointer;
 }
 

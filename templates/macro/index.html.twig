@@ -41,15 +41,23 @@
                            </a>
                            <span class="hover-message-text">Modifier macro</span>
                        </p>
-                       <p class="macro-share hover-message-container">
-                           <input value="{{ macro.id }}" hidden>
-                           <i class="fas fa-user-friends icon-pen-macros"></i>
-                           <span class="hover-message-text">Partager macro</span>
-                       </p>
-                        <div>
+                        <div class="div-macro-delete">
                             <input value="{{ macro.id }}" hidden>
                             {{ include('macro/_delete_form.html.twig') }}
                         </div>
+                        {% if macro.users|length > 1 %}
+                            <div class="macro-share hover-message-container icon-shared-macros">
+                                <input value="{{ macro.id }}" hidden>
+                                <i class="fas fa-user-friends"></i>
+                                <span class="hover-message-text">Voir en détail</span>
+                            </div>
+                        {% else %}
+                            <div class="macro-share hover-message-container icon-shared-macros">
+                                <input value="{{ macro.id }}" hidden>
+                                <p>Partager</p>
+                                <span class="hover-message-text">Partager macro</span>
+                            </div>
+                        {% endif %}
                     </div>
                 {% else %}
                     <p id="no-macro">Vous n'avez pas encore créé de macro.</p>
