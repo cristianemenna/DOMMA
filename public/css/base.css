@@ -200,6 +200,17 @@ h2, h3 {
     display: none;
 }
 
+/*************************************************** FORM DELETE ****************************************************/
+.form-delete {
+    margin: 0;
+    padding: 0;
+    width: 10px;
+}
+
+.form-delete:hover {
+    cursor: pointer;
+}
+
 /*************************************************** POP-IN *********************************************************/
 
 .overlay {
@@ -269,6 +280,7 @@ h2, h3 {
 .macro-line {
     display: flex;
     flex-direction: row;
+    align-items: baseline;
 }
 
 .macro-description {
@@ -321,7 +333,7 @@ h2 {
     text-align: center;
 }
 
-.macro-share:hover {
+.macro-share:hover, .macro-delete:hover {
     cursor: pointer;
 }
 

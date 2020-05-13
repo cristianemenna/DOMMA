@@ -46,6 +46,10 @@
                            <i class="fas fa-user-friends icon-pen-macros"></i>
                            <span class="hover-message-text">Partager macro</span>
                        </p>
+                        <div>
+                            <input value="{{ macro.id }}" hidden>
+                            {{ include('macro/_delete_form.html.twig') }}
+                        </div>
                     </div>
                 {% else %}
                     <p id="no-macro">Vous n'avez pas encore créé de macro.</p>
