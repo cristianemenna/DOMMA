@@ -3,15 +3,15 @@ $(document).ready(function () {
     // Si l'un des boutons du formulaire de choix de macros est séléctionné
     $('#macro-edit-form input').click(function() {
         // Récupère l'attribut id du input choisi
-        var buttonName = $(this).attr("id");
+        var inputId = $(this).attr("id");
         $('#macro-edit-form').submit(function (e) {
             // Si le choix était pour "macro-share" : empêche l'envoi du formulaire
-            if (buttonName == "macro-share") {
+            if (inputId == "macro-share") {
                 e.preventDefault();
-                sendMacroId($('#macro_apply_macro').val());
+                sendMacroIdToShare($('#macro_apply_macro').val());
             }
 
-            buttonName = null;
+            inputId = null;
         });
     });
 
@@ -40,12 +40,12 @@ $(document).ready(function () {
     $('#share-form').submit(function(e) {
         e.preventDefault();
         formData = $('#share_macro_users').val();
-        sendShareMacro(formData, $('.macro-id-hidden').text());
+        receiveMacroForm(formData, $('.macro-id-hidden').text());
     })
 });
 
 // Récupère le template avec formulaire de partage de Macro
-function sendMacroId(macroId) {
+function sendMacroIdToShare(macroId) {
     $.ajax({
         type: 'GET',
         url: '/macro/' + macroId + '/share',
@@ -93,7 +93,7 @@ function sendMacroId(macroId) {
 }
 
 // Envoi des informations choisies sur le formulaire de partage de Macro
-function sendShareMacro(formData, macroId) {
+function receiveMacroForm(formData, macroId) {
     $.ajax({
         type: 'POST',
         url: '/macro/' + macroId + '/share',

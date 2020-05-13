@@ -81,8 +81,6 @@ function sendMacroId(macroId) {
                 $('#macro-description').val(macro['description']);
                 $('#macro-code').val(macro['code']);
                 $('#macro-type').val(macroType);
-                //     option[value="1"]').attr("selected",true);
-                // val(macro['type']);
         },
 
         error: function (xhr) {
