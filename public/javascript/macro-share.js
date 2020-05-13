@@ -18,8 +18,9 @@ $(document).ready(function () {
     // Click depuis la page index des macros d'un utilisateur
     $('.macro-share').click(function() {
         // Récupère la valeur de l'input caché d'une macro, qui contient son id
+        console.log('coucou');
         var macroId = $(this).children("input").val();
-        sendMacroId(macroId);
+        sendMacroIdToShare(macroId);
     });
 
     // Toggle du modal lors d'un clic sur bouton "annuler" ou icon de fermeture

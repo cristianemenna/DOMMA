@@ -124,6 +124,8 @@ input.select2-search__field::placeholder {
     display: flex;
     flex-direction: row;
     align-items: baseline;
+    padding-bottom: 1%;
+    border-bottom: 2px solid #FAFAFA;
 }
 
 .macro-description {
@@ -137,6 +139,14 @@ input.select2-search__field::placeholder {
 .content-macros {
     background-color: #F5F5F5;
     padding: 50px 150px;
+}
+
+.icon-shared-macros > p {
+    color: #AAAAAA;
+}
+
+.icon-shared-macros > p:hover {
+    font-weight: bolder;
 }
 
 .macro-line > p > a {
