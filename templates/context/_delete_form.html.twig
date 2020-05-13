@@ -1,4 +1,8 @@
-<form method="post" action="{{ path('context_delete', {'id': context.id}) }}" id="context-delete-form" onsubmit="return confirm('Êtes vous sur de vouloir supprimer le contexte de travail ?');">
+{% if context.users|length > 1 %}
+    <form method="post" action="{{ path('context_delete', {'id': context.id}) }}" id="context-delete-form" onsubmit="return confirm('Ce contexte est partagé avec d\'autres utilisateurs. En le supprimant, ils n\'y auront plus accès. Êtes vous sur de continuer ?');">
+{% else %}
+    <form method="post" action="{{ path('context_delete', {'id': context.id}) }}" id="context-delete-form" onsubmit="return confirm('Êtes vous sur de vouloir supprimer le contexte de travail ?');">
+{% endif %}
     <input type="hidden" name="_method" value="DELETE">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ context.id) }}">
     <button class="context-delete"><i class="fas fa-trash-alt"></i></button>
