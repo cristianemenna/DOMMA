@@ -115,7 +115,7 @@ function receiveShareData(status) {
 
     // Crée un message selon type de réponse
     if (status === 'success') {
-        var textContent = $("<p></p>").text("La macro a bien été partageé.");
+        var textContent = $("<p></p>").text("Le partage a bien été mis à jour.");
         var icon = $("<i class='fas fa-check'></i>");
     } else {
         var textContent = $("<p></p>").text("La macro n'a pas pu être partageé.");

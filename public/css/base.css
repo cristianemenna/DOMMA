@@ -184,8 +184,17 @@ h2, h3 {
     outline: none;
     box-shadow: 3px 5px 5px 0 rgba(0, 0, 0, 0.2), 0 3px 20px 0 rgba(0, 0, 0, 0.15);
     border-radius: 5px;
-
 }
+
+#cancel-share-context {
+    padding: 10px 0;
+    text-align: center;
+}
+
+#btn-share-context {
+    height: 37px !important;
+}
+
 
 #btn-create-macro, #modal-send, #btn-share-context {
     color: #EBEBEB;
@@ -394,10 +403,5 @@ div.icon-shared-context:hover, div.icon-shared-macros {
 
 #share-context:hover {
     font-weight: bolder;
-}
-
-#cancel-share-context {
-    padding: 13px 0 !important;
-    text-align: center;
 }
 
