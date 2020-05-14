@@ -18,21 +18,18 @@ $(document).ready(function () {
     // Click depuis la page index des macros d'un utilisateur
     $('.macro-share').click(function() {
         // Récupère la valeur de l'input caché d'une macro, qui contient son id
-        console.log('coucou');
         var macroId = $(this).children("input").val();
         sendMacroIdToShare(macroId);
     });
 
     // Toggle du modal lors d'un clic sur bouton "annuler" ou icon de fermeture
     $('#cancel-share-context').click(function () {
-        $('#share-context-modal-message').empty();
         $('#share-context-overlay').toggle();
         $('#share-context-modal').toggle();
         $('#share-container').empty();
     });
 
     $('#icon-share-context-modal').click(function () {
-        $('#share-context-modal-message').empty();
         $('#share-context-overlay').toggle();
         $('#share-context-modal').toggle();
         $('#share-container').empty();
@@ -63,8 +60,6 @@ function sendMacroIdToShare(macroId) {
             if ($('#share-container').html().length === 0 ) {
                 $('.overlay-message').remove();
                 $('#share-container').append(decoded);
-                $('#share-context-modal-message').empty();
-                $('#share-context-modal-message').toggle();
                 $('#share-context-overlay').toggle();
                 $('#share-context-modal').toggle();
 
@@ -106,23 +101,25 @@ function receiveMacroForm(formData, macroId) {
         async: true,
 
         success: function (data) {
-            receiveData('success');
+            receiveShareData('success');
         },
 
         error: function (xhr) {
-            receiveData('error');
+            receiveShareData('error');
         }
     });
 };
 
 // Gestion de l'affichage de modal suite à la réponse
-function receiveData(status) {
+function receiveShareData(status) {
 
     // Crée un message selon type de réponse
     if (status === 'success') {
         var textContent = $("<p></p>").text("La macro a bien été partageé.");
+        var icon = $("<i class='fas fa-check'></i>");
     } else {
         var textContent = $("<p></p>").text("La macro n'a pas pu être partageé.");
+        var icon = $("<i class='fas fa-exclamation-circle'></i>");
     }
 
     // Crée la div qui contiendra le message si elle n'existe pas encore
@@ -135,14 +132,8 @@ function receiveData(status) {
         $('main').append(textContainer);
         textContainer.addClass('overlay-message');
         textContainer.append(messageContainer);
-        messageContainer.append(textContent)
-
-        // Ajout d'icon selon type de message
-        if (status === 'success') {
-            messageContainer.append($("<i class='fas fa-check'></i>"));
-        } else {
-            messageContainer.append($("<i class='fas fa-exclamation-circle'></i>"));
-        }
+        messageContainer.append(textContent);
+        messageContainer.append(icon);
 
         textContainer.fadeIn();
         textContainer.delay(1500).fadeOut();
