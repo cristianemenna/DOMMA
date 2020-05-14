@@ -26,6 +26,10 @@ class Users implements UserInterface, EquatableInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Length(min=4, max=20,
+     *      minMessage = "Votre identifiant doit contenir au moins {{ limit }} caractères",
+     *      maxMessage = "Votre identifiant ne doit pas dépasser {{ limit }} caractères",
+     *      allowEmptyString = false)
      */
     private $username;
 

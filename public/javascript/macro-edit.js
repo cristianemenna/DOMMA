@@ -102,23 +102,25 @@ function sendMacroChanges(formData, macroId) {
         async: true,
 
         success: function (data) {
-            receiveData('success');
+            receiveEditData('success');
         },
 
         error: function (xhr) {
-            receiveData('error');
+            receiveEditData('error');
         }
     });
 }
 
 // Gestion de l'affichage de modal suite à la réponse
-function receiveData(status) {
+function receiveEditData(status) {
 
     // Crée un message selon type de réponse
     if (status === 'success') {
         var textContent = $("<p></p>").text("La macro a bien été modifiée.");
+        var icon = $("<i class='fas fa-check'></i>");
     } else {
         var textContent = $("<p></p>").text("La macro n'a pas pu être modifiée.");
+        var icon = $("<i class='fas fa-exclamation-circle'></i>");
     }
 
     // Crée la div qui contiendra le message si elle n'existe pas encore
@@ -130,15 +132,9 @@ function receiveData(status) {
     }
 
     $('#modal-message').append(textContent);
-
-    // Ajout d'icon selon type de message
-    if (status === 'success') {
-        $('#modal-message').append($("<i class='fas fa-check'></i>"));
-    } else {
-        $('#modal-message').append($("<i class='fas fa-exclamation-circle'></i>"));
-    }
+    $('#modal-message').append(icon);
 
     $('#modal').toggle(500);
-    $('#modal-edit').toggle();
+    $('#modal-edit').toggle(500);
     $('#overlay').delay(1500).fadeOut();
 }

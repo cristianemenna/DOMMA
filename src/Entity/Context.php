@@ -31,6 +31,10 @@ class Context
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Assert\Length(min=3, max=20,
+     *      minMessage = "Le nom du contexte doit contenir au moins {{ limit }} caractères",
+     *      maxMessage = "Le nom du contexte ne doit pas dépasser {{ limit }} caractères")
      */
     private $title;
 

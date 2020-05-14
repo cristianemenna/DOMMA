@@ -23,6 +23,7 @@
                 {{ form_widget(form) }}
                 <div class="form-errors-container">
                     {{ form_errors(form.duration) }}
+                    {{ form_errors(form.title) }}
                 </div>
             <div class="form-buttons">
                 <button class="edit-context">{{ button_label|default('Mettre à jour') }}</button>
