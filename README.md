@@ -1,10 +1,11 @@
 <p align="center">
-  <img src="public/img/logo.png" alt="DOMMA" width="40%">
+  <img src="https://user-images.githubusercontent.com/48241779/82093210-fdaa2c80-96fa-11ea-995e-986702113c10.png" alt="DOMMA" width="40%">
 </p>
 
-*DOMMA* est une application web pour le traitement de données de masse provenant de fichiers Excel. La plateforme permet le chargement et l'affichage du contenu des fichiers en format .xls, .xlsx et .csv, en facilitant leur manipulation à partir de l'application de macros personnalisées par l'utilisateur. i
 
-Suite aux traitements, il est également possible d'exporter les données dans un nouveau fichier format Excel.
+*DOMMA* est une application web pour le traitement de données de masse provenant de fichiers Excel. La plateforme permet le chargement et l'affichage du contenu des fichiers en format .xls, .xlsx et .csv, en facilitant leur manipulation à partir de l'application de macros personnalisées par l'utilisateur. 
+
+Suite aux traitements, il est également possible d'exporter les données vers un nouveau fichier tableur.
 
 ## Le projet
 
@@ -76,11 +77,11 @@ $ symfony server:start
 ## Utilisation
 
 En tant qu'utilisateur de DOMMA, vous pouvez créer des contextes de travail personnalisés et partagés avec d'autres utilisateurs. Cela vous permettra d'organiser les fichiers chargés par sujet ou groupes, afin de mieux structurer l'information.
-Vous pouvez générer et appliquer vos propres macros pour traiter les données importées et, ensuite, télécharger les modifications en format Excel. 
+Vous pouvez générer et appliquer vos propres macros pour traiter les données importées et, ensuite, télécharger les modifications en format .xls, xlsx ou .csv. 
 
 Le fonctionnement des macros se base sur le langage de requêtes SQL. La connaissance basique de de ce langage est donc requise pour l'utilisation de la plateforme. 
 
-Pour commencer à utiliser l'application, il est recommandable la lecture de son [Manuel d'utilisation](link).
+Pour commencer à utiliser l'application, il est recommandable la lecture de son [Manuel d'utilisation](https://github.com/cristianemenna/DOMMA/wiki).
 
 ## Bundles
 
