@@ -38,7 +38,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="admin_new", methods={"GET","POST"})
+     * @Route("/creation-de-compte", name="admin_new", methods={"GET","POST"})
      */
     public function new(Request $request, UserPasswordEncoderInterface $encoder, Gravatar $gravatar): Response
     {
@@ -138,6 +138,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/{id}/changement-mot-de-passe", name="admin_password", methods={"GET","POST"})
      * Permet le changement de mot de passe par un administrateur
+     *
      */
     public function changePassword(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Gravatar $gravatar)
     {
@@ -181,11 +182,12 @@ class AdminController extends AbstractController
      *
      * S'il est actif, les attempts deviennent 3 et le compte sera bloqué.
      *
-     * @Route("/admin/locked/{id}", name="admin_locked", methods={"GET","POST"})
+     * @Route("/locked/{id}", name="admin_locked", methods={"GET","POST"})
      */
 
     public function locked(Request $request, Users $user, PasswordManager $passwordHelper, UserPasswordEncoderInterface $encoder, EntityManagerInterface $entityManager): Response
     {
+        // Si l'utilisateur est déjà bloqué : réinitialise le mot de passe et remets les 'attempts' à zéro
         if ($user->getAttempts() >= 3){
             $user->resetAttempts();
 
@@ -202,6 +204,7 @@ class AdminController extends AbstractController
                 )
             );
             $this->addFlash('success', 'L\'utilisateur recevra un mail avec ses nouveaux identifiants.');
+        // Si l'utilisateur n'est pas bloqué : blocage
         } else {
             $user->setAttempts(3);
         }
