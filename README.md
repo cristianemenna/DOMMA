@@ -1,37 +1,100 @@
-# DOMMA
+<p align="center">
+  <img src="public/img/logo.png" alt="DOMMA" width="40%">
+</p>
 
-Application pour le traitement de données de masse.
-Projet développé dans le cadre de la formation <b>Web in-pulse</b> de l'Ecole Centrale de Nantes.
+*DOMMA* est une application web pour le traitement de données de masse provenant de fichiers Excel. La plateforme permet le chargement et l'affichage du contenu des fichiers en format .xls, .xlsx et .csv, en facilitant leur manipulation à partir de l'application de macros personnalisées par l'utilisateur. i
 
-### Pour essayer le projet en local :
+Suite aux traitements, il est également possible d'exporter les données dans un nouveau fichier format Excel.
 
-1. `$ git clone https://github.com/cristianemenna/DOMMA.git`
+## Le projet
 
-2. Installer les packages : `composer install`
+L'application web a été développée avec le framework PHP Symfony version 5.0.4 et en utilisant la version 7.2.5 de PHP. Le serveur de base de données utilisé est PostgreSQL dans sa version 11.
 
-3. Copier le contenu du fichier .env vers un nouveau fichier ".env.local" et configurer la variable DATABASE_URL.
+### Installation en local
 
-4. Créer la base de données `$ symfony console doctrine:database:create`
+#### Requis technique
+* [PHP](https://www.php.net/manual/fr/install.php) version 7.2.5 ou supérieur
+* [Symfony CLI](https://symfony.com/download)
+* [Composer](https://getcomposer.org/download)
+* [PostgreSQL](https://www.postgresql.org/download/) version 11 ou supérieur
 
-5. Jouer les migrations `$ symfony console doctrine:migrations:migrate`
+#### Accès au projet
+```
+$ git clone https://github.com/cristianemenna/DOMMA.git 
+$ cd DOMMA/ 
+$ cp .env .env.local
+```
 
-6. Lire les fixtures : `$ symfony console doctrine:fixtures:load` 
+Une fois le fichier `DOMMA/.env.local` créé, adapter la variable `DATABASE_URL` avec vos identifiants et un nom pour la base de données à être créé en local.
 
-7. Activer le serveur `$ symfony server:start`
+<br>
 
-8. Aller sur http://127.0.0.1:8000/
+> DATABASE_URL=postgresql://**{utilisateur}**:**{mot_de_passe}**@127.0.0.1:5432/**{nom_BDD}**?serverVersion=11&charset=utf8
 
-### Connexion à l'application
+<br>
 
-Vous pouvez vous connecter à l'application en tant qu'administrateur en utilisant les identifiants suivants :
+DOMMA utilise *SendGrid* pour l'envoi de mails. Si vous voulez tester son fonctionnement en local avec l'envoi de vrais emails, vous devez ajouter la ligne ci-dessous à votre `DOMMA/.env.local` :
 
-- Identifiants : *admin*
-- Mot de passe : *test*
+<br>
 
-Et en tant qu'utilisateur :
+> MAILER_DSN=sendgrid://**{votre_clé}**@default
 
-- Identifiants : *user1* | *user2*
-- Mot de passe : *test*
+<br>
 
+Ensuite, pour créer la base de données et exécuter les migrations :
 
+```
+$ symfony console doctrine:database:create
+$ symfony console doctrine:database:migrate
+```
 
+Pour accéder aux comptes administrateur et utilisateur créés par défaut, ainsi que pour visualiser les modèles de macro proposés en tant qu'exemple, lire les fixtures :
+
+```
+$ symfony console doctrine:fixtures:load
+```
+
+Il ne reste plus que lancer le serveur local de Symfony pour exécuter l'application.
+
+```
+$ symfony server:start
+```
+
+#### Exemples créés par défaut :
+
+* Admin : 
+
+    * Identifiant : admin
+    * Mot de passe : test
+    
+
+* Utilisateurs :
+
+    * Identifiant : user1 | user2
+    * Mot de passe: test
+
+## Utilisation
+
+En tant qu'utilisateur de DOMMA, vous pouvez créer des contextes de travail personnalisés et partagés avec d'autres utilisateurs. Cela vous permettra d'organiser les fichiers chargés par sujet ou groupes, afin de mieux structurer l'information.
+Vous pouvez générer et appliquer vos propres macros pour traiter les données importées et, ensuite, télécharger les modifications en format Excel. 
+
+Le fonctionnement des macros se base sur le langage de requêtes SQL. La connaissance basique de de ce langage est donc requise pour l'utilisation de la plateforme. 
+
+Pour commencer à utiliser l'application, il est recommandable la lecture de son [Manuel d'utilisation](link).
+
+## Bundles
+
+En plus des bibliothèques installées par défaut lors de l'initialisation du projet, DOMMA intégre les bundles listés ci-dessous :
+* gravatarphp/gravatar ^2.0 => Affichage des avatars liés à un compte utilisateur
+* phpoffice/phpspreadsheet ^1.10  => Bibliothèque permettant la lecture et création de fichiers en format Excel
+* symfony/sendgrid-mailer 5.0 => Envoi des emails
+ 
+
+## Contributeurs 
+
+DOMMA a été développée en binôme par:
+
+* [Cristiane MENNA](https://github.com/cristianemenna)
+* [Thibault GUILLONNEAU](https://github.com/ThibaultG10)
+
+Ce projet a été présenté en tant que travail final dans le cadre de la formation Web in pulse de l'École Centrale de Nantes, en partenariat avec l'entreprise UmanIT.
