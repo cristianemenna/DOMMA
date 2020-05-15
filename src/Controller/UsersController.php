@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\Security;
 use Gravatar\Gravatar;
 
 /**
@@ -21,7 +20,7 @@ class UsersController extends AbstractController
     /**
      * @Route("/{id}", name="users_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Gravatar $gravatar): Response
+    public function edit(Request $request, Users $user, Gravatar $gravatar): Response
     {
         $this->denyAccessUnlessGranted('view', $user);
 
@@ -47,6 +46,7 @@ class UsersController extends AbstractController
     /**
      * @Route("/{id}/changement-mot-de-passe", name="users_password", methods={"GET","POST"})
      * Permet le changement de mot de passe par un utilisateur
+     *
      */
     public function changePassword(Request $request, Users $user, UserPasswordEncoderInterface $encoder, Gravatar $gravatar)
     {

@@ -111,6 +111,9 @@
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
+    "laminas/laminas-zendframework-bridge": {
+        "version": "1.0.3"
+    },
     "markbaker/complex": {
         "version": "1.4.7"
     },

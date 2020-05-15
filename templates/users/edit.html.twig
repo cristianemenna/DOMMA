@@ -19,11 +19,11 @@
         <div class="edit-container">
             <img src="{{ avatar }}" alt="avatar" id="edit-avatar" />
                 {{ form_start(form) }}
-                    {{ form_widget(form) }}
                     <div class="form-errors-container">
                         {{ form_errors(form.username) }}
                         {{ form_errors(form.email) }}
                     </div>
+            {{ form_widget(form) }}
             {% if is_granted('ROLE_USER') %}
                     <a id="edit-change-password" href="{{ path('users_password', {'id': user.id})  }}">Changer mot de passe</a>
                     <div class="form-buttons">
@@ -37,10 +37,14 @@
                         <a href="{{ path('admin_index') }}" id="form-cancel">Annuler</a>
                     </div>
                 {% endif %}
-                {{ form_end(form) }}
+            {{ form_end(form) }}
         </div>
 
         <!-- Div qui donne style à la partie inférieur du site, avec separateur -->
         <div class="separator-bottom"></div>
     </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/email-validator.js') }}"></script>
 {% endblock %}

@@ -252,7 +252,12 @@ class MacroManager
         try {
             $dataBase->executeQuery($requestSQL);
         } catch (\Exception $e) {
-            throw new \Exception('Une erreur est survenue lors de l\'application de la macro');
+            $errorMessage = $this->getSubstringBetween($e->getMessage(), 'ERREUR:', 'LINE');
+            if ($errorMessage) {
+                throw new \Exception($errorMessage);
+            } else {
+                throw new \Exception('Une erreur est survenue lors de l\'application de la macro.');
+            }
         }
     }
 
@@ -338,7 +343,7 @@ class MacroManager
 
         try {
             $allContent = $dataBase->executeQuery('SELECT * FROM ' . $schemaAndTableName . ' ORDER BY ' . $macroCode);
-            $dataBase->executeQuery('DELETE FROM ' . $schemaName . '.' . $tableName . ' WHERE id >= 1');
+            $dataBase->executeQuery('DELETE FROM ' . $schemaAndTableName . ' WHERE id >= 1');
         } catch (\Exception $e) {
             $errorMessage = $this->getSubstringBetween($e->getMessage(), 'ERREUR:', 'LINE');
             if ($errorMessage) {
@@ -383,7 +388,8 @@ class MacroManager
      */
     private function getSubstringBetween(string $stringToModify, string $startString, string $endString)
     {
-        $substr = substr($stringToModify, strlen($startString)+strpos($stringToModify, $startString), (strlen($stringToModify) - strpos($stringToModify, $endString))*(-1));
+        $substr = substr($stringToModify, strlen($startString)+strpos($stringToModify, $startString),
+            (strlen($stringToModify) - strpos($stringToModify, $endString))*(-1));
         return trim($substr);
     }
 
