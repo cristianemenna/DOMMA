@@ -64,7 +64,7 @@ nav {
     background-color: #505050;
 }
 
-nav ul {
+nav .nav-items {
     margin: 0;
     padding-top: 5px;
     display: flex;
@@ -107,17 +107,14 @@ nav ul {
     display: block;
 }
 
-nav ul li:nth-child(1) {
+nav > .nav-items > a:nth-child(1) {
+    margin-left: 2%;
     flex-grow: 1;
 }
 
-nav ul li:nth-child(3) {
-    margin-right: 30px;
-    margin-left: 15px;
-}
-
-li {
-    list-style: none;
+nav > .nav-items > a:nth-child(3) {
+    margin-right: 2%;
+    margin-left: 1%;
 }
 
 #nav-logo {
