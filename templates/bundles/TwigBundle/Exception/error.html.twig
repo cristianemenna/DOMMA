@@ -1,16 +1,18 @@
+{% extends 'base.html.twig' %}
+
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/exceptions/errors.css') }}">
 {% endblock %}
 
-{% block title %}<title>DOMMA - Erreur</title>{% endblock %}
+{% block title %}DOMMA - Erreur{% endblock %}
 
-{% block body %}
+{% block content %}
     <main>
         <a href="{{ path('app_login') }}"><img src="{{ asset('/img/logo.png') }}" alt="Logo"></a>
-        <div>
+        <div class="error-page-container">
             <h1>{{ status_code }}</h1>
             <p>{{ status_text }}</p>
             <a href="{{ path('app_login') }}">Revenir à l'accueil</a>
-        </div>
+        </divi>
     </main>
 {% endblock %}
