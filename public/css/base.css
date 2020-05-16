@@ -942,6 +942,7 @@ input.select2-search__field::placeholder {
 
 #cancel-share-context {
     padding: 10px 0;
+    height: 10px;
     text-align: center;
 }
 
@@ -949,7 +950,7 @@ input.select2-search__field::placeholder {
     height: 37px !important;
 }
 
-.share-context-buttons {
+#share-form .share-context-buttons {
     margin: 10% 10%;
 }
 
