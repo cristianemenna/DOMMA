@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}DOMMA - Traitement de données de masse{% endblock %}</title>
@@ -12,8 +12,8 @@
     <body>
         {% block content %}{% endblock %}
         {% block javascripts %}
-            <script type="text/javascript" charset="utf8" src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
-            <script type="text/javascript" charset="utf8" src="{{ asset('javascript/base.js') }}"></script>
+            <script src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
+            <script src="{{ asset('javascript/base.js') }}"></script>
         {% endblock %}
     </body>
 </html>

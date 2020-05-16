@@ -34,7 +34,7 @@
 
         <div id="share-context-container"></div>
 
-        <!-- Affichage des flashs --->
+        <!-- Affichage des flashs -->
         {{ include('_alerts.html.twig') }}
 
         <!-- Select fichier pour upload sur l'application -->
@@ -110,10 +110,10 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/base.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/context.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/context-share.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/selects.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('select/js/select2.js') }}"></script>
+    <script src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ asset('javascript/base.js') }}"></script>
+    <script src="{{ asset('javascript/context.js') }}"></script>
+    <script src="{{ asset('javascript/context-share.js') }}"></script>
+    <script src="{{ asset('javascript/selects.js') }}"></script>
+    <script src="{{ asset('select/js/select2.js') }}"></script>
 {% endblock %}

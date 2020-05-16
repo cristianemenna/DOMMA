@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        <!-- Affichage des flashs --->
+        <!-- Affichage des flashs -->
         {{ include('_alerts.html.twig') }}
 
         <div id="share-container"></div>
@@ -43,7 +43,7 @@
 
 
         <div class="macros-select-container">
-            <!-- Formulaire pour suppression des colonnes de la table en BDD --->
+            <!-- Formulaire pour suppression des colonnes de la table en BDD -->
             <div>
                 {{ form_start(columnsForm, {'attr': {'id': 'macro-columns-form'}}) }}
                     {{ form_widget(columnsForm) }}
@@ -85,7 +85,7 @@
                         <div class="modal-group-fields">
                             <label for="macro-type">Type</label>
                             <select name="macro-type" id="macro-type">
-                                <option value=""></option>
+                                <option value="">Type</option>
                                 <option value="select-columns">Select (sélectionne colonnes)</option>
                                 <option value="select-add-columns">Select (ajout de nouvelles colonnes)</option>
                                 <option value="insert">Insert</option>
@@ -111,19 +111,19 @@
                 <table class="import-table display" id="file-table">
                     <thead>
                         <tr>
-                            {% for importColumn in importColumns %}
-                                <th>{{ importColumn }}</th>
-                            {% endfor %}
+                        {% for importColumn in importColumns %}
+                            <th>{{ importColumn }}</th>
+                        {% endfor %}
                         </tr>
                     </thead>
                     <tbody>
+                    {% for importObjet in importContent %}
                         <tr>
-                            {% for importObjet in importContent %}
-                                {% for importValue in importObjet %}
-                                    <td>{{ importValue }}</td>
-                                {% endfor %}
+                        {% for importValue in importObjet %}
+                            <td>{{ importValue }}</td>
+                        {% endfor %}
                         </tr>
-                            {% endfor %}
+                    {% endfor %}
                     </tbody>
                 </table>
             {% endif %}
@@ -134,14 +134,14 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/base.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/selects.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('select/js/select2.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('select/js/fr.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/macro-edit.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/macro-share.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('DataTables/datatables.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/import.js') }}"></script>
+    <script src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ asset('javascript/base.js') }}"></script>
+    <script src="{{ asset('javascript/selects.js') }}"></script>
+    <script src="{{ asset('select/js/select2.js') }}"></script>
+    <script src="{{ asset('select/js/fr.js') }}"></script>
+    <script src="{{ asset('javascript/macro-edit.js') }}"></script>
+    <script src="{{ asset('javascript/macro-share.js') }}"></script>
+    <script src="{{ asset('DataTables/datatables.js') }}"></script>
+    <script src="{{ asset('javascript/import.js') }}"></script>
 {% endblock %}
 

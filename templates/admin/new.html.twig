@@ -15,27 +15,27 @@
             <h1>Création d'utilisateur</h1>
         </div>
 
-        <!-- Affichage des flashs --->
+        <!-- Affichage des flashs -->
         {{ include('_alerts.html.twig') }}
 
         <!-- Formulaire de création d'utilisateur -->
         <div class="form">
             {{ form_start(form, {'attr': {'class': 'new-form new-user-form'}}) }}
                 {{ form_widget(form.first_name,  {'attr': {'class': 'form-input', 'placeholder': 'Prénom'}} ) }}
-                    {{ form_widget(form.last_name,  {'attr': {'class': 'form-input', 'placeholder': 'Nom'}} ) }}
-                    {{ form_widget(form.email,  {'attr': {'class': 'form-input', 'placeholder': 'Email'}} ) }}
-                    <div class="form-errors-container">
-                        {{ form_errors(form.email) }}
-                    </div>
-                    {{ form_widget(form.username,  {'attr': {'class': 'form-input', 'placeholder': 'Identifiant'}} ) }}
-                    {{ form_errors(form.username) }}
+                {{ form_widget(form.last_name,  {'attr': {'class': 'form-input', 'placeholder': 'Nom'}} ) }}
+                {{ form_widget(form.email,  {'attr': {'class': 'form-input', 'placeholder': 'Email'}} ) }}
+                <div class="form-errors-container">
+                    {{ form_errors(form.email) }}
+                </div>
+                {{ form_widget(form.username,  {'attr': {'class': 'form-input', 'placeholder': 'Identifiant'}} ) }}
+                {{ form_errors(form.username) }}
                 <div class="select-style">
-                        {{ form_widget(form.role) }}
-                    </div>
-                    <div class="form-buttons">
-                        <button class="create-user">{{ button_label|default('Créer utilisateur') }}</button>
-                        <a href="{{ path('admin_index') }}" class="form-cancel">Annuler</a>
-                    </div>
+                    {{ form_widget(form.role) }}
+                </div>
+                <div class="form-buttons">
+                    <button class="create-user">{{ button_label|default('Créer utilisateur') }}</button>
+                    <a href="{{ path('admin_index') }}" class="form-cancel">Annuler</a>
+                </div>
             {{ form_end(form) }}
         </div>
 
@@ -45,8 +45,8 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/base.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/selects.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('select/js/select2.js') }}"></script>
+    <script src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ asset('javascript/base.js') }}"></script>
+    <script src="{{ asset('javascript/selects.js') }}"></script>
+    <script src="{{ asset('select/js/select2.js') }}"></script>
 {% endblock %}
