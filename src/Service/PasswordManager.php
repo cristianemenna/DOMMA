@@ -21,7 +21,6 @@ class PasswordManager
                 $randomPosition = mt_rand(0,($caractereLength - 1));
                 $password .= $caracteres[$randomPosition];
             }
-
         return $password;
     }
 }

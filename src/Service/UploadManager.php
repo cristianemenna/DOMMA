@@ -5,7 +5,6 @@ namespace App\Service;
 use App\Entity\Context;
 use App\Entity\Import;
 use App\Repository\ImportRepository;
-use Doctrine\Bundle\DoctrineBundle\Command\Proxy\ImportDoctrineCommand;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
@@ -15,7 +14,10 @@ class UploadManager
 {
     private $uploadsDirectory;
 
-    public function __construct($uploadsDirectory, EntityManagerInterface $entityManager, ImportRepository $importRepository, LoadFileManager $loadFileManager)
+    public function __construct($uploadsDirectory,
+                                EntityManagerInterface $entityManager,
+                                ImportRepository $importRepository,
+                                LoadFileManager $loadFileManager)
     {
         $this->uploadsDirectory = $uploadsDirectory;
         $this->entityManager = $entityManager;
@@ -24,7 +26,7 @@ class UploadManager
     }
 
     /**
-     * Upload des fichiers et liaison avec leur contexte
+     * Upload des fichiers et association avec leur contexte
      *
      * @param $form
      * @param $context

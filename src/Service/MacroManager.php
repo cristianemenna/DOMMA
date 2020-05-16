@@ -56,11 +56,11 @@ class MacroManager
         }
     }
 
-    /** Requête de type select en BDD
-     *
+     /**
+     * Requête de type select en BDD
      * @param MacroApplyManager $macro
      * @param Import $import
-     * @return \Exception|mixed[]
+     * @return mixed[]
      * @throws \Exception
      */
     private function selectColumns(MacroApplyManager $macro, Import $import)
@@ -378,7 +378,7 @@ class MacroManager
     }
 
     /**
-     * Recherche une chaîne de caractères entre deux mots
+     * Recherche une chaîne de caractères entre deux mots.
      * Utilisée pour l'affichage des messages d'erreur
      *
      * @param string $stringToModify

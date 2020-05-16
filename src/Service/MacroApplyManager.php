@@ -3,15 +3,16 @@
 
 namespace App\Service;
 
-
+/**
+ * Utilisée pour récupérer un objet Macro ou un tableau de colonnes
+ * lors de l'application de MacroApplyType | MacroColumnsType
+ *
+ * @package App\Service
+ */
 class MacroApplyManager
 {
     private $macro;
     private $columns;
-
-    public function __construct()
-    {
-    }
 
     /**
      * @return mixed
