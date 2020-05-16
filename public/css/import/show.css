@@ -1,40 +1,3 @@
-body {
-    margin: 0;
-    padding: 0;
-}
-
-main {
-    min-height: 100vh;
-    width: 100%;
-    padding-top: 20px;
-}
-
-h1, h2, h3 {
-    font-weight: normal;
-    font-size: 25px;
-    color: #676767;
-}
-
-h2, h3 {
-    font-size: 20px;
-    font-weight: bolder;
-    margin-bottom: 30px;
-    color: #4f4f4f;
-    border-bottom: 2px solid #e6e6e6;
-}
-
-.separator {
-    position: relative;
-    left: 80px;
-    width: 600px;
-    border-bottom: 2px solid #e6e6e6;
-}
-
-.separator-bottom{
-    margin: 100px 0 0 80px;
-    border-bottom: 2px solid #e6e6e6;
-}
-
 .file-container {
     margin: 3% 1.5% 0 2%;
 }
@@ -60,7 +23,6 @@ h2, h3 {
     margin: 1% 0 0 2%;
     display: flex;
     align-items: baseline;
-
 }
 
 .checkbox-rows, .search-input {
@@ -105,10 +67,6 @@ h2, h3 {
 i.icon-plus-macro {
     font-size: 20px;
     margin-left: 5px;
-}
-
-a {
-    text-decoration: none;
 }
 
 select.max-rows-select, select.macros-select {
@@ -200,39 +158,6 @@ button > i:hover {
     width: 100px;
 }
 
-/******************************************* DATATABLES *******************************************************/
-
-#file-table_wrapper {
-    margin-bottom: 200px;
-}
-
-#file-table_length select {
-    background-color: #FFFFFF;
-    width: 100px;
-    height: 35px;
-    color: #4f4f4f;
-    border-radius: 5px;
-    margin-bottom: 10px;
-}
-
-#file-table_length label, #file-table_filter label, #file-table_paginate {
-    color: #4f4f4f;
-    font-size: 15px;
-}
-
-#file-table_filter {
-    width: 50%;
-}
-
-#file-table_filter input {
-    height: 35px;
-    width: 35%;
-}
-
-#file-table_paginate {
-    margin: 30px 30px 0 0 ;
-}
-
 /********************************************* SELECT MACRO *****************************************************/
 
 #macro_apply_macro {
@@ -250,12 +175,20 @@ button > i:hover {
     justify-content: space-between;
 }
 
-.macros-select-submit {
-    margin-left: 10px;
+#macro-edit-form {
+    align-items: baseline;
 }
 
-#macro-apply, #macro-details {
+.macros-select-submit, .column-delete {
     font-family: 'Dosis', sans-serif;
+    margin-left: 10px;
+    font-size: 0.9em;
+    height: 35px;
+    align-self: flex-end;
+}
+
+.column-delete {
+    margin-left: 20px;
 }
 
 #macro-apply {
@@ -275,11 +208,6 @@ button > i:hover {
     width: 500px;
 }
 
-.column-delete {
-    padding: 8px 20px;
-    font-size: 0.8em;
-}
-
 input.select2-search__field {
     font-family: 'Dosis', sans-serif;
 }
@@ -290,26 +218,9 @@ input.select2-search__field {
 
 /*************************************************** POP-IN *****************************************************/
 
-.overlay {
-    position: fixed;
-    left: 0px;
-    top:0px;
-    background-color: rgba(0,0 ,0 , 0.5);
-    width: 100%;
-    height: 100%;
-    z-index:1;
-    display:none;
-}
-
 .modal {
-    margin: 10% auto;
     width : 70%;
     height: 50%;
-    background-color: rgb(243, 243, 243);
-    padding: 1em;
-    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
-    border-radius: 5px;
-    display:none;
 }
 
 #modal-edit {

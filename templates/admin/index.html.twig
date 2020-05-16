@@ -1,9 +1,11 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/base.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('DataTables/datatables.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/admin/index.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/datatables.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/datatables.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/css/all.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}" />
 {% endblock %}
 
 {% block title %}DOMMA - Administration{% endblock %}
@@ -85,7 +87,9 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
     <script type="text/javascript" charset="utf8" src="{{ asset('DataTables/datatables.js') }}"></script>
     <script type="text/javascript" charset="utf8" src="{{ asset('select/js/fr.js') }}"></script>
     <script type="text/javascript" charset="utf8" src="{{ asset('javascript/admin.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/base.js') }}"></script>
 {% endblock %}

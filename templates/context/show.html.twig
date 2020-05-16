@@ -1,10 +1,12 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
+
 {% set contextId = app.session.get('context') %}
 
-
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/context/show.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/base.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('select/css/select2.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/css/all.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}" />
 {% endblock %}
 
 {% block title %}DOMMA - Contexte de travail{% endblock %}
@@ -108,6 +110,8 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/base.js') }}"></script>
     <script type="text/javascript" charset="utf8" src="{{ asset('javascript/context.js') }}"></script>
     <script type="text/javascript" charset="utf8" src="{{ asset('javascript/context-share.js') }}"></script>
     <script type="text/javascript" charset="utf8" src="{{ asset('javascript/selects.js') }}"></script>

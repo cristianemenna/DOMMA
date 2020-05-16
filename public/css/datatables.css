@@ -37,3 +37,7 @@ table {
      color: #4d4d4d;
      text-align: center;
 }
+
+#file-table_length select {
+    margin-left: 0;
+}

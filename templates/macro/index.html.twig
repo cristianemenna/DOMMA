@@ -1,8 +1,10 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/macro/new.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/base.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/css/all.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('select/css/select2.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}" />
 {% endblock %}
 
 {% block title %}DOMMA - Mes macros{% endblock %}
@@ -75,6 +77,7 @@
 
 {% block javascripts %}
     <script type="text/javascript" charset="utf8" src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/base.js') }}"></script>
     <script type="text/javascript" charset="utf8" src="{{ asset('javascript/selects.js') }}"></script>
     <script type="text/javascript" charset="utf8" src="{{ asset('select/js/select2.js') }}"></script>
     <script type="text/javascript" charset="utf8" src="{{ asset('javascript/macro-share.js') }}"></script>

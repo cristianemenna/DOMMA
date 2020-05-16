@@ -1,12 +1,15 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/import/show.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('DataTables/datatables.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/base.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/css/all.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('select/css/select2.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/datatables.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('DataTables/datatables.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/import/show.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}" />
 {% endblock %}
-
-{% block title %}DOMMA - Import{% endblock %}
+{% block title %}DOMMA - Fichier importé{% endblock %}
 
 {% block body %}
     <main>
@@ -65,7 +68,7 @@
                 <i class="fas fa-times" id="icon-close-modal"></i>
                 <form action="POST" id="modal-edit">
                     <div id="modal-form-fields">
-                        <h2>Edition de macro</h2>
+                        <h2 class="popin">Edition de macro</h2>
                         <input type="text" name="macro-id" id="macro-id" value="id" hidden>
                         <div class="modal-group-fields">
                             <label for="macro-title">Titre</label>
@@ -132,6 +135,7 @@
 
 {% block javascripts %}
     <script type="text/javascript" charset="utf8" src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/base.js') }}"></script>
     <script type="text/javascript" charset="utf8" src="{{ asset('javascript/selects.js') }}"></script>
     <script type="text/javascript" charset="utf8" src="{{ asset('select/js/select2.js') }}"></script>
     <script type="text/javascript" charset="utf8" src="{{ asset('select/js/fr.js') }}"></script>
