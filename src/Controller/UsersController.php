@@ -29,11 +29,16 @@ class UsersController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
-            $this->addFlash('success', 'Vos modifications ont bien été enregistrées.');
 
-            return $this->redirectToRoute('context_index');
+            try {
+                $entityManager->persist($user);
+                $entityManager->flush();
+                $this->addFlash('success', 'Vos modifications ont bien été enregistrées.');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Un problème inconnu est survenu. Veuillez réessayer.');
+            } finally {
+                return $this->redirectToRoute('context_index');
+            }
         }
 
         return $this->render('users/edit.html.twig', [
