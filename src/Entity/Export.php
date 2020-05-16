@@ -5,7 +5,7 @@ namespace App\Entity;
 
 /**
  * Entité qui récupère le type de fichier à être utilisé pour l'export des données
- * d'un import depuis la BDD
+ * vers un fichier Excel.
  *
  * @package App\Entity
  */
@@ -28,7 +28,4 @@ class Export
     {
         $this->fileType = $fileType;
     }
-
-
-
 }
