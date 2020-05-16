@@ -30,7 +30,7 @@
                 </div>
             <div class="form-buttons">
                 <button id="btn-edit-macro">{{ button_label|default('Mettre à jour') }}</button>
-                <a href="{{ app.request.headers.get('referer') }}" class="form-cancel">Annuler</a>
+                <a href="{{ path('macro_index') }}" class="form-cancel">Annuler</a>
             </div>
             {{ form_end(form) }}
         </div>

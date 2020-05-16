@@ -22,7 +22,11 @@
                 </div>
             <div class="form-buttons">
                 <button class="edit-context">{{ button_label|default('Mettre à jour') }}</button>
-                <a href="{{ app.request.headers.get('referer') }}" class="form-cancel">Annuler</a>
+                {% if app.session.get('context')%}
+                    <a href="{{ path('context_show', {id: app.session.get('context')}) }}" class="form-cancel">Annuler</a>
+                {% else %}
+                    <a href="{{ path('context_index') }}" class="form-cancel">Annuler</a>
+                {% endif %}
             </div>
             {{ form_end(form) }}
         </div>

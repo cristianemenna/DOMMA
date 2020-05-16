@@ -29,7 +29,11 @@
                 </div>
                     <div class="form-buttons">
                         <button id="btn-create-macro">{{ button_label|default('Créer macro') }}</button>
-                        <a href="{{ app.request.headers.get('referer') }}" class="form-cancel">Annuler</a>
+                        {% if app.session.get('import')%}
+                            <a href="{{ path('import_show', {'context': app.session.get('context'), 'id': app.session.get('import')}) }}" class="form-cancel">Annuler</a>
+                        {% else %}
+                            <a href="{{ path('macro_index') }}" class="form-cancel">Annuler</a>
+                        {% endif %}
                     </div>
             {{ form_end(form) }}
         </div>
