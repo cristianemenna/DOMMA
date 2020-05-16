@@ -18,7 +18,7 @@
             <a href="{{ path('macro_new') }}" class="button-new-macro">Macro <i class="fa fa-plus icon-plus-macro"></i></a>
         </div>
 
-        <!-- Affichage des flashs --->
+        <!-- Affichage des flashs -->
         {{ include('_alerts.html.twig') }}
 
         <div id="share-container"></div>
@@ -76,10 +76,10 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/base.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/selects.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('select/js/select2.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/macro-share.js') }}"></script>
+    <script src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ asset('javascript/base.js') }}"></script>
+    <script src="{{ asset('javascript/selects.js') }}"></script>
+    <script src="{{ asset('select/js/select2.js') }}"></script>
+    <script src="{{ asset('javascript/macro-share.js') }}"></script>
 {% endblock %}
 

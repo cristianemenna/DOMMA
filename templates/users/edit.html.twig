@@ -8,31 +8,31 @@
             <h1>Gestion de compte</h1>
         </div>
 
-        <!-- Affichage des flashs --->
+        <!-- Affichage des flashs -->
         {{ include('_alerts.html.twig') }}
 
         <!-- Formulaire d'édition d'un utilisateur -->
         <div class="edit-container-users">
             <img src="{{ avatar }}" alt="avatar" id="edit-avatar" />
-                {{ form_start(form, {'attr': {'class': 'edit-new-form'}}) }}
-                    <div class="form-errors-container">
-                        {{ form_errors(form.username) }}
-                        {{ form_errors(form.email) }}
-                    </div>
-            {{ form_widget(form) }}
+            {{ form_start(form, {'attr': {'class': 'edit-new-form'}}) }}
+                <div class="form-errors-container">
+                    {{ form_errors(form.username) }}
+                    {{ form_errors(form.email) }}
+                </div>
+                {{ form_widget(form) }}
             {% if is_granted('ROLE_USER') %}
-                    <a id="edit-change-password" href="{{ path('users_password', {'id': user.id})  }}">Changer mot de passe</a>
-                    <div class="form-buttons">
-                        <button class="edit-user">{{ button_label|default('Mettre à jour') }}</button>
-                        <a href="{{ path('context_index') }}" class="form-cancel">Annuler</a>
-                    </div>
-                {% else %}
-                    <a id="edit-change-password" href="{{ path('admin_password', {'id': user.id})  }}">Changer mot de passe</a>
-                    <div class="form-buttons">
-                        <button class="edit-user">{{ button_label|default('Mettre à jour') }}</button>
-                        <a href="{{ path('admin_index') }}" class="form-cancel">Annuler</a>
-                    </div>
-                {% endif %}
+                <a id="edit-change-password" href="{{ path('users_password', {'id': user.id})  }}">Changer mot de passe</a>
+                <div class="form-buttons">
+                    <button class="edit-user">{{ button_label|default('Mettre à jour') }}</button>
+                    <a href="{{ path('context_index') }}" class="form-cancel">Annuler</a>
+                </div>
+            {% else %}
+                <a id="edit-change-password" href="{{ path('admin_password', {'id': user.id})  }}">Changer mot de passe</a>
+                <div class="form-buttons">
+                    <button class="edit-user">{{ button_label|default('Mettre à jour') }}</button>
+                    <a href="{{ path('admin_index') }}" class="form-cancel">Annuler</a>
+                </div>
+            {% endif %}
             {{ form_end(form) }}
         </div>
 
@@ -42,7 +42,7 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/base.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/email-validator.js') }}"></script>
+    <script src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ asset('javascript/base.js') }}"></script>
+    <script src="{{ asset('javascript/email-validator.js') }}"></script>
 {% endblock %}

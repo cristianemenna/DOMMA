@@ -19,7 +19,7 @@
             <a href="{{ path('admin_new') }}" id="button-new-user"><i class="fa fa-user-plus icon-new-user"></i>Créer un utilisateur</a>
         </div>
 
-        <!-- Affichage des flashs --->
+        <!-- Affichage des flashs -->
         {{ include('_alerts.html.twig') }}
 
         <!-- Affiche table contenant les informations de tous les utilisateurs du site -->
@@ -87,9 +87,9 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('DataTables/datatables.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('select/js/fr.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/admin.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/base.js') }}"></script>
+    <script src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ asset('DataTables/datatables.js') }}"></script>
+    <script src="{{ asset('select/js/fr.js') }}"></script>
+    <script src="{{ asset('javascript/admin.js') }}"></script>
+    <script src="{{ asset('javascript/base.js') }}"></script>
 {% endblock %}

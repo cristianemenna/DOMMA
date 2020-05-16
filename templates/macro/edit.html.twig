@@ -16,7 +16,7 @@
             {{ include('macro/_delete_form.html.twig') }}
         </div>
 
-        <!-- Affichage des flashs --->
+        <!-- Affichage des flashs -->
         {{ include('_alerts.html.twig') }}
 
         <!-- Formulaire d'édition d'une macro -->
@@ -24,7 +24,7 @@
             {{ form_start(form, {'attr': {'class': 'new-macro-form'}}) }}
                 {{ form_widget(form.title,  {'attr': {'class': 'form-input new-macro-form-input', 'placeholder': 'Titre'}} ) }}
                 {{ form_widget(form.description,  {'attr': {'class': 'form-input new-macro-form-input', 'placeholder': 'Description'}} ) }}
-                {{ form_widget(form.code,  {'attr': {'class': 'form-input new-macro-form-input', id: 'form-code', 'placeholder': 'Code'}} ) }}
+                {{ form_widget(form.code,  {'attr': {'class': 'form-input new-macro-form-input', 'placeholder': 'Code'}} ) }}
                 <div class="select-style">
                     {{ form_widget(form.type) }}
                 </div>
@@ -41,8 +41,8 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/base.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/selects.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('select/js/select2.js') }}"></script>
+    <script src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ asset('javascript/base.js') }}"></script>
+    <script src="{{ asset('javascript/selects.js') }}"></script>
+    <script src="{{ asset('select/js/select2.js') }}"></script>
 {% endblock %}

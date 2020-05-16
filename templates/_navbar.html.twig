@@ -1,10 +1,8 @@
 {% block body %}
     <nav>
-        <ul>
+        <div class="nav-items">
         {% if is_granted('ROLE_USER') %}
-            <li>
-                <a href="{{ path('context_index') }}"><img src="{{ asset('img/logo.png') }}" alt="logo" id="nav-logo" /></a>
-            </li>
+            <a href="{{ path('context_index') }}"><img src="{{ asset('img/logo.png') }}" alt="logo" id="nav-logo" /></a>
             <div class="dropdown">
                 <button class="dropbtn">{{ app.user.firstName }}
                     <i class="fa fa-angle-down icon-angle-nav"></i>
@@ -16,13 +14,9 @@
                     <a href="{{ path('app_logout') }}">Déconnexion</a>
                 </div>
             </div>
-            <li>
-                <a href="{{ path('users_edit', {'id': app.user.id }) }}"><img src="{{ avatar }}" alt="avatar" id="nav-avatar" /></a>
-            </li>
+            <a href="{{ path('users_edit', {'id': app.user.id }) }}"><img src="{{ avatar }}" alt="avatar" id="nav-avatar" /></a>
         {% else %}
-            <li>
-                <a href="{{ path('admin_index') }}"><img src="{{ asset('img/logo.png') }}" alt="logo" id="nav-logo" /></a>
-            </li>
+            <a href="{{ path('admin_index') }}"><img src="{{ asset('img/logo.png') }}" alt="logo" id="nav-logo" /></a>
             <div class="dropdown">
                 <button class="dropbtn">{{ app.user.firstName }}
                     <i class="fa fa-angle-down icon-angle-nav"></i>
@@ -34,10 +28,8 @@
                     <a href="{{ path('app_logout') }}">Déconnexion</a>
                 </div>
             </div>
-            <li>
-                <a href="{{ path('admin_index') }}"><img src="{{ avatar }}" alt="avatar" id="nav-avatar" />
-                </a></li>
+            <a href="{{ path('admin_index') }}"><img src="{{ avatar }}" alt="avatar" id="nav-avatar" /></a>
         {% endif %}
-        </ul>
+        </div>
     </nav>
 {% endblock %}
