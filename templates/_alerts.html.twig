@@ -1,7 +1,3 @@
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/base.css') }}">
-{% endblock %}
-
 {% for label, messages in app.flashes %}
     {% for message in messages %}
         <div class="alert alert-{{ label }}" id="alerts-container">
@@ -17,7 +13,3 @@
         </div>
     {% endfor %}
 {% endfor %}
-
-{% block javascripts %}
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
-{% endblock %}

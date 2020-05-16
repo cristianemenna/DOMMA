@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/macro/new.css') }}">
-    <link rel="stylesheet" href="{{ asset('select/css/select2.css') }}">
-{% endblock %}
+{#{% block stylesheets %}#}
+{#    <link rel="stylesheet" href="{{ asset('css/macro/new.css') }}">#}
+{#    <link rel="stylesheet" href="{{ asset('select/css/select2.css') }}">#}
+{#{% endblock %}#}
 
 {% block title %}DOMMA - Créer une macro{% endblock %}
 
@@ -18,17 +18,17 @@
 
         <!-- Formulaire de création de macro -->
         <div class="form">
-            {{ form_start(form) }}
-                {{ form_widget(form.title,  {'attr': {'class': 'form-input', 'placeholder': 'Titre'}} ) }}
-                {{ form_widget(form.description,  {'attr': {'class': 'form-input', 'placeholder': 'Description'}} ) }}
-                {{ form_widget(form.code,  {'attr': {'class': 'form-input', id: 'form-code', 'placeholder': 'Code'}} ) }}
-            <div class="select-style">
-                {{ form_widget(form.type) }}
-            </div>
-                <div class="form-buttons-macro">
-                    <button id="btn-create-macro">{{ button_label|default('Créer macro') }}</button>
-                    <a href="{{ app.request.headers.get('referer') }}" class="form-cancel">Annuler</a>
+            {{ form_start(form, {'attr': {'class': 'new-macro-form'}}) }}
+                {{ form_widget(form.title,  {'attr': {'class': 'form-input new-macro-form-input', 'placeholder': 'Titre'}} ) }}
+                    {{ form_widget(form.description,  {'attr': {'class': 'form-input new-macro-form-input', 'placeholder': 'Description'}} ) }}
+                    {{ form_widget(form.code,  {'attr': {'class': 'form-input new-macro-form-input', id: 'form-code', 'placeholder': 'Code'}} ) }}
+                <div class="select-style">
+                    {{ form_widget(form.type) }}
                 </div>
+                    <div class="form-buttons">
+                        <button id="btn-create-macro">{{ button_label|default('Créer macro') }}</button>
+                        <a href="{{ app.request.headers.get('referer') }}" class="form-cancel">Annuler</a>
+                    </div>
             {{ form_end(form) }}
         </div>
         <!-- Div qui donne style à la partie inférieur du site, avec separateur -->
@@ -36,10 +36,10 @@
     </main>
 {% endblock %}
 
-{% block javascripts %}
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/selects.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('select/js/select2.js') }}"></script>
-    <script type="text/javascript" charset="utf8" src="{{ asset('select/js/fr.js') }}"></script>
-{% endblock %}
+{#{% block javascripts %}#}
+{#    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>#}
+{#    <script type="text/javascript" charset="utf8" src="{{ asset('javascript/selects.js') }}"></script>#}
+{#    <script type="text/javascript" charset="utf8" src="{{ asset('select/js/select2.js') }}"></script>#}
+{#    <script type="text/javascript" charset="utf8" src="{{ asset('select/js/fr.js') }}"></script>#}
+{#{% endblock %}#}
 
