@@ -7,6 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Un import contient l'information d'un fichier chargé sur l'application, dont les données
+ * ont été sauvegardées en BDD
+ *
  * @ORM\Entity(repositoryClass="App\Repository\ImportRepository")
  */
 class Import

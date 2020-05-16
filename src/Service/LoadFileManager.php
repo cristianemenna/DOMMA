@@ -8,8 +8,8 @@ use App\Entity\Context;
 use App\Entity\Import;
 use App\Entity\Log;
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\Statement;
 use Doctrine\ORM\EntityManagerInterface;
-use phpDocumentor\Reflection\Types\Boolean;
 use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Worksheet\RowIterator;
 
@@ -151,7 +151,7 @@ class LoadFileManager
      *
      * @param Import $import
      * @param string $content
-     * @return \Doctrine\DBAL\Driver\Statement|mixed
+     * @return Statement|mixed
      * @throws \Exception
      */
     public function showTable(Import $import, string $content)
@@ -172,8 +172,6 @@ class LoadFileManager
         }
     }
 
-    //
-
     /**
      * Retourne un nouveau array pour déplacer les noms de colonnes de l'index à la valeur
      *
@@ -188,6 +186,4 @@ class LoadFileManager
         }
         return $columnsValueArray;
     }
-
-
 }

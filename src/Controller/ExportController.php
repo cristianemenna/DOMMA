@@ -16,6 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class ExportController extends AbstractController
 {
     /**
+     * Récupère les données en BDD, crée un fichier Excel avec et l'envoie au client pour téléchargement
+     *
      * @Route("/export", name="export")
      */
     public function exportFile(SessionInterface $session, ImportRepository $importRepository, Export $exportForm, ExportManager $exportManager)

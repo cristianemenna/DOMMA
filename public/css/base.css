@@ -403,12 +403,6 @@ i.icon-loading {
     cursor: pointer;
 }
 
-.fa-trash-alt {
-    font-size: 20px;
-    color: #a6a6a6;
-    padding: 10px;
-}
-
 #import-delete-form {
     margin: 0;
     padding: 0;
@@ -548,12 +542,6 @@ label:hover {
     cursor: pointer;
 }
 
-.fa-trash-alt {
-    font-size: 20px;
-    color: #a6a6a6;
-    padding: 10px;
-}
-
 #context-delete-form, .macro-delete-form {
     margin: 0;
     padding: 0;
@@ -634,6 +622,10 @@ label:hover {
 .icon-pen-macros, .macro-delete .icon-delete-macro {
     font-size: 22px;
     color: #676767;
+}
+
+.separator-edit-macros .icon-delete-macro {
+    color: #a6a6a6;
 }
 
 .icon-angle {

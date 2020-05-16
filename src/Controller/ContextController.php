@@ -17,15 +17,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
 
-/**
- * @Route("/contextes")
- */
+
 class ContextController extends AbstractController
 {
     /**
-     * @Route("/", name="context_index", methods={"GET"})
+     * @Route("/accueil", name="context_index", methods={"GET"})
      */
     public function index(Gravatar $gravatar, SessionInterface $session): Response
     {
@@ -40,7 +37,7 @@ class ContextController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="context_new", methods={"GET","POST"})
+     * @Route("/contexte/creation-de-contexte", name="context_new", methods={"GET","POST"})
      */
     public function new(Request $request, Gravatar $gravatar, ContextRepository $contextRepository): Response
     {
@@ -76,7 +73,7 @@ class ContextController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="context_show", methods={"GET", "POST"})
+     * @Route("/contexte/{id}", name="context_show", methods={"GET", "POST"})
      */
     public function show(Context $context,
                          Gravatar $gravatar,
@@ -120,7 +117,7 @@ class ContextController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="context_edit", methods={"GET","POST"})
+     * @Route("/contexte/{id}/edit", name="context_edit", methods={"GET","POST"})
      */
     public function edit(Request $request,
                          Context $context,
@@ -173,7 +170,7 @@ class ContextController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="context_delete", methods={"DELETE"})
+     * @Route("/contexte/{id}", name="context_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Context $context, ContextManager $contextManager): Response
     {
@@ -191,7 +188,7 @@ class ContextController extends AbstractController
     /**
      * Partage d'un contexte de travail en AJAX
      *
-     * @Route("/{id}/share", name="context_share")
+     * @Route("/contextes/{id}/share", name="context_share", methods={"GET","POST"})
      */
     public function share(Request $request, Context $context, UsersRepository $usersRepository)
     {

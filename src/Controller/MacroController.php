@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Import;
 use App\Entity\Macro;
 use App\Form\MacroType;
 use App\Form\ShareMacroType;
@@ -15,7 +14,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -24,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MacroController extends AbstractController
 {
     /**
-     * @Route("/", name="macro_index", methods={"GET"})
+     * @Route("/mes-macros", name="macro_index", methods={"GET"})
      */
     public function index(MacroRepository $macroRepository, Gravatar $gravatar, SessionInterface $session): Response
     {
@@ -38,9 +36,12 @@ class MacroController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="macro_new", methods={"GET","POST"})
+     * @Route("/creation-de-macro", name="macro_new", methods={"GET","POST"})
      */
-    public function new(Request $request, Gravatar $gravatar, SessionInterface $session, ImportRepository $importRepository): Response
+    public function new(Request $request,
+                        Gravatar $gravatar,
+                        SessionInterface $session,
+                        ImportRepository $importRepository): Response
     {
         $macro = new Macro();
         $form = $this->createForm(MacroType::class, $macro);
@@ -49,17 +50,23 @@ class MacroController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $macro->addUser($this->getUser());
-            $entityManager->persist($macro);
-            $entityManager->flush();
 
-            // Une fois la macro créé :
-            // Redirection sur la page de l'import s'il y a une variable 'import' stockée en session
-            if ($session->get('import')) {
-                $import = $importRepository->find($session->get('import'));
-                return $this->redirectToRoute('import_show', ['context' => $import->getContext()->getId(), 'id' => $import->getId()]);
-                // Sinon redirection sur la page index des macros
-            } else {
-                return $this->redirectToRoute('macro_index');
+            try {
+                $entityManager->persist($macro);
+                $entityManager->flush();
+                $this->addFlash('success', 'La macro a bien été crée.');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Un problème inconnu est survenu. Veuillez réessayer.');
+            } finally {
+                // Redirection sur la page de l'import s'il y a une variable 'import' stockée en session
+                if ($session->get('import')) {
+                    $import = $importRepository->find($session->get('import'));
+                    $session->set('context', $import->getContext());
+                    return $this->redirectToRoute('import_show', ['context' => $import->getContext()->getId(), 'id' => $import->getId()]);
+                    // Sinon redirection sur la page index des macros
+                } else {
+                    return $this->redirectToRoute('macro_index');
+                }
             }
         }
 
@@ -73,7 +80,11 @@ class MacroController extends AbstractController
     /**
      * @Route("/{id}", name="macro_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Macro $macro, Gravatar $gravatar, SessionInterface $session, ImportRepository $importRepository): Response
+    public function edit(Request $request,
+                         Macro $macro,
+                         Gravatar $gravatar,
+                         SessionInterface $session,
+                         ImportRepository $importRepository): Response
     {
         // Si l'utilisateur actif n'as pas droit d'accès à la macro, on affiche page 403'
         $this->denyAccessUnlessGranted('edit', $macro);
@@ -81,9 +92,14 @@ class MacroController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('macro_index');
+            try {
+                $this->getDoctrine()->getManager()->flush();
+                $this->addFlash('success', 'La macro a bien été modifiée.');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Un problème inconnu est survenu. Veuillez réessayer.');
+            } finally {
+                return $this->redirectToRoute('macro_index');
+            }
         }
 
         return $this->render('macro/edit.html.twig', [
@@ -103,7 +119,6 @@ class MacroController extends AbstractController
             $entityManager->remove($macro);
             $entityManager->flush();
         }
-
         return $this->redirectToRoute('macro_index');
     }
 
@@ -112,7 +127,7 @@ class MacroController extends AbstractController
      * Route qui permet l'édition d'un macro en ajax
      * directement sur la page show d'un Import
      *
-     * @Route("/{id}/ajax", name="macro_edit_ajax")
+     * @Route("/{id}/ajax", name="macro_edit_ajax", methods={"GET","POST"})
      */
     public function ajaxEditMacro(Request $request, Macro $macro)
     {
@@ -148,7 +163,7 @@ class MacroController extends AbstractController
     /**
      * Partage d'une Macro en AJAX
      *
-     * @Route("/{id}/share", name="macro_share")
+     * @Route("/{id}/share", name="macro_share", methods={"GET","POST"})
      */
     public function share(Request $request, Macro $macro, UsersRepository $usersRepository)
     {
@@ -196,6 +211,5 @@ class MacroController extends AbstractController
             return new JsonResponse(['success' => 'OK']);
         }
         return $this->redirectToRoute('macro_index');
-
     }
 }

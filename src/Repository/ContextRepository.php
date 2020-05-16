@@ -34,19 +34,19 @@ class ContextRepository extends ServiceEntityRepository
         try {
             $dataBase->prepare('CREATE SCHEMA ' . $schemaName . ' AUTHORIZATION CURRENT_USER')
                 ->execute()
-                ;
+            ;
         } catch (DriverException $e) {
             if ($e->getSQLState() === '42P06') {
-               throw new \Exception('Le contexte de travail n\'as pas pu être créé. Veuillez saisir un nouveau titre.');
+                throw new \Exception('Le contexte de travail n\'as pas pu être créé. Veuillez saisir un nouveau titre.');
             }
             throw $e;
         } catch (\Exception $e) {
             throw new \Exception('Une erreur inconnue est survenue', 0, $e);
         }
-}
+    }
 
-/**
- * Récupère l'ancien nom du contexte de travail pour retrouver le nom du schéma en BDD
+    /**
+     * Récupère l'ancien nom du contexte de travail pour retrouver le nom du schéma en BDD
      * et modifie le nom du schéma avec le nouveau nom du contexte.
      *
      * @param Context $context
@@ -72,5 +72,4 @@ class ContextRepository extends ServiceEntityRepository
             throw new \Exception('Une erreur inconnue est survenue', 0, $e);
         }
     }
-
 }
