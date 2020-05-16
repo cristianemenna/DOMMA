@@ -1,10 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{#{% block stylesheets %}#}
-{#    <link rel="stylesheet" href="{{ asset('css/context/edit.css') }}">#}
-{#{% endblock %}#}
-
-
 {% block title %}DOMMA - Edition de contexte{% endblock %}
 
 {% block body %}
@@ -19,7 +14,7 @@
 
         <!-- Formulaire d'édition d'utilisateur -->
         <div class="edit-container">
-            {{ form_start(form, {'attr': {'class': 'edit-new-form'}}) }}
+            {{ form_start(form, {'attr': {'class': 'edit-new-form form-edit-context'}}) }}
             {{ form_widget(form) }}
                 <div class="form-errors-container">
                     {{ form_errors(form.duration) }}
