@@ -56,5 +56,4 @@ class ImportRepository extends ServiceEntityRepository
             throw new \Exception('Une erreur est survenue.');
         }
     }
-
 }
