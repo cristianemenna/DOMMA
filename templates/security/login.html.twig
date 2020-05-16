@@ -1,3 +1,5 @@
+{% extends 'base.html.twig' %}
+
 {% block stylesheets %}
     <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}" />
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
@@ -6,9 +8,7 @@
 
 {% block title %}<title>DOMMA - Traitement de données de masse</title>{% endblock %}
 
-{% block body %}
-
-
+{% block content %}
     <img src="{{ asset('/img/logo.png') }}" alt="Logo">
     <h1>Traitement de données de masse</h1>
         {% if error %}
@@ -33,7 +33,6 @@
             <div class="field">
                 <input type="hidden" name="_csrf_token"
                        value="{{ csrf_token('authenticate') }}">
-
                 <input type="submit" class="login-button" value="Se connecter">
             </div>
         </div>
