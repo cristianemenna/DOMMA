@@ -55,15 +55,9 @@ function getTemplate(contextId) {
             }
 
             // Permet d'actualiser l'information des fichiers .js pour bien retrouver les nouveaux éléments
-            function reload_js(src) {
-                $('script[src="' + src + '"]').remove();
-                $('<script>').attr('src', src).appendTo('head');
-            }
-
-            reload_js('/javascript/context-share.js');
-            reload_js('/javascript/selects.js');
-            reload_js('/select/js/select2.js');
-
+            reloadJs('/javascript/context-share.js');
+            reloadJs('/javascript/selects.js');
+            reloadJs('/select/js/select2.js');
         },
 
         error: function (xhr) {
@@ -85,6 +79,9 @@ function sendShareContext(formData, contextId) {
         async: true,
 
         success: function (data) {
+            reloadJs('/javascript/context-share.js');
+            reloadJs('/javascript/selects.js');
+            reloadJs('/select/js/select2.js');
             receiveData('success');
         },
 
@@ -126,6 +123,33 @@ function receiveData(status) {
         textContainer.fadeIn();
         textContainer.delay(1500).fadeOut();
         $('#share-context-container').empty();
+
+        // Toggle sur affichage de l'option de partage sur show Context
+        if ($('.to-share-context').length) {
+            var newDiv = $("<div></div>").addClass('icon-shared-context');
+            var newI = $("<i></i>").addClass('fas fa-user-friends share-context');
+            var newP = $("<p></p>").text("Contexte partagé");
+            newDiv.append(newI);
+            newDiv.attr('id', 'share-context');
+            $('.to-share-context')[0].remove();
+        } else {
+            var newDiv = $("<div></div>").addClass('to-share-context');
+            newDiv.css('cursor', 'pointer');
+            var newP = $('<p></p>').text('Partager');
+            newP.attr('id', 'share-context');
+            $('.icon-shared-context')[0].remove();
+        }
+
+        var newContentContainer = $('#title-context-container');
+        newDiv.append(newP);
+        newContentContainer.append(newDiv);
+
     }
+}
+
+// Permet d'actualiser l'information des fichiers .js pour bien retrouver les nouveaux éléments
+function reloadJs(src) {
+    $('script[src="' + src + '"]').remove();
+    $('<script>').attr('src', src).appendTo('head');
 }
 
