@@ -30,7 +30,7 @@ class MacroType extends AbstractType
             ])
             ->add('type', ChoiceType::class, [
                 'choices' => ['Empty' => '',
-                    'Select (sélectionne colonnes)' => 'select-columns',
+                    'Select (sélectionne les colonnes)' => 'select-columns',
                     'Select (ajout de nouvelles colonnes)' => 'select-add-columns',
                     'Insert' => 'insert',
                     'Update' => 'update',
