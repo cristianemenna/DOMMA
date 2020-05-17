@@ -9,7 +9,7 @@ Suite aux traitements, il est également possible d'exporter les données vers u
 
 ## Le projet
 
-L'application web a été développée avec le framework PHP Symfony version 5.0.4 et en utilisant la version 7.2.5 de PHP. Le serveur de base de données utilisé est PostgreSQL dans sa version 11.
+L'application web a été développée avec le framework PHP Symfony version 5.0.4 et en utilisant la version 7.2.5 de PHP. Le système de gestion de base de données utilisé est PostgreSQL dans sa version 11.
 
 ### Installation en local
 
@@ -74,6 +74,8 @@ $ symfony server:start
     * Identifiant : user1 | user2
     * Mot de passe: test
 
+Dans `/DOMMA/public` vous trouverez également un fichier (`demo.xls`) à titre d'exemple. Ce fichier contient des données modèles pour la création des macros de traitement générées par les fixtures.
+
 ## Utilisation
 
 En tant qu'utilisateur de DOMMA, vous pouvez créer des contextes de travail personnalisés et partagés avec d'autres utilisateurs. Cela vous permettra d'organiser les fichiers chargés par sujet ou groupes, afin de mieux structurer l'information.
@@ -81,13 +83,13 @@ Vous pouvez générer et appliquer vos propres macros pour traiter les données 
 
 Le fonctionnement des macros se base sur le langage de requêtes SQL. La connaissance basique de de ce langage est donc requise pour l'utilisation de la plateforme. 
 
-Pour commencer à utiliser l'application, il est recommandable la lecture de son [Manuel d'utilisation](https://github.com/cristianemenna/DOMMA/wiki).
+Pour commencer à utiliser l'application, il est recommandé de lire de son [Manuel d'utilisation](https://github.com/cristianemenna/DOMMA/wiki).
 
 ## Bundles
 
-En plus des bibliothèques installées par défaut lors de l'initialisation du projet, DOMMA intégre les bundles listés ci-dessous :
+En plus des bibliothèques installées par défaut lors de l'initialisation du projet, DOMMA intègre les bundles listés ci-dessous :
 * gravatarphp/gravatar ^2.0 => Affichage des avatars liés à un compte utilisateur
-* phpoffice/phpspreadsheet ^1.10  => Bibliothèque permettant la lecture et création de fichiers en format Excel
+* phpoffice/phpspreadsheet ^1.10  => Bibliothèque permettant la lecture et la création de fichiers en format Excel
 * symfony/sendgrid-mailer 5.0 => Envoi des emails
  
 
