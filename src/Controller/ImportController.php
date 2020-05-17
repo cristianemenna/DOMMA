@@ -7,6 +7,7 @@ use App\Form\ExportType;
 use App\Form\MacroApplyType;
 use App\Form\MacroColumnsType;
 use App\Repository\ImportRepository;
+use App\Service\ExportManager;
 use App\Service\LoadFileManager;
 use App\Service\MacroApplyManager;
 use App\Service\MacroManager;
@@ -33,6 +34,7 @@ class ImportController extends AbstractController
                          LoadFileManager $loadFileManager,
                          MacroManager $macroManager,
                          ImportRepository $importRepository,
+                         ExportManager $exportManager,
                          SessionInterface $session): Response
     {
         $user = $this->getUser();
@@ -94,10 +96,12 @@ class ImportController extends AbstractController
         
         // Traitement lors de l'envoi du formulaire de téléchargement de fichier
         if ($exportForm->isSubmitted() && $exportForm->isValid()) {
-            $response = $this->forward('App\Controller\ExportController::exportFile', [
-                'exportForm' => $exportForm->getData(),
-            ]);
-            return $response;
+            try {
+                $response = $exportManager->exportFile($exportForm->getData(), $import);
+                return $response;
+            } catch (\Exception $e) {
+                $this->addFlash('error', $e->getMessage());
+            }
         }
 
         return $this->render('import/show.html.twig', [
