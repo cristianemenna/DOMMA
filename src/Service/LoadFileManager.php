@@ -61,9 +61,11 @@ class LoadFileManager
             $this->entityManager->persist($import);
             $this->entityManager->flush();
         } catch (\Exception $e) {
+            if (strstr($e->getMessage(), 'ERREUR')) {
+                throw new \Exception(strstr($e->getMessage(), 'ERREUR'));
+            }
             throw new \Exception('La table ne peut pas être créé');
         }
-
     }
 
     /**
@@ -156,9 +158,6 @@ class LoadFileManager
      */
     public function showTable(Import $import, string $content)
     {
-        $dataBase = $this->entityManager->getConnection();
-        $schemaAndTableName = $this->importManager->getSchemaAndTableNames($import);
-
         try {
             $selectAll = $this->importManager->selectAll($import);
             if ($content === 'columns' && $selectAll->fetch() !== false) {
