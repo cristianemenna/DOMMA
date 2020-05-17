@@ -1,0 +1,48 @@
+{% extends 'layout.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/base.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('select/css/select2.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/css/all.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}" />
+{% endblock %}
+
+{% block title %}DOMMA - Edition de macro{% endblock %}
+
+{% block body %}
+    <main>
+        <div class="separator separator-edit-macros">
+            <h1>Edition de {{ macro.title }}</h1>
+            {{ include('macro/_delete_form.html.twig') }}
+        </div>
+
+        <!-- Affichage des flashs -->
+        {{ include('_alerts.html.twig') }}
+
+        <!-- Formulaire d'édition d'une macro -->
+        <div class="form">
+            {{ form_start(form, {'attr': {'class': 'new-macro-form'}}) }}
+                {{ form_widget(form.title,  {'attr': {'class': 'form-input new-macro-form-input', 'placeholder': 'Titre'}} ) }}
+                {{ form_widget(form.description,  {'attr': {'class': 'form-input new-macro-form-input', 'placeholder': 'Description'}} ) }}
+                {{ form_widget(form.code,  {'attr': {'class': 'form-input new-macro-form-input', 'placeholder': 'Code'}} ) }}
+                <div class="select-style">
+                    {{ form_widget(form.type) }}
+                </div>
+            <div class="form-buttons">
+                <button id="btn-edit-macro">{{ button_label|default('Mettre à jour') }}</button>
+                <a href="{{ path('macro_index') }}" class="form-cancel">Annuler</a>
+            </div>
+            {{ form_end(form) }}
+        </div>
+
+        <!-- Div qui donne style à la partie inférieur du site, avec separateur -->
+        <div class="separator-bottom"></div>
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ asset('javascript/base.js') }}"></script>
+    <script src="{{ asset('javascript/selects.js') }}"></script>
+    <script src="{{ asset('select/js/select2.js') }}"></script>
+{% endblock %}

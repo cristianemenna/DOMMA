@@ -1,6 +1,12 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
-{% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/admin/new_user.css') }}">{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/base.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('select/css/select2.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/css/all.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}" />
+{% endblock %}
+
 {% block title %}DOMMA - Créer un nouvel utilisateur{% endblock %}
 
 {% block body %}
@@ -9,21 +15,38 @@
             <h1>Création d'utilisateur</h1>
         </div>
 
+        <!-- Affichage des flashs -->
+        {{ include('_alerts.html.twig') }}
+
+        <!-- Formulaire de création d'utilisateur -->
         <div class="form">
-            {{ form_start(form) }}
+            {{ form_start(form, {'attr': {'class': 'new-form new-user-form'}}) }}
                 {{ form_widget(form.first_name,  {'attr': {'class': 'form-input', 'placeholder': 'Prénom'}} ) }}
                 {{ form_widget(form.last_name,  {'attr': {'class': 'form-input', 'placeholder': 'Nom'}} ) }}
                 {{ form_widget(form.email,  {'attr': {'class': 'form-input', 'placeholder': 'Email'}} ) }}
+                <div class="form-errors-container">
+                    {{ form_errors(form.email) }}
+                </div>
                 {{ form_widget(form.username,  {'attr': {'class': 'form-input', 'placeholder': 'Identifiant'}} ) }}
+                {{ form_errors(form.username) }}
                 <div class="select-style">
-                    {{ form_widget(form.roles) }}
+                    {{ form_widget(form.role) }}
                 </div>
                 <div class="form-buttons">
                     <button class="create-user">{{ button_label|default('Créer utilisateur') }}</button>
-                    <a href="{{ path('admin') }}" id="form-cancel">Annuler</a>
+                    <a href="{{ path('admin_index') }}" class="form-cancel">Annuler</a>
                 </div>
             {{ form_end(form) }}
         </div>
+
+        <!-- Div qui donne style à la partie inférieur du site, avec separateur -->
         <div class="separator-bottom"></div>
     </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ asset('javascript/base.js') }}"></script>
+    <script src="{{ asset('javascript/selects.js') }}"></script>
+    <script src="{{ asset('select/js/select2.js') }}"></script>
 {% endblock %}

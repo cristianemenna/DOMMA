@@ -1,0 +1,304 @@
+.file-container {
+    margin: 3% 1.5% 0 2%;
+}
+
+.icon-loading {
+    margin-right: 15px;
+    color: #009a00;
+}
+
+.search-button {
+    font-family: FontAwesome;
+}
+
+.import-container {
+    margin: 25px 0 0 80px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: right ;
+    align-items: baseline;
+}
+
+.macros-select-container {
+    margin: 1% 0 0 2%;
+    display: flex;
+    align-items: baseline;
+}
+
+.checkbox-rows, .search-input {
+    margin: 0 80px;
+}
+
+.max-rows-input, .checkbox-rows, .search-button, .search-on-file {
+    height: 30px;
+    color: #4f4f4f;
+}
+
+.max-rows-submit, .macros-select-submit, .search-button {
+    color: #7f7f7f;
+    background-color: #EBEBEB;
+    text-decoration: none;
+    padding: 8px 30px;
+    border: none;
+    outline: none;
+    box-shadow: 2px 1px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 20px 0 rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+}
+
+.max-rows-submit:hover, .macros-select-submit:hover, .search-button:hover {
+    background-color: #d1d1d1;
+    cursor: pointer;
+}
+
+.max-rows-select, .search-on-file, .macros-select {
+    padding-left: 20px;
+    border: 1px solid #BFBFBF;
+    border-radius: 5px;
+}
+
+.search-input {
+    flex-grow: 0.4;
+}
+
+.search-on-file {
+    width: 80%;
+}
+
+i.icon-plus-macro {
+    font-size: 20px;
+    margin-left: 5px;
+}
+
+select.max-rows-select, select.macros-select {
+    background-color: #FFFFFF;
+    width: 200px;
+    height: 35px;
+    color: #4f4f4f;
+}
+
+select.macros-select {
+    width: 400px;
+}
+
+.import-table {
+    font-family: Verdana, Geneva, sans-serif;
+    color: #4d4d4d;
+    font-size: 0.8em;
+}
+
+th {
+    background-color: #d9d9d9;
+    width: 250px;
+    height: 50px;
+    color: #4d4d4d;
+    padding: 0 50px;
+}
+
+td {
+    height: 50px;
+    padding: 0 50px;
+}
+
+tr:nth-child(odd) {
+    background-color: #f5f5f5;
+}
+
+tr:nth-child(even) {
+    background-color: #fdfcfc;
+}
+
+.icons-main {
+    margin-left: 20px;
+    color: #757575;
+}
+
+.icon-download {
+    font-size: 2.8em;
+    margin: 0 0 0 5px;
+    color: #8A998C;
+}
+
+.import-title {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
+.title-container {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+button {
+    background: transparent;
+    border: none;
+}
+
+button > i:hover {
+    cursor: pointer;
+    color: #4f4f4f;
+}
+
+.export-file-container {
+    margin-right: 2%;
+
+}
+
+#export_fileType {
+    width: 100%;
+}
+
+.macros-select-container > .export-file-container > form {
+    display: flex;
+}
+
+#export > div > span {
+    width: 100px;
+}
+
+/********************************************* SELECT MACRO *****************************************************/
+
+#macro_apply_macro {
+   width: 500px;
+}
+
+.macros-select-container > div > form {
+    display: flex;
+}
+
+.macros-select-container {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+#macro-edit-form {
+    align-items: baseline;
+}
+
+.macros-select-submit, .column-delete {
+    font-family: 'Dosis', sans-serif;
+    margin-left: 10px;
+    font-size: 0.9em;
+    height: 35px;
+    align-self: flex-end;
+}
+
+.column-delete {
+    margin-left: 20px;
+}
+
+#macro-apply {
+    background-color: #9D9D9D;
+    color: #EBEBEB;
+}
+
+#macro-apply:hover {
+    background-color: #757575;
+}
+
+#macro_columns > div > span.select2.select2-container.select2-container--default {
+    width: 500px !important;
+}
+
+#macro_columns, span.selection {
+    width: 500px;
+}
+
+input.select2-search__field {
+    font-family: 'Dosis', sans-serif;
+}
+
+.modal-group-fields .select2-container {
+    width: 92% !important;
+}
+
+/*************************************************** POP-IN *****************************************************/
+
+.modal {
+    width : 70%;
+    height: 50%;
+}
+
+#modal-edit {
+    display:none;
+}
+
+#modal h2 {
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+}
+
+#modal-form-fields {
+    display: flex;
+    flex-direction: column;
+    margin: 3% 0;
+    text-align: center;
+}
+
+.modal-group-fields{
+    width: 80%;
+    margin: 5px auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.modal-group-fields > input {
+    width: 90%;
+}
+
+.modal-buttons {
+    display: flex;
+    align-items: baseline;
+    align-content: space-between;
+    width: 40%;
+    margin: 0 auto;
+}
+
+.modal-buttons input {
+    background-color: #4f4f4f;
+    color: #F7F6F6;
+    margin: 20px 0 0 20px;
+    text-align: center;
+}
+
+#modal-message > p {
+    text-align: center;
+    font-size: 1.2em;
+    margin-top: 10%;
+}
+
+#modal-message i.fa-check {
+    color: #65C36E;
+    font-size: 2.5em;
+    margin-left: 45%;
+}
+
+#modal-message i.fa-exclamation-circle {
+    color: rgba(193,16,7, 0.7);
+    font-size: 2.5em;
+    margin-left: 45%;
+}
+
+#modal-message {
+    margin: 10% auto;
+    width : 20%;
+    height: 20%;
+    background-color: rgb(243, 243, 243);
+    padding: 1em;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+}
+
+.modal-group-fields > input {
+    height: 30px;
+    padding-left: 15px;
+    outline: none;
+}
+
+input#modal-cancel {
+    padding: 13px 0;
+}

@@ -1,0 +1,14 @@
+<div id="share-context-overlay" class="overlay">
+    <div id="share-context-modal" class="modal-small popin">
+        <i class="fas fa-times" id="icon-share-context-modal"></i>
+        <h2 class="share-context-title">Partager avec</h2>
+        {{ form_start(form, {'attr': {'id': 'share-form'}}) }}
+            {{ form_widget(form) }}
+            <div class="form-buttons share-context-buttons">
+                <button id="btn-share-context">{{ button_label|default('Mettre à jour') }}</button>
+                <input type="text" id="cancel-share-context" value="Annuler">
+            </div>
+        {{ form_end(form) }}
+    </div>
+    <div id="share-context-modal-message"></div>
+</div>

@@ -1,0 +1,50 @@
+{% extends 'layout.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/base.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/css/all.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('select/css/select2.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}" />
+{% endblock %}
+
+{% block title %}DOMMA - Créer une macro{% endblock %}
+
+{% block body %}
+    <main>
+        <div class="separator">
+            <h1>Créer une macro</h1>
+        </div>
+
+        <!-- Affichage des flashs -->
+        {{ include('_alerts.html.twig') }}
+
+        <!-- Formulaire de création de macro -->
+        <div class="form">
+            {{ form_start(form, {'attr': {'class': 'new-macro-form'}}) }}
+                {{ form_widget(form.title,  {'attr': {'class': 'form-input new-macro-form-input', 'placeholder': 'Titre'}} ) }}
+                    {{ form_widget(form.description,  {'attr': {'class': 'form-input new-macro-form-input', 'placeholder': 'Description'}} ) }}
+                    {{ form_widget(form.code,  {'attr': {'class': 'form-input new-macro-form-input', 'placeholder': 'Code'}} ) }}
+                <div class="select-style">
+                    {{ form_widget(form.type) }}
+                </div>
+                    <div class="form-buttons">
+                        <button id="btn-create-macro">{{ button_label|default('Créer macro') }}</button>
+                        {% if app.session.get('import')%}
+                            <a href="{{ path('import_show', {'context': app.session.get('context'), 'id': app.session.get('import')}) }}" class="form-cancel">Annuler</a>
+                        {% else %}
+                            <a href="{{ path('macro_index') }}" class="form-cancel">Annuler</a>
+                        {% endif %}
+                    </div>
+            {{ form_end(form) }}
+        </div>
+        <!-- Div qui donne style à la partie inférieur du site, avec separateur -->
+        <div class="separator-bottom"></div>
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ asset('javascript/base.js') }}"></script>
+    <script src="{{ asset('javascript/selects.js') }}"></script>
+    <script src="{{ asset('select/js/select2.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,147 @@
+{% extends 'layout.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/base.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/css/all.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('select/css/select2.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/datatables.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('DataTables/datatables.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/import/show.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}" />
+{% endblock %}
+{% block title %}DOMMA - Fichier importé{% endblock %}
+
+{% block body %}
+    <main>
+        <div class="separator import-title">
+            <h1>{{ import.fileName }}</h1>
+            <div class="hover-message-container">
+                <a href="{{ path('context_show', {'id': context.id}) }}">
+                    <i class="fas fa-backward icons-main"></i>
+                </a>
+                <span class="hover-message-text">Revenir à la page des contextes</span>
+            </div>
+        </div>
+
+        <!-- Affichage des flashs -->
+        {{ include('_alerts.html.twig') }}
+
+        <div id="share-container"></div>
+
+        <!-- Formulaire de choix de macro pour "Voir en détail" ou "Appliquer macro" -->
+        <div class="macros-select-container">
+            <div>
+                {{ form_start(macroForm, {'attr': {'id': 'macro-edit-form'}}) }}
+                    {{ form_widget(macroForm) }}
+                    <input type="submit" name="details" id="macro-details" class="macros-select-submit" value="Voir en détail">
+                    <input type="submit" name="share" id="macro-share" class="macros-select-submit" value="Partager macro">
+                    <input type="submit" name="apply" id="macro-apply" class="macros-select-submit" value="Appliquer macro">
+                {{ form_end(macroForm) }}
+            </div>
+            <a href="{{ path('macro_new') }}" class="button-new-macro">Macro <i class="fa fa-plus icon-plus-macro"></i></a>
+        </div>
+
+
+        <div class="macros-select-container">
+            <!-- Formulaire pour suppression des colonnes de la table en BDD -->
+            <div>
+                {{ form_start(columnsForm, {'attr': {'id': 'macro-columns-form'}}) }}
+                    {{ form_widget(columnsForm) }}
+                    <input type="submit" name="delete-columns" class="macros-select-submit column-delete" value="Supprimer colonnes">
+                {{ form_end(columnsForm) }}
+            </div>
+
+            <!-- Formulaire pour export des données en format CSV, XLS ou XLSV -->
+            <div class="export-file-container">
+                {{ form_start(exportForm) }}
+                    {{ form_widget(exportForm) }}
+                    <button>
+                        <i class="fas fa-file-download icons-main icon-download"></i>
+                    </button>
+                {{ form_end(exportForm) }}
+            </div>
+        </div>
+
+        <!-- Modal pour affichage du formulaire d'édition de macro -->
+        <div id="overlay" class="overlay">
+            <div id="modal" class="modal">
+                <i class="fas fa-times" id="icon-close-modal"></i>
+                <form action="POST" id="modal-edit">
+                    <div id="modal-form-fields">
+                        <h2 class="popin">Edition de macro</h2>
+                        <input type="text" name="macro-id" id="macro-id" value="id" hidden>
+                        <div class="modal-group-fields">
+                            <label for="macro-title">Titre</label>
+                            <input type="text" name="macro-title" id="macro-title" value="titre">
+                        </div>
+                        <div class="modal-group-fields">
+                            <label for="macro-description">Description</label>
+                            <input type="text" name="macro-description" id="macro-description" value="description">
+                        </div>
+                        <div class="modal-group-fields">
+                            <label for="macro-code">Code</label>
+                            <input type="text" name="macro-code" id="macro-code" value="code">
+                        </div>
+                        <div class="modal-group-fields">
+                            <label for="macro-type">Type</label>
+                            <select name="macro-type" id="macro-type">
+                                <option value="">Type</option>
+                                <option value="select-columns">Select (sélectionne colonnes)</option>
+                                <option value="select-add-columns">Select (ajout de nouvelles colonnes)</option>
+                                <option value="insert">Insert</option>
+                                <option value="update">Update</option>
+                                <option value="delete">Delete</option>
+                                <option value="tri">Trier les lignes</option>
+                            </select>
+                        </div>
+                        <div class="modal-buttons">
+                            <input type="submit" id="modal-send" value="Modifier Macro">
+                            <input type="text" id="modal-cancel" value="Annuler">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Affichage des données de la BDD en format d'une table avec DataTable -->
+        <div class="file-container">
+            {% if (import.status == 'En attente') or (import.status == 'En cours') %}
+                <p><i class="fas fa-spinner fa-2x icon-loading"></i>En cours de chargement...</p>
+            {% else %}
+                <table class="import-table display" id="file-table">
+                    <thead>
+                        <tr>
+                        {% for importColumn in importColumns %}
+                            <th>{{ importColumn }}</th>
+                        {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for importObjet in importContent %}
+                        <tr>
+                        {% for importValue in importObjet %}
+                            <td>{{ importValue }}</td>
+                        {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+        <!-- Div qui donne style à la partie inférieur du site, avec separateur -->
+        <div class="separator-bottom"></div>
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ asset('javascript/base.js') }}"></script>
+    <script src="{{ asset('javascript/selects.js') }}"></script>
+    <script src="{{ asset('select/js/select2.js') }}"></script>
+    <script src="{{ asset('select/js/fr.js') }}"></script>
+    <script src="{{ asset('javascript/macro-edit.js') }}"></script>
+    <script src="{{ asset('javascript/macro-share.js') }}"></script>
+    <script src="{{ asset('DataTables/datatables.js') }}"></script>
+    <script src="{{ asset('javascript/import.js') }}"></script>
+{% endblock %}
+

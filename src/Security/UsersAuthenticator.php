@@ -67,11 +67,6 @@ class UsersAuthenticator extends AbstractFormLoginAuthenticator implements Passw
 
         $user = $this->entityManager->getRepository(Users::class)->findOneBy(['username' => $credentials['username']]);
 
-        if (!$user) {
-            // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Le nom d\'utilisateur n\'existe pas.');
-        }
-
         return $user;
     }
 
@@ -101,6 +96,7 @@ class UsersAuthenticator extends AbstractFormLoginAuthenticator implements Passw
     {
         $userName = $request->request->get('username');
         $user = $this->entityManager->getRepository(Users::class)->findOneBy(['username' => $userName]);
+        // L'attribut qui représent les essais de connexion se réinitialise suite à chaque login
         $user->resetAttempts();
         $this->entityManager->persist($user);
         $this->entityManager->flush();
@@ -110,13 +106,10 @@ class UsersAuthenticator extends AbstractFormLoginAuthenticator implements Passw
         }
 
         if ($user->getRoles() === ['ROLE_ADMIN']) {
-            return new RedirectResponse($this->urlGenerator->generate('admin'));
+            return new RedirectResponse($this->urlGenerator->generate('admin_index'));
         } else {
-            return new RedirectResponse($this->urlGenerator->generate('users_index'));
+            return new RedirectResponse($this->urlGenerator->generate('context_index'));
         }
-
-        // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 
     protected function getLoginUrl()

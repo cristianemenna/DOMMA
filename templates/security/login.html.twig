@@ -1,41 +1,23 @@
+{% extends 'base.html.twig' %}
+
 {% block stylesheets %}
     <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}" />
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
     <link rel="stylesheet" href="{{ asset('css/css/all.css') }}">
 {% endblock %}
 
-{% block title %}<title>DOMMA - Traitement de données de masse</title>{% endblock %}
+{% block title %}DOMMA - Traitement de données de masse{% endblock %}
 
-{% block body %}
-
-
-    {% if app.user %}
-        <img src="{{ asset('/img/logo.png') }}" alt="Logo">
-        <h1>Traitement de données de masse</h1>
-
-        <form method="post">
-            <div class="form-fields-with-user">
-                <div class="alert-container">
-                    <div class="login-notice">
-                        <p>Vous êtes déjà connecté en tant que <p id="login-username">{{ app.user.username }}</p>
-                        <a href="{{ path('app_logout') }}" id="login-deconnexion">Déconnexion</a>
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <a href="{{ path('admin') }}" class="back-to-index">Revenir à l'accueil</a>
-                        {% else %}
-                            <a href="{{ path('users_index') }}" class="back-to-index">Revenir à l'accueil</a>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </form>
-    {% else %}
-
+{% block content %}
     <img src="{{ asset('/img/logo.png') }}" alt="Logo">
     <h1>Traitement de données de masse</h1>
         {% if error %}
             <div class="login-error">
                 <i class="fas fa-exclamation-triangle fa-2x" id="alert-icon"></i>
-                <p>{{ error.messageKey|trans(error.messageData, 'security') }}</div></p>
+                <p>{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+            </div>
+        {% else %}
+            <div class="login-message"></div>
         {% endif %}
 
     <form method="post">
@@ -48,12 +30,11 @@
                 <label class="label-form" for="inputPassword">Mot de passe</label>
                 <input type="password" name="password" id="inputPassword" class="form-control" required>
             </div>
-
-            <input type="hidden" name="_csrf_token"
-                   value="{{ csrf_token('authenticate') }}">
-
-            <input type="submit" class="login-button" value="Se connecter">
+            <div class="field">
+                <input type="hidden" name="_csrf_token"
+                       value="{{ csrf_token('authenticate') }}">
+                <input type="submit" class="login-button" value="Se connecter">
+            </div>
         </div>
     </form>
-    {% endif %}
 {% endblock %}

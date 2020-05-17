@@ -1,0 +1,85 @@
+{% extends 'layout.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/base.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/css/all.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('select/css/select2.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}" />
+{% endblock %}
+
+{% block title %}DOMMA - Mes macros{% endblock %}
+
+{% block body %}
+    <main>
+        <div class="separator-container">
+            <div class="separator">
+                <h1>Mes macros</h1>
+            </div>
+            <a href="{{ path('macro_new') }}" class="button-new-macro">Macro <i class="fa fa-plus icon-plus-macro"></i></a>
+        </div>
+
+        <!-- Affichage des flashs -->
+        {{ include('_alerts.html.twig') }}
+
+        <div id="share-container"></div>
+
+        <!-- Affichage de toutes les macros appartenantes à l'utilisateur connecté -->
+        <div class="container-macros">
+            <div class="title-macros">
+                <h2>Titre</h2>
+                <h2>Description</h2>
+            </div>
+            <div class="content-macros">
+                {% for macro in macros %}
+                    <div class="macro-line">
+                       <p class="macro-title">
+                           <a href="{{ path('macro_edit', {'id': macro.id}) }}">
+                               <span>{{ macro.title }}</span>
+                           </a>
+                       </p>
+                       <p class="macro-description">
+                           <i class="fa fa-angle-double-right icon-angle"></i>
+                           {{ macro.description }}
+                       </p>
+                       <p class="hover-message-container">
+                           <a href="{{ path('macro_edit', {'id': macro.id}) }}">
+                               <i class="fa fa-pen icon-pen-macros"></i>
+                           </a>
+                           <span class="hover-message-text">Modifier macro</span>
+                       </p>
+                        <div class="div-macro-delete">
+                            <input value="{{ macro.id }}" hidden>
+                            {{ include('macro/_delete_form.html.twig') }}
+                        </div>
+                        {% if macro.users|length > 1 %}
+                            <div class="macro-share hover-message-container icon-shared-macros">
+                                <input value="{{ macro.id }}" hidden>
+                                <i class="fas fa-user-friends"></i>
+                                <span class="hover-message-text">Voir en détail</span>
+                            </div>
+                        {% else %}
+                            <div class="macro-share hover-message-container icon-shared-macros">
+                                <input value="{{ macro.id }}" hidden>
+                                <p>Partager</p>
+                                <span class="hover-message-text">Partager macro</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <p id="no-macro">Vous n'avez pas encore créé de macro.</p>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- Div qui donne style à la partie inférieur du site, avec separateur -->
+        <div class="separator-bottom"></div>
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ asset('javascript/base.js') }}"></script>
+    <script src="{{ asset('javascript/selects.js') }}"></script>
+    <script src="{{ asset('select/js/select2.js') }}"></script>
+    <script src="{{ asset('javascript/macro-share.js') }}"></script>
+{% endblock %}
+

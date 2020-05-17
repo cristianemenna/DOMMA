@@ -1,7 +1,12 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
-{% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/admin/index.css') }}">{% endblock %}
-{% block javascripts %}<script src="{{ asset('javascript/admin_index.js') }}"></script>{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/base.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('DataTables/datatables.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/datatables.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/css/all.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}" />
+{% endblock %}
 
 {% block title %}DOMMA - Administration{% endblock %}
 
@@ -11,61 +16,80 @@
             <div class="separator">
                 <h1>Informations des utilisateurs</h1>
             </div>
-            <a href="{{ path('admin_new') }}" id="button-new-user"><i class="fa fa-user-plus icon-new-user"></i>Créer un compte</a>
+            <a href="{{ path('admin_new') }}" id="button-new-user"><i class="fa fa-user-plus icon-new-user"></i>Créer un utilisateur</a>
         </div>
 
-        <table class="table">
-            <tbody>
-            <tr>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Identifiant</th>
-                <th>Email</th>
-                <th>Rôle</th>
-                <th>Actif / Bloqué </th>
-                <th></th>
-            </tr>
-    {% if users %}
-       {% for user in users %}
-             <tr>
-                <td>{{ user.lastName }}</td>
-                <td>{{ user.firstName }}</td>
-                <td>{{ user.username }}</td>
-                <td>{{ user.email }}</td>
-                {% if user.roles == ['ROLE_ADMIN'] %}
-                    <td>Admin</td>
-                {% else %}
-                    <td>Utilisateur</td>
-                {% endif %}
+        <!-- Affichage des flashs -->
+        {{ include('_alerts.html.twig') }}
 
-                {% if user.attempts >= 3 %}
-                    <td>
-                        <div class="block-user-switch">
-                            <form id="form-{{ user.id }}" method="post" action="{{ path('admin_locked', {'id': user.id}) }}" onsubmit="return confirm('Êtes vous sûr de vouloir débloquer le compte ?');">
-                                <input type="submit" name="block-user-switch" class="block-user-switch-checkbox" id="utilisateur-bloque-{{ user.id }}">
-                                <label class="block-user-switch-label" for="utilisateur-bloque-{{ user.id }}"></label>
-                            </form>
-                        </div>
-                    </td>
-                {% else %}
-                    <td>
-                        <div class="block-user-switch">
-                            <form id="form-{{ user.id }}" method="post" action="{{ path('admin_locked', {'id': user.id}) }}" onsubmit="return confirm('Êtes vous sûr de vouloir bloquer le compte ?');">
-                                <input type="submit" name="block-user-switch" class="block-user-switch-checkbox active" id="utilisateur-actif-{{ user.id }}">
-                                <label class="block-user-switch-label" for="utilisateur-actif-{{ user.id }}"></label>
-                            </form>
-                        </div>
-                    </td>
-                {% endif %}
-                 <td class="admin-actions">{{ include('users/_delete_form.html.twig') }}</td>
-             </tr>
-       {% endfor %}
+        <!-- Affiche table contenant les informations de tous les utilisateurs du site -->
+        <div class="admin-table-container">
+        <table class="table display" id="admin-table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Identifiant</th>
+                    <th>Email</th>
+                    <th>Rôle</th>
+                    <th>Actif / Bloqué </th>
+                    <th></th>
+                </tr>
+            </thead>
+        {% if users %}
+            <tbody>
+            {% for user in users %}
+               <tr>
+                   <td>{{ user.lastName }}</td>
+                   <td>{{ user.firstName }}</td>
+                   <td>{{ user.username }}</td>
+                   <td>{{ user.email }}</td>
+                   {% if user.roles == ['ROLE_ADMIN'] %}
+                       <td>Admin</td>
+                   {% else %}
+                       <td>Utilisateur</td>
+                   {% endif %}
+
+                   {% if user.attempts >= 3 %}
+                       <td>
+                           <div class="block-user-switch">
+                               <form id="form-{{ user.id }}" method="post" action="{{ path('admin_locked', {'id': user.id}) }}" onsubmit="return confirm('Êtes vous sûr de vouloir débloquer le compte ?');">
+                                   <input type="submit" name="block-user-switch" class="block-user-switch-checkbox" id="utilisateur-bloque-{{ user.id }}">
+                                   <label class="block-user-switch-label" for="utilisateur-bloque-{{ user.id }}"></label>
+                               </form>
+                           </div>
+                       </td>
+                   {% else %}
+                       <td>
+                           <div class="block-user-switch">
+                               <form id="form-{{ user.id }}" method="post" action="{{ path('admin_locked', {'id': user.id}) }}" onsubmit="return confirm('Êtes vous sûr de vouloir bloquer le compte ?');">
+                                   <input type="submit" name="block-user-switch" class="block-user-switch-checkbox active" id="utilisateur-actif-{{ user.id }}">
+                                   <label class="block-user-switch-label" for="utilisateur-actif-{{ user.id }}"></label>
+                               </form>
+                           </div>
+                       </td>
+                   {% endif %}
+                   <td class="admin-actions">{{ include('users/_delete_form.html.twig') }}</td>
+               </tr>
+            {% endfor %}
             </tbody>
         </table>
-    {% else %}
+        {% else %}
+            <tbody>
+                <p id="empty-users">Vous n'avez pas encore créé d'utilisateur.</p>
             </tbody>
         </table>
-            <p id="empty-users">Vous n'avez pas encore créé d'utilisateur.</p>
     {% endif %}
+        </div>
+        <!-- Div qui donne style à la partie inférieur du site, avec separateur -->
+        <div class="separator-bottom"></div>
     </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('javascript/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ asset('DataTables/datatables.js') }}"></script>
+    <script src="{{ asset('select/js/fr.js') }}"></script>
+    <script src="{{ asset('javascript/admin.js') }}"></script>
+    <script src="{{ asset('javascript/base.js') }}"></script>
 {% endblock %}

@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('import_delete', {'context': context.id, 'id': import.id}) }}" id="import-delete-form" onsubmit="return confirm('Êtes vous sûr de vouloir supprimer le fichier ?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ import.id) }}">
+    <button class="import-delete"><i class="fas fa-trash-alt"></i></button>
+</form>

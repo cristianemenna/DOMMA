@@ -1,0 +1,43 @@
+#file-table_wrapper, #admin-table_wrapper {
+    margin-bottom: 200px;
+}
+
+#file-table_length select, #admin-table_length select {
+    background-color: #FFFFFF;
+    width: 100px;
+    height: 35px;
+    color: #4f4f4f;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+#file-table_length label, #file-table_filter label, #file-table_paginate, #admin-table_length label, #admin-table_filter label, #admin-table_paginate  {
+    color: #4f4f4f;
+    font-size: 15px;
+}
+
+#file-table_filter, #admin-table_filter {
+    width: 50%;
+}
+
+#file-table_filter input, #admin-table_filter input {
+    height: 35px;
+    width: 35%;
+}
+
+#file-table_paginate, #admin-table_paginate {
+    margin: 30px 30px 0 0 ;
+}
+
+.file-container, .admin-table-container {
+    margin: 3% 1.5% 0 2%;
+}
+
+table {
+     color: #4d4d4d;
+     text-align: center;
+}
+
+#file-table_length select {
+    margin-left: 0;
+}

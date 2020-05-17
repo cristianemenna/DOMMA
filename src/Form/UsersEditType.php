@@ -3,8 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Users;
-use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -26,10 +26,10 @@ class UsersEditType extends AbstractType
                     'class' => 'field'
                 ],
                 ])
-            ->add('email', TextType::class, [
+            ->add('email', EmailType::class, [
                 'label' => 'Email',
                 'row_attr' => [
-                    'class' => 'field'
+                    'class' => 'field',
                 ],
                 ])
             ->add('username', TextType::class, [

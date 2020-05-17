@@ -1,0 +1,37 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}DOMMA - Edition de contexte{% endblock %}
+
+{% block body %}
+    <main>
+        <div class="separator">
+            <h1>Edition de {{ context.title }}</h1>
+            {{ include('context/_delete_form.html.twig') }}
+        </div>
+
+        <!-- Affichage des flashs -->
+        {{ include('_alerts.html.twig') }}
+
+        <!-- Formulaire d'édition d'utilisateur -->
+        <div class="edit-container">
+            {{ form_start(form, {'attr': {'class': 'edit-new-form form-edit-context'}}) }}
+            {{ form_widget(form) }}
+                <div class="form-errors-container">
+                    {{ form_errors(form.duration) }}
+                    {{ form_errors(form.title) }}
+                </div>
+            <div class="form-buttons">
+                <button class="edit-context">{{ button_label|default('Mettre à jour') }}</button>
+                {% if app.session.get('context')%}
+                    <a href="{{ path('context_show', {id: app.session.get('context')}) }}" class="form-cancel">Annuler</a>
+                {% else %}
+                    <a href="{{ path('context_index') }}" class="form-cancel">Annuler</a>
+                {% endif %}
+            </div>
+            {{ form_end(form) }}
+        </div>
+
+        <!-- Div qui donne style à la partie inférieur du site, avec separateur -->
+        <div class="separator-bottom"></div>
+    </main>
+{% endblock %}
