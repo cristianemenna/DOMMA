@@ -14,7 +14,7 @@
         <!-- Affichage de tous les contextes appartenants à l'utilisateur -->
         <div class="contexts-container">
             {% for context in contextes %}
-                {% if context.getDaysToExpire > 0 %}
+                {% if context.getDaysToExpire >= 0 %}
                 <div class="context-space">
                     <a href="{{ path('context_show', {'id': context.id }) }}" class="contexts-link context-text hover-message-container">
                         <p class="context-title">{{ context.title }}</p>
