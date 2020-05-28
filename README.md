@@ -23,6 +23,7 @@ L'application web a été développée avec le framework PHP Symfony version 5.0
 ```
 $ git clone https://github.com/cristianemenna/DOMMA.git 
 $ cd DOMMA/ 
+$ composer install
 $ cp .env .env.local
 ```
 
