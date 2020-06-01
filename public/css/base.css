@@ -238,7 +238,7 @@ footer > ul > li > a:hover {
     font-size: 200px;
     font-weight: lighter;
     align-self: center;
-    margin-top: -10%;
+    margin-top: -15%;
 }
 
 #days-end {
@@ -263,6 +263,10 @@ footer > ul > li > a:hover {
     outline: none;
 }
 
+#users_edit {
+    width: 120%;
+} 
+
 #users_password_password {
     margin-left: 20px;
 }
@@ -286,7 +290,6 @@ footer > ul > li > a:hover {
     background-color: #EBEBEB;
     box-shadow: 3px 5px 5px 0 rgba(0, 0, 0, 0.2), 0 3px 20px 0 rgba(0, 0, 0, 0.15);
     border-radius: 10px;
-    margin-left: 155px;
     text-align: center;
     text-decoration: none;
 }
@@ -687,6 +690,13 @@ input.select2-search__field::placeholder {
     width: 620px !important;
 }
 
+#modal-form-fields label {
+    margin-right: 5%;
+}
+
+#share_macro span.select2, #share_context span.select2 {
+    width: 90% !important;
+}
 
 /************************************************** BOUTONS **********************************************************/
 
