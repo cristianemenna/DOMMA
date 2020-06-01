@@ -23,6 +23,7 @@ L'application web a été développée avec le framework PHP Symfony version 5.0
 ```
 $ git clone https://github.com/cristianemenna/DOMMA.git 
 $ cd DOMMA/ 
+$ composer install
 $ cp .env .env.local
 ```
 
@@ -46,7 +47,7 @@ Ensuite, pour créer la base de données et exécuter les migrations :
 
 ```
 $ symfony console doctrine:database:create
-$ symfony console doctrine:database:migrate
+$ symfony console doctrine:migrations:migrate
 ```
 
 Pour accéder aux comptes administrateur et utilisateur créés par défaut, ainsi que pour visualiser les modèles de macro proposés en tant qu'exemple, lire les fixtures :
